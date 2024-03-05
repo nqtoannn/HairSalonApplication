@@ -1,4 +1,4 @@
-# Hotel-Recommendation-System
+# Login application
 A login application using Firebase
 * Email
 * OTP SMS phone number
