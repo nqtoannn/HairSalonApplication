@@ -1,4 +1,4 @@
-package com.example.hairsalon;
+package com.example.hairsalon.activity.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.hairsalon.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

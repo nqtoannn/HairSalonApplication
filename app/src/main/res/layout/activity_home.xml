@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/white"
-    tools:context=".Home">
+    tools:context=".activity.home.Home">
 
     <ImageView
         android:id="@+id/imgLogo"

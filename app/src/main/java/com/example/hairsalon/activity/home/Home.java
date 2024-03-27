@@ -1,4 +1,4 @@
-package com.example.hairsalon;
+package com.example.hairsalon.activity.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.hairsalon.R;
+import com.example.hairsalon.activity.auth.Login;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Home extends AppCompatActivity {

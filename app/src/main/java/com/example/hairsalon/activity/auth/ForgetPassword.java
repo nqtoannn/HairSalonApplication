@@ -1,4 +1,4 @@
-package com.example.hairsalon;
+package com.example.hairsalon.activity.auth;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
@@ -16,12 +16,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hairsalon.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ForgetPassword extends AppCompatActivity {
 

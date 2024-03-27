@@ -15,19 +15,22 @@
         android:theme="@style/Theme.HairSalon"
         tools:targetApi="31">
         <activity
-            android:name=".LoginWithOtp"
+            android:name=".activity.product.ListProductActivity"
             android:exported="false" />
         <activity
-            android:name=".OTPVerification"
+            android:name=".activity.auth.LoginWithOtp"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".activity.auth.OTPVerification"
             android:exported="false" />
-        <activity android:name=".Home" />
+        <activity
+            android:name=".activity.auth.Register"
+            android:exported="false" />
+        <activity android:name=".activity.home.Home" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ForgetPassword" />
+        <activity android:name=".activity.auth.ForgetPassword" />
         <activity
-            android:name=".Login"
+            android:name=".activity.auth.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
