@@ -13,9 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activity.product.ListProductActivity"
+            android:name=".activity.PayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.cart.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.product.DetailProductActivity"
             android:exported="false" />
         <activity
             android:name=".activity.auth.LoginWithOtp"
@@ -30,7 +37,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
         <activity
-            android:name=".activity.auth.Login"
+            android:name=".activity.product.ListProductActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

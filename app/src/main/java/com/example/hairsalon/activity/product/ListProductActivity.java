@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.example.hairsalon.adapter.ListAdapter;
+import com.example.hairsalon.adapter.GridAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityListProductBinding;
 import com.example.hairsalon.model.ProductItem;
@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class ListProductActivity extends AppCompatActivity {
 
     ActivityListProductBinding binding;
-    ListAdapter listAdapter;
+    GridAdapter gridAdapter;
     ArrayList<ProductItem> dataArrayList = new ArrayList<>();
     private List<Map<String, Object>>  productItemList = new ArrayList<>();
 
@@ -54,9 +54,9 @@ public class ListProductActivity extends AppCompatActivity {
                             ProductItem productItemAdded = new ProductItem(id, productItemName, price, quantityInStock, warrantyTime, status, imageUrl, description);
                             dataArrayList.add(productItemAdded);
                         }
-                        listAdapter = new ListAdapter(ListProductActivity.this, dataArrayList);
+                        gridAdapter = new GridAdapter(ListProductActivity.this, dataArrayList);
                         Log.i("productItemList", dataArrayList.toString());
-                        binding.listview.setAdapter(listAdapter);
+                        binding.gridView.setAdapter(gridAdapter);
                     } else {
                         Log.e("Error", "No product data found in response");
                     }
@@ -71,7 +71,7 @@ public class ListProductActivity extends AppCompatActivity {
             }
         });
 
-        binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Lấy ra sản phẩm tương ứng với vị trí i trong danh sách
@@ -79,11 +79,12 @@ public class ListProductActivity extends AppCompatActivity {
                 Log.i("clicked", clickedProduct.toString());
 
                 // Tạo intent để chuyển sang DetailedActivity và gửi dữ liệu sản phẩm
-                Intent intent = new Intent(ListProductActivity.this, DetailedActivity.class);
+                Intent intent = new Intent(ListProductActivity.this, DetailProductActivity.class);
+                intent.putExtra("productItemId", clickedProduct.getId());
                 intent.putExtra("detailName", clickedProduct.getProductItemName());
                 intent.putExtra("detailPrice", clickedProduct.getPrice().toString()); // Chuyển giá thành String
                 intent.putExtra("detailDescription", clickedProduct.getDescription());
-                intent.putExtra("quantityInStock", clickedProduct.getQuantityInStock().toString());
+                intent.putExtra("imageUrl", clickedProduct.getImageUrl().toString());
                 startActivity(intent);
             }
         });

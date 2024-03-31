@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Tiêu đề: Giỏ hàng -->
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Giỏ hàng"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:background="@color/black"
+        android:textColor="@android:color/white" />
+
+    <!-- Danh sách sản phẩm trong giỏ hàng -->
+    <ListView
+        android:id="@+id/list_view_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_title"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Layout cho mỗi item trong danh sách giỏ hàng -->
+    <include
+        android:id="@+id/item_cart"
+        layout="@layout/list_cart_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_title"
+        android:layout_marginTop="8dp" />
+
+    <!-- Layout cho tổng tiền -->
+    <LinearLayout
+        android:id="@+id/totalPriceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/pay"
+        android:layout_alignParentBottom="true">
+
+        <!-- TextView hiển thị "Tổng tiền" -->
+        <TextView
+            android:id="@+id/totalPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền: "
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- TextView hiển thị số tiền -->
+        <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="0 VNĐ"
+            android:textSize="18dp"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/pay_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thanh toán"
+            android:textSize="18sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"/>
+
+    </LinearLayout>
+
+    <!-- Button Thanh toán -->
+
+
+</RelativeLayout>
