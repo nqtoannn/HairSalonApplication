@@ -19,7 +19,7 @@ public interface ApiService {
             .baseUrl(Constant.baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-            .create(ApiService.class);  
+            .create(ApiService.class);
 
     @GET("productItem/findAll")
     Call<ResponseData> getProductItem();
