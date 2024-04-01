@@ -3,18 +3,19 @@
     android:layout_height="match_parent">
 
     <!-- Tiêu đề: Giỏ hàng -->
+
+    <!-- Danh sách sản phẩm trong giỏ hàng -->
     <TextView
         android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Giỏ hàng"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:background="@color/pay"
         android:padding="16dp"
-        android:background="@color/black"
-        android:textColor="@android:color/white" />
+        android:text="Giỏ hàng"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-    <!-- Danh sách sản phẩm trong giỏ hàng -->
     <ListView
         android:id="@+id/list_view_cart"
         android:layout_width="match_parent"
@@ -40,16 +41,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/pay"
+        android:paddingTop="10dp"
         android:layout_alignParentBottom="true">
 
-        <!-- TextView hiển thị "Tổng tiền" -->
+        <!-- Nhãn "Tổng tiền" -->
         <TextView
             android:id="@+id/totalPriceLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tổng tiền: "
             android:textStyle="bold"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:textColor="@android:color/white"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="8dp"/>
@@ -62,20 +64,22 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:text="0 VNĐ"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:textColor="@android:color/white"
             android:layout_marginEnd="16dp"/>
 
+        <!-- Nút Thanh toán -->
         <Button
             android:id="@+id/pay_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thanh toán"
             android:textSize="18sp"
+            android:background="@drawable/custom_button_background"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginEnd="16dp"/>
-
     </LinearLayout>
 
     <!-- Button Thanh toán -->

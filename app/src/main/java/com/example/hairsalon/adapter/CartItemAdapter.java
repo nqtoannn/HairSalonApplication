@@ -66,6 +66,7 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
             holder.productPriceTextView = convertView.findViewById(R.id.product_price);
             holder.productQuantityTextView = convertView.findViewById(R.id.product_quantity);
             holder.deleteIcon = convertView.findViewById(R.id.delete_icon);
+            holder.xSeparatorTextView = convertView.findViewById(R.id.x_separator);
 
             // Lưu ViewHolder vào convertView
             convertView.setTag(holder);
@@ -84,6 +85,16 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
         });
 
         // Binding dữ liệu từ đối tượng CartItem vào các thành phần UI
+        if (cartItem.getProductItemName() != null) {
+            holder.xSeparatorTextView.setVisibility(View.VISIBLE);
+            holder.deleteIcon.setVisibility(View.VISIBLE);
+            holder.productQuantityTextView.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.xSeparatorTextView.setVisibility(View.GONE);
+            holder.deleteIcon.setVisibility(View.GONE);
+            holder.productQuantityTextView.setVisibility(View.GONE);
+        }
         holder.productNameTextView.setText(cartItem.getProductItemName());
         holder.productPriceTextView.setText(String.valueOf(cartItem.getPrice()));
         holder.productQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
@@ -151,6 +162,7 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
         TextView productPriceTextView;
         TextView productQuantityTextView;
         ImageView deleteIcon;
+        TextView xSeparatorTextView;
     }
 
     private void removeCartItem(Integer cartItemId) {

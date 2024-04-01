@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -18,13 +19,16 @@ public interface ApiService {
             .baseUrl(Constant.baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-            .create(ApiService.class);
+            .create(ApiService.class);  
 
     @GET("productItem/findAll")
     Call<ResponseData> getProductItem();
 
     @GET("customer/findAllCartItems/{cartId}")
     Call<ResponseData> getAllCartItemsByCartId(@Path("cartId") Integer cartId);
+
+    @DELETE("customer/deleteAllCartItemByCartId/{cartId}")
+    Call<Void> deleteAllCartItemsByCartId(@Path("cartId") Integer cartId);
 
 
 

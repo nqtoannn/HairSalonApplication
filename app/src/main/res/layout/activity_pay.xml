@@ -8,12 +8,12 @@
         android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thanh Toán"
+        android:text="Thanh toán"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="16dp"
-        android:background="@color/black"
-        android:textColor="@android:color/white" />
+        android:background="#84CF2C"
+        android:textColor="@color/black" />
 
     <!-- Nhãn cho Tên Khách Hàng -->
     <TextView
@@ -35,8 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/label_customer_name"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="-40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="-39dp"
         android:layout_toEndOf="@id/label_customer_name"
         android:padding="8sp"
         android:text="Nguyễn Ngọc Thông"
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/paymentMethod"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:padding="8sp"/>
 
     <!-- Danh sách sản phẩm đã mua -->
@@ -100,12 +100,20 @@
         android:layout_below="@id/deliveryMethod"
         android:layout_marginTop="8dp"
         android:padding="8dp"/>
-
+    <TextView
+        android:id="@+id/list_product_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Danh sách sản phẩm"
+        android:textSize="16sp"
+        android:layout_below="@id/spinner_delivery_method"
+        android:padding="8dp"/>
     <ListView
         android:id="@+id/list_view_products"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinner_delivery_method"
+        android:layout_below="@id/list_product_label"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:padding="8dp"/>
@@ -116,7 +124,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/pay"
+        android:background="#84CF2C"
+        android:paddingTop="10dp"
         android:layout_alignParentBottom="true">
 
         <!-- Nhãn "Tổng tiền" -->
@@ -126,7 +135,7 @@
             android:layout_height="wrap_content"
             android:text="Tổng tiền: "
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textColor="@android:color/white"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="8dp"/>
@@ -139,7 +148,7 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:text="0 VNĐ"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textColor="@android:color/white"
             android:layout_marginEnd="16dp"/>
 
@@ -148,12 +157,13 @@
             android:id="@+id/pay_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thanh toán"
+            android:text="Đặt hàng"
             android:textSize="18sp"
+            android:background="@drawable/custom_button_background"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginEnd="16dp"/>
-
     </LinearLayout>
 
 </RelativeLayout>
