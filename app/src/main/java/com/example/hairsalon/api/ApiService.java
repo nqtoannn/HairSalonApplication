@@ -27,6 +27,10 @@ public interface ApiService {
     @GET("customer/findAllCartItems/{cartId}")
     Call<ResponseData> getAllCartItemsByCartId(@Path("cartId") Integer cartId);
 
+    @GET("appointments/{customerId}")
+    Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") Integer customerId);
+
+
     @DELETE("customer/deleteAllCartItemByCartId/{cartId}")
     Call<Void> deleteAllCartItemsByCartId(@Path("cartId") Integer cartId);
 

@@ -15,9 +15,12 @@
         android:theme="@style/Theme.HairSalon"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".activity.appointment.AppointmentActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".activity.appointment.AppointmentHistoryActivity"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".activity.appointment.AppointmentActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".activity.pay.SuccessPay"
             android:exported="false" />
