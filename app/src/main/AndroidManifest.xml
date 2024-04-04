@@ -16,8 +16,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activity.appointment.AppointmentHistoryActivity"
+            android:name=".activity.appointment.DetailAppointmentActivity"
             android:exported="false" />
+         <activity
+         android:name=".activity.appointment.AppointmentHistoryActivity"
+         android:exported="false" />
         <!-- <activity -->
         <!-- android:name=".activity.appointment.AppointmentActivity" -->
         <!-- android:exported="false" /> -->
