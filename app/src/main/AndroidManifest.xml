@@ -43,7 +43,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
         <activity
-            android:name=".activity.appointment.AppointmentActivity"
+            android:name=".activity.product.ListProductActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
