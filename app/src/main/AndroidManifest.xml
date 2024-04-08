@@ -15,6 +15,10 @@
         android:theme="@style/Theme.HairSalon"
         tools:targetApi="31">
         <activity
+            android:name=".activity.navbar.Navbar"
+            android:exported="false" >
+        </activity>
+        <activity
             android:name=".activity.product.ListProductActivity"
             android:exported="false" />
         <activity
