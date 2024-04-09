@@ -1,5 +1,5 @@
-# Login application
-A login application using Firebase
+# Hair Salon application
+App login with
 * Email
 * OTP SMS phone number
 ## Build with
@@ -7,10 +7,3 @@ A login application using Firebase
 * Java
 * Gradle
 
-## Feature:
-* Login with email + password
-* Login with OTP SMS phone number
-* Register with email and password
-* Verify email address
-* Forget password by email
-* Updating...

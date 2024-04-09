@@ -25,6 +25,7 @@
          android:name=".activity.product.ListProductActivity"
          android:exported="false" />
         <activity
+
             android:name=".activity.order.SuccessPay"
             android:exported="false" />
         <activity
@@ -35,6 +36,14 @@
             android:exported="false" />
         <activity
             android:name=".activity.product.DetailProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.navbar.Navbar"
+            android:exported="false" >
+        </activity>
+        <activity
+            android:name=".activity.product.ListProductActivity"
+
             android:exported="false" />
         <activity
             android:name=".activity.auth.LoginWithOtp"
