@@ -44,8 +44,7 @@ public class Navbar extends AppCompatActivity {
                 } else {
                     loadFragment(new AccountFragment(), false);
                 }
-
-                return false;
+                return true;
             }
         });
         loadFragment(new HomeFragment(), true);

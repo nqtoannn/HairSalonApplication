@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.home.Home;
+import com.example.hairsalon.activity.navbar.Navbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -123,7 +124,7 @@ public class Login extends AppCompatActivity {
                 if(task.isSuccessful()){
                     if(mAuth.getCurrentUser().isEmailVerified()){
                         Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Login.this, Home.class);
+                        Intent intent = new Intent(Login.this, Navbar.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Vui lòng xác thực email!",Toast.LENGTH_LONG).show();

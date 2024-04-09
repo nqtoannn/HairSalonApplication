@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.home.Home;
+import com.example.hairsalon.activity.navbar.Navbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -122,7 +123,7 @@ public class OTPVerification extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(OTPVerification.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(OTPVerification.this, Home.class));
+                    startActivity(new Intent(OTPVerification.this, Navbar.class));
                 }else {
                     Toast.makeText(OTPVerification.this, "Mã OTP không hợp lệ", Toast.LENGTH_SHORT).show();
                 }
