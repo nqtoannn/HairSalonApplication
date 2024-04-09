@@ -56,6 +56,8 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.android.volley:volley:1.2.1")
+    implementation ("org.projectlombok:lombok:1.18.20")
+
 
 
 }

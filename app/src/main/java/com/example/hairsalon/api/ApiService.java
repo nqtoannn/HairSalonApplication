@@ -24,11 +24,19 @@ public interface ApiService {
     @GET("productItem/findAll")
     Call<ResponseData> getProductItem();
 
+    @GET("productItem/search/{productItemName}")
+    Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName);
+
     @GET("customer/findAllCartItems/{cartId}")
     Call<ResponseData> getAllCartItemsByCartId(@Path("cartId") Integer cartId);
 
     @DELETE("customer/deleteAllCartItemByCartId/{cartId}")
     Call<Void> deleteAllCartItemsByCartId(@Path("cartId") Integer cartId);
+
+    @GET("orders/getAllOrdersByCustomerId/{customerId}")
+    Call<ResponseData> getAllOrderByCustomerId(@Path("customerId") Integer customerId);
+
+
 
 
 
