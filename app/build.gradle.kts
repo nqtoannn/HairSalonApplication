@@ -30,6 +30,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
     compileOptions {
@@ -53,5 +54,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.android.volley:volley:1.2.1")
+    implementation ("org.projectlombok:lombok:1.18.20")
+
+
 
 }
