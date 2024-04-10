@@ -37,14 +37,15 @@ public class AppointmentAdapter extends ArrayAdapter<Appointment> {
             holder.tvTime = convertView.findViewById(R.id.tvTime);
             holder.tvAddress = convertView.findViewById(R.id.tvAddress);
             holder.tvStylist = convertView.findViewById(R.id.tvStylist);
-            holder.tvUpcoming = convertView.findViewById(R.id.tvUpcoming); // Thêm TextView cho item đầu tiên
+            holder.tvUpcoming = convertView.findViewById(R.id.tvUpcoming);
+            holder.tvNameSalon = convertView.findViewById(R.id.tvNameSalon);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         Appointment appointment = appointments.get(position);
-
+        holder.tvNameSalon.setText("Tên salon: " + appointment.getSalonName());
         holder.tvNameService.setText("Tên dịch vụ: " + appointment.getServiceName());
         holder.tvTime.setText("Thời gian: " + appointment.getAppointmentTime() + ", ngày " + appointment.getAppointmentDate());
         holder.tvAddress.setText("Địa chỉ: " + appointment.getSalonAddress());
@@ -63,6 +64,6 @@ public class AppointmentAdapter extends ArrayAdapter<Appointment> {
     }
 
     static class ViewHolder {
-        TextView tvNameService, tvTime, tvAddress, tvStylist, tvUpcoming;
+        TextView tvNameService, tvTime, tvAddress, tvStylist, tvUpcoming, tvNameSalon;
     }
 }

@@ -2,10 +2,12 @@ package com.example.hairsalon.activity.appointment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
-import com.example.hairsalon.R;
 import com.example.hairsalon.adapter.AppointmentAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityAppointmentHistoryBinding;
@@ -28,6 +30,8 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     ArrayList<Appointment> dataArrayList = new ArrayList<>();
 
     AppointmentAdapter appointmentAdapter;
+
+
     private List<Map<String, Object>> appointmentList = new ArrayList<>();
 
     @Override
@@ -36,9 +40,45 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
         binding = ActivityAppointmentHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getAllAppointments();
+        binding.listViewAppointments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Lấy ra cuộc hẹn tương ứng với vị trí i trong danh sách
+                Appointment clickedAppointment = dataArrayList.get(i);
+                Log.i("clicked", clickedAppointment.getSalonName());
+                // Tạo intent để chuyển sang DetailAppointmentActivity và gửi dữ liệu cuộc hẹn
+                Intent intent = new Intent(AppointmentHistoryActivity.this, DetailAppointmentActivity.class);
+                // Gửi dữ liệu cuộc hẹn qua intent
+                intent.putExtra("salonName", clickedAppointment.getSalonName());
+                intent.putExtra("serviceName", clickedAppointment.getServiceName());
+                intent.putExtra("time", clickedAppointment.getAppointmentTime());
+                intent.putExtra("date", clickedAppointment.getAppointmentDate());
+                intent.putExtra("address", clickedAppointment.getSalonAddress());
+                intent.putExtra("stylist", clickedAppointment.getUserName());
+                intent.putExtra("id", clickedAppointment.getId());
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("BackTo", "Back");
+        try {
+            dataArrayList.clear();
+            // Cập nhật Adapter với dataArrayList trống
+            appointmentAdapter.notifyDataSetChanged();
+            getAllAppointments();
+        } catch (Exception e) {
+            Log.e("Loi", e.getMessage());
+        }
+
     }
 
     private void getAllAppointments() {
+
         ApiService.apiService.getAllAppointmentByCustomerId(1).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -61,7 +101,6 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                                     serviceName, status, userName, salonAddress, salonName);
                             dataArrayList.add(appointmentAdded);
                         }
-                        Collections.reverse(dataArrayList);
                         appointmentAdapter = new AppointmentAdapter(AppointmentHistoryActivity.this, dataArrayList);
                         binding.listViewAppointments.setAdapter(appointmentAdapter);
                     } else {
@@ -78,4 +117,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }
