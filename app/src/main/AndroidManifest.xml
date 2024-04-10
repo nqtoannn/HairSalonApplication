@@ -16,9 +16,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.auth.UserProfileActivity"
+            android:exported="true"
+            android:label="@string/title_activity_user_profile"
+            android:theme="@style/Theme.HairSalon">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.appointment.AppointmentHistoryActivity"
-            android:exported="false" />
-        <!-- <activity -->
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".activity.appointment.AppointmentActivity" -->
         <!-- android:exported="false" /> -->
         <activity

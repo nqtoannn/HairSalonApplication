@@ -2,5 +2,6 @@
     <string name="app_name">HairSalon</string>
     <string name="price_placeholder">Giá: %s VNĐ</string>
     <string name="total_price_placeholder">Tổng tiền: %s VNĐ</string>
+    <string name="title_activity_user_profile">UserProfileActivity</string>
 
 </resources>
