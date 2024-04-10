@@ -25,12 +25,21 @@
          android:name=".activity.product.ListProductActivity"
          android:exported="false" />
         <activity
-
             android:name=".activity.order.SuccessPay"
             android:exported="false" />
         <activity
+            android:name=".activity.navbar.Navbar"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.order.PayActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.cart.CartActivity"
             android:exported="false" />

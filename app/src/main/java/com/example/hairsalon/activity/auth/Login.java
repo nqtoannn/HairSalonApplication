@@ -21,6 +21,7 @@ import com.example.hairsalon.R;
 import com.example.hairsalon.activity.home.Home;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.model.AuthenticationRequest;
+import com.example.hairsalon.activity.navbar.Navbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
