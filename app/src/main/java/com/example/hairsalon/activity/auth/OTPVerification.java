@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +22,9 @@ import android.widget.Toast;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.home.Home;
+import com.example.hairsalon.api.ApiService;
+import com.example.hairsalon.model.AuthenticationRequest;
+import com.example.hairsalon.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -30,7 +34,13 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OTPVerification extends AppCompatActivity {
 
@@ -122,6 +132,45 @@ public class OTPVerification extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(OTPVerification.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                    AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getPhoneNumber(),mAuth.getCurrentUser().getUid());
+                    ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                startActivity(new Intent(OTPVerification.this, Home.class));
+                                Log.e("Error", response.body().toString());
+                            } else {
+                                User user = new User(mAuth.getCurrentUser().getPhoneNumber(),mAuth.getCurrentUser().getUid(),"CUSTOMER",mAuth.getCurrentUser().getPhoneNumber());
+                                ApiService.apiService.registerUser(user).enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getPhoneNumber(),mAuth.getCurrentUser().getUid());
+                                        ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<Void>() {
+                                            @Override
+                                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                                Log.e("Error", "Login done");
+                                                startActivity(new Intent(OTPVerification.this, Home.class));
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<Void> call, Throwable t) {
+                                                Log.e("Error", t.getMessage().toString());
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Log.e("Error", "API call failed: " + t.getMessage());
+                        }
+                    });
                     startActivity(new Intent(OTPVerification.this, Home.class));
                 }else {
                     Toast.makeText(OTPVerification.this, "Mã OTP không hợp lệ", Toast.LENGTH_SHORT).show();

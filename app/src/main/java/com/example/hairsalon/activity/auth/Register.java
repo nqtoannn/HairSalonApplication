@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -16,10 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hairsalon.R;
+import com.example.hairsalon.api.ApiService;
+import com.example.hairsalon.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Register extends AppCompatActivity {
 
@@ -122,29 +129,27 @@ public class Register extends AppCompatActivity {
         {
             mAuth = FirebaseAuth.getInstance();
             mAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-//                            Toast.makeText(getApplicationContext(),"Đăng ký thành công",Toast.LENGTH_SHORT).show();
-//                            AuthCredential credential = EmailAuthProvider.getCredentialWithLink(email, emailLink);
-//                            mAuth.getCurrentUser().linkWithCredential(credential)
-//                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                                        @Override
-//                                        public void onComplete(@NonNull Task<AuthResult> task) {
-//                                            if (task.isSuccessful()) {
-//                                                Log.d(TAG, "Successfully linked emailLink credential!");
-//                                                AuthResult result = task.getResult();
-//                                                Intent intent = new Intent(Register.this, Home.class);
-//                                                startActivity(intent);
 //
-//                                            } else {
-//                                                Log.e(TAG, "Error linking emailLink credential", task.getException());
-//                                            }
-//                                        }
-//                                    });
-//                            Intent intent = new Intent(Register.this, Home.class);
-//                            startActivity(intent);
+                            User registerUser = new User(mAuth.getCurrentUser().getUid().toString(),mAuth.getCurrentUser().getUid().toString(),"CUSTOMER",mAuth.getCurrentUser().getEmail());
+                            ApiService.apiService.registerUser(registerUser).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if (response.isSuccessful()) {
+                                        Log.e("Error", "API call done: ");
+                                    } else {
+                                        Log.e("Error", "API call failed: ");
+                                    }
+                                }
 
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Log.e("Error", "API call failed: " + t.getMessage());
+                                }
+                            });
                             mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

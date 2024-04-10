@@ -39,12 +39,14 @@
             android:exported="false" />
         <activity
             android:name=".activity.navbar.Navbar"
-            android:exported="false" >
-        </activity>
-        <activity
-            android:name=".activity.product.ListProductActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            android:exported="false" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activity.auth.LoginWithOtp"
             android:exported="false" />
@@ -59,6 +61,15 @@
         <activity android:name=".activity.auth.ForgetPassword" />
         <activity
             android:name=".activity.shop.HomeShopActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.auth.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
