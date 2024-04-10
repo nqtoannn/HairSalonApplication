@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thanh toán"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:background="#84CF2C"
+        android:textColor="@color/black" />
+
+    <!-- Nhãn cho Tên Khách Hàng -->
+    <TextView
+        android:id="@+id/label_customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên Khách Hàng:"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_below="@id/text_title"
+        android:padding="8dp"/>
+
+    <!-- TextView hiển thị tên khách hàng -->
+
+    <!-- Nhãn cho Địa Chỉ Khách Hàng -->
+
+    <TextView
+        android:id="@+id/text_customer_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/label_customer_name"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="-39dp"
+        android:layout_toEndOf="@id/label_customer_name"
+        android:padding="8sp"
+        android:text="Nguyễn Ngọc Thông"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/label_customer_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Địa Chỉ Khách Hàng:"
+        android:textSize="16sp"
+        android:layout_below="@id/text_customer_name"
+        android:padding="8dp"/>
+
+    <!-- TextView hiển thị địa chỉ khách hàng -->
+    <TextView
+        android:id="@+id/text_customer_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Linh Trung, Thu Duc, Thanh Pho Ho Chi Minh"
+        android:layout_below="@id/label_customer_address"
+        android:textSize="16sp"
+        android:padding="8dp"/>
+
+    <!-- Select box chọn phương thức thanh toán -->
+    <TextView
+        android:id="@+id/paymentMethod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Phương thức thanh toán"
+        android:textSize="16sp"
+        android:layout_below="@id/text_customer_address"
+        android:padding="8dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_payment_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paymentMethod"
+        android:layout_marginTop="8dp"
+        android:padding="8sp"/>
+
+    <!-- Danh sách sản phẩm đã mua -->
+
+    <TextView
+        android:id="@+id/deliveryMethod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Phương thức vận chuyển"
+        android:textSize="16sp"
+        android:layout_below="@id/spinner_payment_method"
+        android:padding="8dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_delivery_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/deliveryMethod"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"/>
+    <TextView
+        android:id="@+id/list_product_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Danh sách sản phẩm"
+        android:textSize="16sp"
+        android:layout_below="@id/spinner_delivery_method"
+        android:padding="8dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/list_product_label"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <!-- ImageView cho hình ảnh nhỏ của sản phẩm -->
+            <ImageView
+                android:id="@+id/product_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- TextView cho tên sản phẩm -->
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="bold" />
+
+            <!-- TextView cho số lượng của sản phẩm -->
+            <TextView
+                android:id="@+id/product_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:textColor="@color/black"
+                android:visibility="gone"/>
+
+            <!-- Dấu "x" -->
+            <TextView
+                android:id="@+id/x_separator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="x"
+                android:textColor="@color/black"
+                android:layout_marginEnd="7dp"
+                android:visibility="gone"/>
+
+            <!-- TextView cho giá của sản phẩm -->
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/black"/>
+
+            <!-- Icon xóa -->
+            <ImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/bin"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/list_view_products"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_layout"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:padding="8dp"/>
+    </RelativeLayout>
+
+
+    <!-- Layout hiển thị tổng tiền -->
+    <LinearLayout
+        android:id="@+id/totalPriceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#84CF2C"
+        android:paddingTop="10dp"
+        android:layout_alignParentBottom="true">
+
+        <!-- Nhãn "Tổng tiền" -->
+        <TextView
+            android:id="@+id/totalPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng tiền: "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- TextView hiển thị số tiền -->
+        <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="0 VNĐ"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="16dp"/>
+
+        <!-- Nút Thanh toán -->
+        <Button
+            android:id="@+id/pay_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt hàng"
+            android:textSize="18sp"
+            android:background="@drawable/custom_button_background"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="16dp"/>
+    </LinearLayout>
+
+</RelativeLayout>
