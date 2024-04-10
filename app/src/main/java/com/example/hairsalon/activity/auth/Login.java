@@ -124,6 +124,9 @@ public class Login extends AppCompatActivity {
                     if(mAuth.getCurrentUser().isEmailVerified()){
                         Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(Login.this, Home.class);
+
+                        //Code Below for show user profile after login successfully
+                        /// startActivity(new Intent(Login.this,UserProfileActivity.class));
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Vui lòng xác thực email!",Toast.LENGTH_LONG).show();
