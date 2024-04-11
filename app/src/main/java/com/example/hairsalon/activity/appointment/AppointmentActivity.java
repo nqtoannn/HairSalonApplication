@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.hairsalon.activity.cart.CartActivity;
+import com.example.hairsalon.activity.pay.PayActivity;
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.databinding.ActivityAppointmentBinding;
 
@@ -229,6 +232,8 @@ public class AppointmentActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 makeAnAppointment();
+                Intent intent = new Intent(AppointmentActivity.this, AppointmentHistoryActivity.class);
+                startActivity(intent);
             }
         });
         builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {

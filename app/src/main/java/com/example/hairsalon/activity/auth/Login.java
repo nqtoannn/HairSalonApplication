@@ -131,6 +131,7 @@ public class Login extends AppCompatActivity {
                 if(task.isSuccessful()){
                     if(mAuth.getCurrentUser().isEmailVerified()){
                         Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
+
                         AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getEmail().toString(),mAuth.getCurrentUser().getUid().toString());
                         ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<Void>() {
                             @Override

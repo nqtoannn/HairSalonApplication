@@ -2,6 +2,7 @@
     <string name="app_name">HairSalon</string>
     <string name="price_placeholder">Giá: %s VNĐ</string>
     <string name="total_price_placeholder">Tổng tiền: %s VNĐ</string>
+    <string name="title_activity_user_profile">UserProfileActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
