@@ -48,7 +48,8 @@ public interface ApiService {
     @POST("auth/authenticate")
     Call<Void> authenticateUser(@Body AuthenticationRequest request);
 
-
+    @GET("services/search/uon")
+    Call<ResponseData> getHairService();
 
 
 

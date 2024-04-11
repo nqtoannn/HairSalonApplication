@@ -138,8 +138,8 @@ public class OTPVerification extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.isSuccessful()) {
-                                startActivity(new Intent(OTPVerification.this, Home.class));
-                                Log.e("Error", response.body().toString());
+                                startActivity(new Intent(OTPVerification.this, Navbar.class));
+                                Log.e("Error", "Done");
                             } else {
                                 User user = new User(mAuth.getCurrentUser().getPhoneNumber(),mAuth.getCurrentUser().getUid(),"CUSTOMER",mAuth.getCurrentUser().getPhoneNumber());
                                 ApiService.apiService.registerUser(user).enqueue(new Callback<Void>() {
@@ -150,7 +150,7 @@ public class OTPVerification extends AppCompatActivity {
                                             @Override
                                             public void onResponse(Call<Void> call, Response<Void> response) {
                                                 Log.e("Error", "Login done");
-                                                startActivity(new Intent(OTPVerification.this, Home.class));
+                                                startActivity(new Intent(OTPVerification.this, Navbar.class));
                                             }
 
                                             @Override

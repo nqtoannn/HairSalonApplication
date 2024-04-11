@@ -47,7 +47,7 @@
             android:name=".activity.product.DetailProductActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.navbar.Navbar"
+            android:name=".activity.shop.HomeShopActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

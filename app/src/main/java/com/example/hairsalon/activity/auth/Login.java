@@ -146,7 +146,9 @@ public class Login extends AppCompatActivity {
                                 Log.e("Error", "API call failed: " + t.getMessage());
                             }
                         });
-                        Intent intent = new Intent(Login.this, Home.class);
+//                        Intent intent = new Intent(Login.this, Home.class);
+//                        startActivity(intent);
+                        Intent intent = new Intent(Login.this, Navbar.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Vui lòng xác thực email!",Toast.LENGTH_LONG).show();
