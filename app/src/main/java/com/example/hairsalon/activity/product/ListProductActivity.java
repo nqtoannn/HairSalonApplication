@@ -35,13 +35,71 @@ public class ListProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityListProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ApiService.apiService.getProductItem().enqueue(new Callback<ResponseData>() {
+        String searchQuery = getIntent().getStringExtra("searchQuery");
+        if (searchQuery != null) {
+            performSearch(searchQuery);
+        }
+        else ApiService.apiService.getProductItem().enqueue(new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    if (response.isSuccessful()) {
+                        ResponseData responseData = response.body();
+                        if (responseData != null && responseData.getStatus().equals("OK")) {
+                            productItemList = responseData.getData();
+                            for (Map<String, Object> productItem : productItemList) {
+                                Integer id = ((Number) productItem.get("id")).intValue();
+                                String productItemName = (String) productItem.get("productItemName");
+                                double price = (double) productItem.get("price");
+                                Integer quantityInStock = ((Number) Objects.requireNonNull(productItem.get("quantityInStock"))).intValue();
+                                String imageUrl = (String) productItem.get("imageUrl");
+                                Integer warrantyTime = ((Number) Objects.requireNonNull(productItem.get("warrantyTime"))).intValue();
+                                String status = (String) productItem.get("status");
+                                String description = (String) productItem.get("description");
+                                ProductItem productItemAdded = new ProductItem(id, productItemName, price, quantityInStock, warrantyTime, status, imageUrl, description);
+                                dataArrayList.add(productItemAdded);
+                            }
+                            gridAdapter = new GridAdapter(ListProductActivity.this, dataArrayList);
+                            Log.i("productItemList", dataArrayList.toString());
+                            binding.gridView.setAdapter(gridAdapter);
+                        } else {
+                            Log.e("Error", "No product data found in response");
+                        }
+                    } else {
+                        Log.e("Error", "API call failed with error code: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+                    Log.e("Error", "API call failed: " + t.getMessage());
+                }
+            });
+
+        binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ProductItem clickedProduct = dataArrayList.get(i);
+                Log.i("clicked", clickedProduct.toString());
+                Intent intent = new Intent(ListProductActivity.this, DetailProductActivity.class);
+                intent.putExtra("productItemId", clickedProduct.getId());
+                intent.putExtra("detailName", clickedProduct.getProductItemName());
+                intent.putExtra("detailPrice", clickedProduct.getPrice());
+                intent.putExtra("detailDescription", clickedProduct.getDescription());
+                intent.putExtra("imageUrl", clickedProduct.getImageUrl().toString());
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void performSearch(String query) {
+        // Gọi API search với query
+        ApiService.apiService.searchProductItemByName(query).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
-                        productItemList = responseData.getData(); // Lấy danh sách sản phẩm từ ResponseData
+                        productItemList = responseData.getData();
                         for (Map<String, Object> productItem : productItemList) {
                             Integer id = ((Number) productItem.get("id")).intValue();
                             String productItemName = (String) productItem.get("productItemName");
@@ -70,23 +128,6 @@ public class ListProductActivity extends AppCompatActivity {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
-
-        binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Lấy ra sản phẩm tương ứng với vị trí i trong danh sách
-                ProductItem clickedProduct = dataArrayList.get(i);
-                Log.i("clicked", clickedProduct.toString());
-
-                // Tạo intent để chuyển sang DetailedActivity và gửi dữ liệu sản phẩm
-                Intent intent = new Intent(ListProductActivity.this, DetailProductActivity.class);
-                intent.putExtra("productItemId", clickedProduct.getId());
-                intent.putExtra("detailName", clickedProduct.getProductItemName());
-                intent.putExtra("detailPrice", clickedProduct.getPrice().toString()); // Chuyển giá thành String
-                intent.putExtra("detailDescription", clickedProduct.getDescription());
-                intent.putExtra("imageUrl", clickedProduct.getImageUrl().toString());
-                startActivity(intent);
-            }
-        });
     }
+
 }

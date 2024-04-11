@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.hairsalon.activity.pay.PayActivity;
+import com.example.hairsalon.activity.order.PayActivity;
 import com.example.hairsalon.adapter.CartItemAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityCartBinding;
@@ -36,6 +36,7 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         getAllCartItem();
 
         binding.payButton.setOnClickListener(new View.OnClickListener() {

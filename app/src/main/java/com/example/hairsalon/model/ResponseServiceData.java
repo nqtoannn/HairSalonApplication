@@ -1,12 +1,11 @@
 package com.example.hairsalon.model;
 
 import java.util.List;
-import java.util.Map;
 
-public class ResponseData {
+public class ResponseServiceData {
     private String status;
     private String message;
-    private List<Map<String, Object>> data;
+    private Data data;
 
     public String getStatus() {
         return status;
@@ -24,12 +23,23 @@ public class ResponseData {
         this.message = message;
     }
 
-    public List<Map<String, Object>> getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(List<Map<String, Object>> data) {
+    public void setData(Data data) {
         this.data = data;
     }
 
+    public static class Data {
+        private List<HairService> hairService;
+
+        public List<HairService> getHairService() {
+            return hairService;
+        }
+
+        public void setHairService(List<HairService> hairService) {
+            this.hairService = hairService;
+        }
+    }
 }

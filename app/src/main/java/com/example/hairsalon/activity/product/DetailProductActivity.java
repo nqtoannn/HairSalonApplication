@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.cart.CartActivity;
+import com.example.hairsalon.activity.order.PayActivity;
 import com.example.hairsalon.adapter.GridAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.constants.Constant;
@@ -40,6 +41,10 @@ public class DetailProductActivity extends AppCompatActivity {
 
     ActivityDetailProductBinding binding;
     RequestQueue requestQueue;
+
+    private Integer productItemId;
+    private String name, imageUrl;
+    private Double price;
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +54,16 @@ public class DetailProductActivity extends AppCompatActivity {
         getAllCartItemsAndUpdateCount();
         Intent intent = getIntent();
         if (intent != null) {
-            String name = intent.getStringExtra("detailName");
-            String price = intent.getStringExtra("detailPrice");
+            name = intent.getStringExtra("detailName");
+            price = intent.getDoubleExtra("detailPrice", 0.0);
             String description = intent.getStringExtra("detailDescription");
-            String imageUrl = intent.getStringExtra("imageUrl");
-
+            imageUrl = intent.getStringExtra("imageUrl");
+            productItemId = intent.getIntExtra("productItemId", 0);
             binding.textProductName.setText(name);
             binding.textProductDescription.setText(description);
-            String formattedPrice = String.format(getString(R.string.price_placeholder), price);
+            String priceDisplay = String.valueOf(price);
+            String formattedPrice = String.format(getString(R.string.price_placeholder), priceDisplay);
             binding.textProductPrice.setText(formattedPrice);
-
             if (requestQueue == null) {
                 requestQueue = Volley.newRequestQueue(this);
             }
@@ -95,6 +100,18 @@ public class DetailProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DetailProductActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.buttonBuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailProductActivity.this, PayActivity.class);
+                intent.putExtra("productItemId", productItemId);
+                intent.putExtra("detailName", name);
+                intent.putExtra("detailPrice", price); // Chuyển giá thành String
+                intent.putExtra("imageUrl", imageUrl);
                 startActivity(intent);
             }
         });
@@ -144,7 +161,9 @@ public class DetailProductActivity extends AppCompatActivity {
 
     private void addToCart() {
         Intent intent = getIntent();
-        Integer productItemId = intent.getIntExtra("productItemId", 0);
+        if (productItemId == 0) {
+            productItemId = intent.getIntExtra("productItemId", 0);
+        }
         String apiUrl = Constant.baseUrl + "customer/addToCart";
         try {
             JSONObject requestBody = new JSONObject();
