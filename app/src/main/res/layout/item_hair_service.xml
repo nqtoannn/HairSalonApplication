@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical"
-    tools:ignore="MissingDefaultResource">
+
+    >
 
     <ImageView
         android:id="@+id/serviceimage"
@@ -15,7 +16,7 @@
         android:layout_marginEnd="8dp"/>
 
     <TextView
-        android:id="@+id/tvProductItemName"
+        android:id="@+id/tvServiceName"
         android:layout_width="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
         android:textColor="@android:color/black"/>
 
     <TextView
-        android:id="@+id/tvProuctItemPrice"
+        android:id="@+id/tvServicePrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -32,11 +33,15 @@
         android:textSize="12sp"
         android:textColor="@android:color/black"/>
 
-    <Button
-        android:id="@+id/buy_button"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:textSize="10sp"
-        android:text="Mua ngay"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_back_primary"
+        android:id="@+id/btnBooking"
+        android:text="Đặt dịch vụ"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        >
+    </androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>

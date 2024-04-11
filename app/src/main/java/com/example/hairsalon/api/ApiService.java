@@ -3,6 +3,7 @@ package com.example.hairsalon.api;
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.model.AuthenticationRequest;
 import com.example.hairsalon.model.ResponseData;
+import com.example.hairsalon.model.ResponseServiceData;
 import com.example.hairsalon.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,9 +49,8 @@ public interface ApiService {
     @POST("auth/authenticate")
     Call<Void> authenticateUser(@Body AuthenticationRequest request);
 
-    @GET("services/search/uon")
-    Call<ResponseData> getHairService();
-
+    @GET("services/search/{name}")
+    Call<ResponseServiceData> getHairService(@Path("name") String name);
 
 
 
