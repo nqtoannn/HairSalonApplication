@@ -14,9 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
         tools:targetApi="31">
-        <!--<activity
-            android:name=".statistics.CustomerListActivity"
-            android:exported="false" />-->
+        <activity
+            android:name=".statistics.CustomerDetailActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerListActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".statistics.SanPham"
             android:exported="false" />
@@ -24,8 +27,8 @@
             android:name=".statistics.DoanhThu"
             android:exported="false" />
         <activity
-         android:name=".statistics.StatisticsActivity"
-         android:exported="false" />
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.product.ListProductActivity"
             android:exported="false" />
