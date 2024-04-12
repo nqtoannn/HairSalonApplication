@@ -22,7 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.activity.cart.CartActivity;
-import com.example.hairsalon.activity.pay.PayActivity;
+import com.example.hairsalon.activity.order.PayActivity;
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.databinding.ActivityAppointmentBinding;
 
@@ -38,7 +38,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
     private ActivityAppointmentBinding binding;
     private int selectedSalonId = 1;
-    private int selectedServiceId = 1;
+    int selectedServiceId = 1;
     private int selectedStylistId = 1;
 
     @Override

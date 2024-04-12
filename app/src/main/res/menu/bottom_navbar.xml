@@ -19,7 +19,7 @@
         android:title="Explore" />
     <item
         android:id="@+id/navAccount"
-        android:icon="@drawable/user"
+        android:icon="@drawable/userlogo"
         android:title="Account" />
 
 </menu>

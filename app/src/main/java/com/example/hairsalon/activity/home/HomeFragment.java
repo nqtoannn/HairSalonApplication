@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
-        ApiService.apiService.getHairService("uon").enqueue(new Callback<ResponseServiceData>() {
+        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseServiceData>() {
             @Override
             public void onResponse(Call<ResponseServiceData> call, Response<ResponseServiceData> response) {
                 if (response.isSuccessful()) {
@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment {
                         Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
                     }
                 } else {
-                    Log.e("Error", "API call failed with error code: " + response.code()); // Hiển thị thông báo nếu cuộc gọi API không thành công
+                    Log.e("Error", "API service call failed with error code: " + response.code()); // Hiển thị thông báo nếu cuộc gọi API không thành công
                 }
             }
 

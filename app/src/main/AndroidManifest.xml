@@ -19,9 +19,15 @@
         <activity
             android:name=".activity.appointment.AppointmentHistoryActivity"
             android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name=".activity.appointment.AppointmentActivity" -->
-        <!-- android:exported="false" /> -->
+         <activity
+         android:name=".activity.appointment.AppointmentActivity"
+             android:exported="true" >
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
 
 <!--        <activity-->
 <!--            android:name=".activity.shop.HomeShopActivity"-->
@@ -77,15 +83,6 @@
         <activity android:name=".activity.home.Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
-        <activity
-            android:name=".activity.shop.HomeShopActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activity.auth.Login"
             android:exported="true">

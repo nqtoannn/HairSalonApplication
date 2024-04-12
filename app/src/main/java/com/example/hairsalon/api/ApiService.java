@@ -56,6 +56,10 @@ public interface ApiService {
     @GET("services/search/{name}")
     Call<ResponseServiceData> getHairService(@Path("name") String name);
 
+    @GET("services/findAll")
+    Call<ResponseServiceData> getAllHairService();
+
+
 
 
 }

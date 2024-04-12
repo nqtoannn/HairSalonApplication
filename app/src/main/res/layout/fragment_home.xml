@@ -32,7 +32,7 @@
                                     android:id="@+id/iAvatar"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/user"
+                                    android:src="@drawable/userlogo"
                                     android:layout_weight="01">
                                 </ImageView>
                                 <TextView
