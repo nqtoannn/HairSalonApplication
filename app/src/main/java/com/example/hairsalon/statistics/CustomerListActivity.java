@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.example.hairsalon.R;
 import com.example.hairsalon.adapter.CustomerAdapter;
 import com.example.hairsalon.databinding.ActivityCustomerDetailBinding;
+import com.example.hairsalon.databinding.ActivityCustomerListBinding;
 import com.example.hairsalon.databinding.ActivityDetailedBinding;
 import com.example.hairsalon.model.Customer;
 
@@ -20,11 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerListActivity extends AppCompatActivity {
-    ActivityCustomerDetailBinding binding;
+    ActivityCustomerListBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCustomerDetailBinding.inflate(getLayoutInflater());
+        binding = ActivityCustomerListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         ListView customerListView = findViewById(R.id.list_customer);

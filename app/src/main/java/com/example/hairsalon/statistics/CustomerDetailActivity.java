@@ -14,32 +14,31 @@ import com.example.hairsalon.model.Customer;
 public class CustomerDetailActivity extends AppCompatActivity {
 
     ActivityCustomerDetailBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCustomerDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Nhận thông tin khách hàng từ Intent
-        Intent intent = this.getIntent();
-        Customer customer = (Customer) intent.getSerializableExtra("customer");
-        // Hiển thị thông tin khách hàng trong giao diện
-        TextView nameTextView = findViewById(R.id.text_name);
-        TextView ageTextView = findViewById(R.id.text_age);
-        TextView idTextView = findViewById(R.id.text_id);
-        TextView genderTextView = findViewById(R.id.text_gender);
-        TextView addressTextView = findViewById(R.id.text_address);
-        TextView emailTextView = findViewById(R.id.text_email);
-        TextView phoneTextView = findViewById(R.id.text_phone);
-
-        // Thiết lập giá trị cho các TextView
-        nameTextView.setText("Name: " + customer.getName());
-        ageTextView.setText("Age: " + customer.getAge());
-        idTextView.setText("ID: " + customer.getId());
-        genderTextView.setText("Gender: " + (customer.isGender() ? "Male" : "Female"));
-        addressTextView.setText("Address: " + customer.getAddress());
-        emailTextView.setText("Email: " + customer.getEmail());
-        phoneTextView.setText("Phone: " + customer.getPhone());
-
+        // Kiểm tra Intent extras
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("customer")) {
+            // Nhận thông tin khách hàng từ Intent
+            Customer customer = (Customer) intent.getSerializableExtra("customer");
+            // Hiển thị thông tin khách hàng trong giao diện
+            binding.textName.setText("Name: " + customer.getName());
+            binding.textAge.setText("Age: " + customer.getAge());
+            binding.textId.setText("ID: " + customer.getId());
+            binding.textGender.setText("Gender: " + (customer.isGender() ? "Male" : "Female"));
+            binding.textAddress.setText("Address: " + customer.getAddress());
+            binding.textEmail.setText("Email: " + customer.getEmail());
+            binding.textPhone.setText("Phone: " + customer.getPhone());
+        } else {
+            // Xử lý trường hợp không có thông tin khách hàng
+            //Toast.makeText(this, "No customer information found", Toast.LENGTH_SHORT).show();
+            // Hoặc chuyển hướng trở lại màn hình trước đó
+            finish();
+        }
     }
 }
