@@ -17,6 +17,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
 import com.example.hairsalon.model.ProductItem;
+import com.example.hairsalon.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -88,7 +89,7 @@ public class GridAdapter extends BaseAdapter {
         Volley.newRequestQueue(mContext).add(imageRequest);
 
         holder.textViewProductName.setText(productItem.getProductItemName());
-        holder.textViewProductPrice.setText(String.valueOf(productItem.getPrice()));
+        holder.textViewProductPrice.setText(Utils.formatPrice(productItem.getPrice()));
 
         return convertView;
     }

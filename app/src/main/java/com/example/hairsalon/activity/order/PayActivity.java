@@ -3,11 +3,13 @@ package com.example.hairsalon.activity.order;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +42,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import com.android.volley.Response;
+import com.example.hairsalon.utils.Utils;
 
 import android.content.Intent;
 
@@ -54,7 +57,8 @@ public class PayActivity extends AppCompatActivity {
     ArrayList<Map<String, Object>> cartItemList = new ArrayList<>();
 
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
-    Double price = 0.0;
+    double price = 0.0;
+    double deliveryPrice = 0;
     Integer productItemId;
     private Double totalPrice;
     @Override
@@ -71,18 +75,16 @@ public class PayActivity extends AppCompatActivity {
             String imageUrl = intent.getStringExtra("imageUrl");
             productItemId = intent.getIntExtra("productItemId", 0);
             binding.productName.setText(name);
-            binding.productPrice.setText(String.valueOf(price));
+            binding.productPrice.setText(Utils.formatPrice(price));
             binding.productQuantity.setText("1");
             binding.xSeparator.setVisibility(View.VISIBLE);
             binding.productQuantity.setVisibility(View.VISIBLE);
-            binding.totalPrice.setText(String.valueOf(price));
             RequestQueue requestQueue = Volley.newRequestQueue(PayActivity.this);
             ImageRequest imageRequest = new ImageRequest(
                     imageUrl,
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap response) {
-                            // Gán hình ảnh vào ImageView
                             binding.productImage.setImageBitmap(response);
                         }
                     },
@@ -113,6 +115,40 @@ public class PayActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
+
+        binding.spinnerDeliveryMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String deliveryMethod = parent.getItemAtPosition(position).toString();
+                if (deliveryMethod.equals("Giao hàng nhanh")) {
+                    deliveryPrice = 1000;
+                    Toast.makeText(PayActivity.this, "Đã chọn giao hàng nhanh",Toast.LENGTH_SHORT).show();
+                } else if (deliveryMethod.equals("Giao hàng tiết kiệm")) {
+                    Toast.makeText(PayActivity.this, "Đã chọn giao hàng tiết kiệm",Toast.LENGTH_SHORT).show();
+                    deliveryPrice = 2000;
+                }
+                if (intent.getStringExtra("detailName") != null) {
+                    double finalPrice = price + deliveryPrice;
+                    binding.totalPrice.setText(Utils.formatPrice(finalPrice));
+                } else {
+                    double finalPrice = totalPrice + deliveryPrice;
+                    binding.totalPrice.setText(Utils.formatPrice(finalPrice));
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(PayActivity.this, "Vui lòng chọn phương thức vận chuyển", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void getCartItems() {
@@ -125,18 +161,15 @@ public class PayActivity extends AppCompatActivity {
                         cartItemList = (ArrayList<Map<String, Object>>) responseData.getData();
                         totalPrice = 0.0;
                         for (Map<String, Object> cartItem : cartItemList) {
-
                             Integer id = ((Number) cartItem.get("id")).intValue();
                             String productItemName = (String) cartItem.get("productItemName");
                             Integer quantity = ((Number) Objects.requireNonNull(cartItem.get("quantity"))).intValue();
                             String imageUrl = (String) cartItem.get("imageUrl");
                             double priceProduct = (double) cartItem.get("price");
                             totalPrice +=  quantity * priceProduct;
-
                             CartItem cartItemAdded = new CartItem(id, productItemName, quantity, imageUrl, priceProduct);
                             dataArrayList.add(cartItemAdded);
                         }
-                        binding.totalPrice.setText(String.valueOf(totalPrice));
 
                         Collections.reverse(dataArrayList);
                         cartItemAdapter = new CartItemAdapter(PayActivity.this, dataArrayList);

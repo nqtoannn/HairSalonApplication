@@ -25,8 +25,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.cart.CartActivity;
+import com.example.hairsalon.activity.order.PayActivity;
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.model.CartItem;
+import com.example.hairsalon.utils.Utils;
 
 
 import org.json.JSONException;
@@ -85,9 +87,14 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
         });
 
         // Binding dữ liệu từ đối tượng CartItem vào các thành phần UI
-        if (cartItem.getProductItemName() != null) {
+        if (cartItem.getProductItemName() != null && mContext instanceof CartActivity) {
             holder.xSeparatorTextView.setVisibility(View.VISIBLE);
             holder.deleteIcon.setVisibility(View.VISIBLE);
+            holder.productQuantityTextView.setVisibility(View.VISIBLE);
+        }
+        else if (cartItem.getProductItemName() != null && mContext instanceof PayActivity) {
+            holder.xSeparatorTextView.setVisibility(View.VISIBLE);
+            holder.deleteIcon.setVisibility(View.GONE);
             holder.productQuantityTextView.setVisibility(View.VISIBLE);
         }
         else {
@@ -96,7 +103,8 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
             holder.productQuantityTextView.setVisibility(View.GONE);
         }
         holder.productNameTextView.setText(cartItem.getProductItemName());
-        holder.productPriceTextView.setText(String.valueOf(cartItem.getPrice()));
+        holder.productPriceTextView.setText(Utils.formatPrice(cartItem.getPrice()));
+
         holder.productQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
 
         // Tạo ImageRequest để tải hình ảnh từ URL và hiển thị lên ImageView
@@ -189,12 +197,11 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
 
     private void calculateAndUpdateTotalPrice() {
         double totalPrice = 0;
-        // Duyệt qua danh sách các mục trong giỏ hàng và tính tổng tiền
         for (CartItem item : mCartItems) {
             totalPrice += item.getPrice() * item.getQuantity();
         }
         TextView totalPriceTextView = ((CartActivity)mContext).findViewById(R.id.totalPrice);
-        totalPriceTextView.setText(String.valueOf(totalPrice));
+        totalPriceTextView.setText(Utils.formatPrice(totalPrice));
     }
 
 

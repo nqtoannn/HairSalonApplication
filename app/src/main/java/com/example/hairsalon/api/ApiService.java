@@ -37,7 +37,4 @@ public interface ApiService {
     Call<ResponseData> getAllOrderByCustomerId(@Path("customerId") Integer customerId);
 
 
-
-
-
 }

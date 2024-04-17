@@ -111,9 +111,6 @@ public class HomeShopActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
     }
 
     @Override
