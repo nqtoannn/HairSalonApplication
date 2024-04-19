@@ -29,6 +29,7 @@ import com.example.hairsalon.model.ProductItem;
 import com.example.hairsalon.model.ResponseData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -75,7 +76,12 @@ public class HomeShopActivity extends AppCompatActivity {
                         productItemList = responseData.getData();
                         ProductItemAdapter adapter = new ProductItemAdapter(productItemList);
                         recyclerView.setAdapter(adapter);
-                        recyclerViewCheapProduct.setAdapter(adapter);
+                        List<Map<String, Object>> productItemListReverse = new ArrayList<>(productItemList);
+                        Collections.reverse(productItemListReverse);
+
+                        ProductItemAdapter cheapAdapter = new ProductItemAdapter(productItemListReverse);
+                        recyclerViewCheapProduct.setAdapter(cheapAdapter);
+
                     } else {
                         Log.e("Error", "No product data found in response");
                     }
