@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
                     ResponseServiceData responseServiceData = response.body();
                     if (responseServiceData != null && responseServiceData.getStatus().equals("OK")) {
                         hairServiceList = responseServiceData.getData().getHairService();
-                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
+                        HairServiceAdapter adapter = new HairServiceAdapter(requireContext(),hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
                         recyclerViewService.setAdapter(adapter); // Đặt adapter cho RecyclerView
                     } else {
                         Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
