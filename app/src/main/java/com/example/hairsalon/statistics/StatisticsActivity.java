@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -94,6 +95,8 @@ public class StatisticsActivity extends AppCompatActivity {
     // Hiển thị dialog chọn ngày bắt đầu
     private void showDatePickerDialogStart() {
         final Calendar c = Calendar.getInstance();
+        int currentYear = c.get(Calendar.YEAR);
+        int currentMonth = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         //int day = c.get(Calendar.DAY_OF_MONTH);
@@ -101,8 +104,12 @@ public class StatisticsActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String dateString = String.format(Locale.getDefault(), "%d-%02d", year, monthOfYear + 1);
-                        binding.textViewDateStart.setText(dateString);
+                        if (year < currentYear || (year == currentYear && monthOfYear <= currentMonth)) {
+                            String dateString = String.format(Locale.getDefault(), "%d-%02d", year, monthOfYear + 1);
+                            binding.textViewDateStart.setText(dateString);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Chọn lại năm tháng bắt đầu!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 year, month, 0);
@@ -112,6 +119,8 @@ public class StatisticsActivity extends AppCompatActivity {
     // Hiển thị dialog chọn ngày kết thúc
     private void showDatePickerDialogEnd() {
         final Calendar c = Calendar.getInstance();
+        int currentYear = c.get(Calendar.YEAR);
+        int currentMonth = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         //int day = c.get(Calendar.DAY_OF_MONTH);
@@ -119,8 +128,19 @@ public class StatisticsActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String dateString = String.format(Locale.getDefault(), "%d-%02d", year, monthOfYear + 1);
-                        binding.textViewDateEnd.setText(dateString);
+                        // Kiểm tra nếu năm và tháng kết thúc lớn hơn hoặc bằng năm và tháng bắt đầu,
+                        // và năm và tháng kết thúc nhỏ hơn hoặc bằng năm và tháng hiện tại
+                        int startYear = Integer.parseInt(binding.textViewDateStart.getText().toString().substring(0, 4));
+                        int startMonth = Integer.parseInt(binding.textViewDateStart.getText().toString().substring(5));
+                        if ((year > startYear || (year == startYear && monthOfYear >= startMonth))
+                                && (year < currentYear || (year == currentYear && monthOfYear <= currentMonth))) {
+                            String dateString = String.format(Locale.getDefault(), "%d-%02d", year, monthOfYear + 1);
+                            binding.textViewDateEnd.setText(dateString);
+                        } else {
+                            // Hiển thị thông báo hoặc thực hiện hành động phù hợp nếu năm và tháng kết thúc nhỏ hơn năm và tháng bắt đầu
+                            // hoặc lớn hơn năm và tháng hiện tại
+                            Toast.makeText(getApplicationContext(), "Chọn lại năm tháng kết thúc!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 year, month,0);

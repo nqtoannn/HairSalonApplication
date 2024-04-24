@@ -1,6 +1,5 @@
 package com.example.hairsalon.statistics;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,46 +7,81 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.example.hairsalon.R;
-import com.example.hairsalon.adapter.CustomerAdapter;
-import com.example.hairsalon.databinding.ActivityCustomerDetailBinding;
+
+
+
+import com.example.hairsalon.adapter.UserAdapter;
+import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityCustomerListBinding;
-import com.example.hairsalon.databinding.ActivityDetailedBinding;
-import com.example.hairsalon.model.Customer;
+import com.example.hairsalon.model.ResponseData;
+import com.example.hairsalon.model.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CustomerListActivity extends AppCompatActivity {
     ActivityCustomerListBinding binding;
+    UserAdapter userAdapter;
+    ArrayList<User> dataArrayList = new ArrayList<>();
+    private List<Map<String, Object>> userList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCustomerListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        ApiService.apiService.getUser().enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    // Lấy danh sách khách hàng từ kết quả trả về
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        userList = responseData.getData();// Lấy danh sách khách hàng từ ResponseData
+                        for (Map<String, Object> user : userList) {
+                            Integer id = ((Number) user.get("id")).intValue();
+                            String userName = (String) user.get("userName");
+                            String email = (String) user.get("email");
+                            String password = (String) user.get("password");
+                            String role = (String) user.get("role");
+                            User userAdded = new User( id, userName, email, password, role);
+                            //System.out.println(userAdded);
+                            dataArrayList.add(userAdded);
+                        }
+                    }
+                    userAdapter = new UserAdapter(CustomerListActivity.this, dataArrayList);
+                    Log.e("userList", dataArrayList.toString());
+                    binding.listCustomer.setAdapter(userAdapter);
+                } else {
+                    // Xử lý lỗi khi gọi API không thành công
+                    Log.e("API Error", "Failed to fetch customers: " + response.message());
+                }
+            }
 
-        ListView customerListView = findViewById(R.id.list_customer);
-        // Tạo danh sách khách hàng
-        List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("John Doe", 25, "051102930594", true, "HCM", "john.doe@example.com", "123-456-7890"));
-        customers.add(new Customer("Jane Smith", 26, "014832804", false, "QN", "jane.smith@example.com", "987-654-3210"));
-        customers.add(new Customer("David Nguyen", 30, "9212404528304", true, "HN", "david.nguyen@example.com", "555-123-4567"));
-        // Tạo adapter và thiết lập cho ListView
-        CustomerAdapter adapter = new CustomerAdapter(this, (ArrayList<Customer>) customers);
-        customerListView.setAdapter(adapter);
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                // Xử lý lỗi khi gọi API thất bại
+                Log.e("API Error", "Failed to fetch customers: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
 
         //Xử lý khi nhấp vào một khách hàng
-        customerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.listCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Customer selectedCustomer = customers.get(position);
-                Log.i("clicked", selectedCustomer.toString());
+                User selectedUser = dataArrayList.get(position);
+                Log.i("clicked", selectedUser.toString());
                 // Tạo Intent để chuyển sang màn hình thông tin chi tiết
                 Intent intent = new Intent(CustomerListActivity.this, CustomerDetailActivity.class);
                 // Truyền thông tin của khách hàng qua Intent
-                intent.putExtra("customer", selectedCustomer);
+                intent.putExtra("user", selectedUser);
                 startActivity(intent); // Chuyển sang màn hình thông tin chi tiết
             }
         });

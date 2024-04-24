@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,73 +7,74 @@
     android:background="@color/white"
     tools:context=".statistics.CustomerDetailActivity">
 
-    <!-- Các TextView khác để hiển thị thông tin chi tiết của khách hàng -->
-    <TextView
-    android:id="@+id/text_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Name:"
-    android:textStyle="bold"
-    android:layout_marginTop="16dp"
-    android:layout_marginStart="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/labelName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="start|center_vertical"
+            android:text="Thông tin User"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImage"
+            android:layout_width="380dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/detailImage"
+                android:layout_width="380dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/imgcustomer" />
+            <!--android:scaleType="centerCrop"-->
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <!-- Các TextView để hiển thị thông tin chi tiết của user -->
     <TextView
-        android:id="@+id/text_age"
+        android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Age:"
+        android:text="Name:"
+        android:textColor="@color/lavender"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_below="@id/text_name"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/text_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID:"
-        android:textStyle="bold"
-        android:layout_below="@id/text_age"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/text_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gender:"
-        android:textStyle="bold"
-        android:layout_below="@id/text_id"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/text_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Address:"
-        android:textStyle="bold"
-        android:layout_below="@id/text_gender"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"/>
 
     <TextView
         android:id="@+id/text_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email:"
+        android:textColor="@color/lavender"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_below="@id/text_address"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"/>
 
     <TextView
-        android:id="@+id/text_phone"
+        android:id="@+id/text_role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Phone:"
+        android:text="Role:"
+        android:textColor="@color/lavender"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_below="@id/text_email"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"/>
 

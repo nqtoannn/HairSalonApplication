@@ -13,19 +13,20 @@ import androidx.annotation.Nullable;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.model.Customer;
-import com.example.hairsalon.model.ProductItem;
+import com.example.hairsalon.model.User;
+
 
 import java.util.ArrayList;
 
-public class CustomerAdapter extends ArrayAdapter<Customer> {
-    public CustomerAdapter(@NonNull Context context, ArrayList<Customer> dataArrayList) {
+public class UserAdapter extends ArrayAdapter<User> {
+    public UserAdapter(@NonNull Context context, ArrayList<User> dataArrayList) {
         super(context, R.layout.list_customer, dataArrayList);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-        Customer listData = getItem(position);
+        User listData = getItem(position);
 
         if (view == null){
             view = LayoutInflater.from(getContext()).inflate(R.layout.list_customer, parent, false);
@@ -33,10 +34,8 @@ public class CustomerAdapter extends ArrayAdapter<Customer> {
 
         ImageView listImage = view.findViewById(R.id.listImage);
         TextView listName = view.findViewById(R.id.listName);
-        //TextView listQuantity = view.findViewById(R.id.listQuantity);
 
-//        listImage.setImageResource(listData.image);z
-        listName.setText(listData.getName());
+        listName.setText(listData.getUserName());
 
         return view;
     }

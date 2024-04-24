@@ -13,13 +13,14 @@ public interface ApiService {
 
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
     ApiService apiService = new Retrofit.Builder()
-            .baseUrl("http://172.16.3.186:8080/api/v1/")
+            .baseUrl("http://192.168.1.14:8080/api/v1/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
 
     @GET("productItem/findAll")
     Call<ResponseData> getProductItem();
-
+    @GET("users/findAll")
+    Call<ResponseData> getUser();
 
 }
