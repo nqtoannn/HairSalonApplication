@@ -32,6 +32,9 @@ public interface ApiService {
     @GET("productItem/findAll")
     Call<ResponseData> getProductItem();
 
+    @GET("users/findAll")
+    Call<ResponseData> getUser();
+
     @GET("productItem/search/{productItemName}")
     Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName);
 
@@ -59,5 +62,6 @@ public interface ApiService {
 
     @GET("services/findAll")
     Call<ResponseServiceData> getAllHairService();
+
 
 }

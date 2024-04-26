@@ -6,6 +6,7 @@
 
     <application
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +17,22 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+
+            android:name=".statistics.CustomerDetailActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerListActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".statistics.SanPham"
+            android:exported="false" />
+        <activity
+            android:name=".statistics.DoanhThu"
+            android:exported="false" />
+        <!--<activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />-->
+
             android:name=".activity.home.HomeManage"
             android:exported="true">
             <intent-filter>
@@ -99,7 +116,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
         <activity
-            android:name=".activity.auth.Login"
+            android:name=".statistics.CustomerListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

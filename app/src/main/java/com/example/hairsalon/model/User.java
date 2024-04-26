@@ -1,10 +1,12 @@
 package com.example.hairsalon.model;
 
 public class User {
+
     private String userName;
     private String email;
     private String password;
     private String role;
+
 
     public User(String userName, String password, String role, String email) {
         this.userName = userName;
@@ -46,3 +48,4 @@ public class User {
     }
 
 }
+
