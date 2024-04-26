@@ -1,4 +1,4 @@
-package com.example.hairsalon.activity.navbar;
+package com.example.hairsalon.activity.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,35 +11,30 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.hairsalon.R;
-import com.example.hairsalon.activity.home.AccountFragment;
-import com.example.hairsalon.activity.home.BookingFragment;
-import com.example.hairsalon.activity.home.ExploreFragment;
-import com.example.hairsalon.activity.home.HomeFragment;
-import com.example.hairsalon.activity.home.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class Navbar extends AppCompatActivity {
+public class HomeManage extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navbar);
-        bottomNavigationView = findViewById(R.id.bottomNavBar);
-        frameLayout = findViewById(R.id.frameLayout);
+        setContentView(R.layout.activity_home_manage);
+        bottomNavigationView = findViewById(R.id.bottomNavBarMn);
+        frameLayout = findViewById(R.id.frameLayoutMn);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemID = item.getItemId();
-                if( itemID == R.id.navHome){
+                if( itemID == R.id.navShopMn){
                     loadFragment(new HomeFragment(),false);
-                } else if (itemID == R.id.navShop) {
+                } else if (itemID == R.id.navServiceMn) {
                     loadFragment(new ShopFragment(), false);
-                } else if (itemID == R.id.navBooking) {
+                } else if (itemID == R.id.navStaffMn) {
                     loadFragment(new BookingFragment(), false);
-                } else if (itemID == R.id.navExplore) {
+                } else if (itemID == R.id.navRevenueMn) {
                     loadFragment(new ExploreFragment(), false);
                 } else {
                     loadFragment(new AccountFragment(), false);
@@ -54,10 +49,10 @@ public class Navbar extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if(isAppInitialized){
-            fragmentTransaction.add(R.id.frameLayout,fragment);
+            fragmentTransaction.add(R.id.frameLayoutMn,fragment);
         }
         else {
-            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            fragmentTransaction.replace(R.id.frameLayoutMn, fragment);
         }
         fragmentTransaction.commit();
     }

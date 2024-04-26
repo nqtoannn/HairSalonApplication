@@ -2,6 +2,7 @@ package com.example.hairsalon.api;
 
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.model.AuthenticationRequest;
+import com.example.hairsalon.model.ResponseAuthData;
 import com.example.hairsalon.model.ResponseData;
 import com.example.hairsalon.model.ResponseServiceData;
 import com.example.hairsalon.model.User;
@@ -51,7 +52,7 @@ public interface ApiService {
     Call<Void> registerUser(@Body User user);
 
     @POST("auth/authenticate")
-    Call<Void> authenticateUser(@Body AuthenticationRequest request);
+    Call<ResponseAuthData> authenticateUser(@Body AuthenticationRequest request);
 
     @GET("services/search/{name}")
     Call<ResponseServiceData> getHairService(@Path("name") String name);

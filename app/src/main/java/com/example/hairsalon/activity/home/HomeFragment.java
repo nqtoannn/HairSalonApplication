@@ -44,14 +44,24 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerViewService;
     TextView textView;
 
+
+    Button btnHistory;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        Bundle bundle = getArguments();
+        textView = binding.txtUsername;
+        if (bundle != null && bundle.containsKey("customerId")) {
+            int id = bundle.getInt("customerId");
+            Log.d("Customer Id", String.valueOf(id));
+            textView.setText(String.valueOf(id));
+        }
         recyclerView = binding.recyclerViewProducts;
         recyclerViewService = binding.recyclerViewService;
-        textView = binding.txtUsername;
+
+        btnHistory = binding.btnHomeHistory;
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         int spanCount = 2; // Số cột bạn muốn hiển thị

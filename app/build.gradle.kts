@@ -85,7 +85,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("org.projectlombok:lombok:1.18.20")
-
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
 
 
 }
