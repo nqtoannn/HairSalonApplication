@@ -15,13 +15,11 @@
         android:title="Booking" />
     <item
         android:id="@+id/navExplore"
-
         android:icon="@drawable/explore"
         android:title="Explore" />
     <item
         android:id="@+id/navAccount"
-
-        android:icon="@drawable/user"
+        android:icon="@drawable/userlogo"
         android:title="Account" />
 
 </menu>
