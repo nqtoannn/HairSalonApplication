@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -139,18 +141,15 @@ public class Login extends AppCompatActivity {
                             public void onResponse(Call<ResponseAuthData> call, Response<ResponseAuthData> response) {
                                 if (response.isSuccessful()) {
                                     ResponseAuthData responseAuthData = response.body();
-
+                                    SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("userId", responseAuthData.getUserId()); // Thay thế 100 bằng giá trị integer của bạn
+                                    editor.apply();
                                     if(responseAuthData.getRole().equals("ADMIN")) {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putInt("userId", responseAuthData.getUserId());
                                         Intent intent = new Intent(Login.this, HomeManage.class);
-                                        intent.putExtras(bundle);
                                         startActivity(intent);
                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
-                                        Bundle bundle = new Bundle();
-                                        bundle.putInt("customerId", responseAuthData.getUserId());
                                         Intent intent = new Intent(Login.this, HomeCustomer.class);
-                                        intent.putExtras(bundle);
                                         startActivity(intent);
                                     }
                                     Log.e("Error", "login complete");

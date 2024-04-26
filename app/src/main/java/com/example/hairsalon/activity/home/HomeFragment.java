@@ -1,6 +1,8 @@
 package com.example.hairsalon.activity.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,13 +53,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        Bundle bundle = getArguments();
         textView = binding.txtUsername;
-        if (bundle != null && bundle.containsKey("customerId")) {
-            int id = bundle.getInt("customerId");
-            Log.d("Customer Id", String.valueOf(id));
-            textView.setText(String.valueOf(id));
-        }
+        Context context = getActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        Integer customerId = sharedPreferences.getInt("userId", -1);
+        Log.d("Customer Idddd", String.valueOf(customerId));
+        textView.setText(String.valueOf(customerId));
         recyclerView = binding.recyclerViewProducts;
         recyclerViewService = binding.recyclerViewService;
 
