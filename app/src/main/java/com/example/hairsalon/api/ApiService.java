@@ -60,7 +60,4 @@ public interface ApiService {
     @GET("services/findAll")
     Call<ResponseServiceData> getAllHairService();
 
-
-
-
 }

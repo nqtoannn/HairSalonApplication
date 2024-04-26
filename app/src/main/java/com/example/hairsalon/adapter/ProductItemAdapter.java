@@ -25,6 +25,8 @@ import com.example.hairsalon.activity.product.DetailProductActivity;
 import com.example.hairsalon.activity.product.ListProductActivity;
 import com.example.hairsalon.activity.shop.HomeShopActivity;
 import com.example.hairsalon.model.ProductItem;
+import com.example.hairsalon.utils.Utils;
+
 import java.util.List;
 import java.util.Map;
 
@@ -70,27 +72,21 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         Volley.newRequestQueue(holder.itemView.getContext()).add(imageRequest);
 
         holder.tvName.setText((String) currentItem.get("productItemName"));
-        holder.tvPrice.setText(String.valueOf(currentItem.get("price")) + " VND");
+        holder.tvPrice.setText(Utils.formatPrice((Double) currentItem.get("price")));
 
-        // Xử lý sự kiện khi nhấp vào hình ảnh
-        // Xử lý sự kiện khi nhấp vào hình ảnh
+
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy Context từ View được click
                 Context context = holder.itemView.getContext();
-
-                // Tạo Intent để chuyển sang DetailProductActivity
                 Intent intent = new Intent(context, DetailProductActivity.class);
-
-                // Truyền dữ liệu đi kèm trong Intent
 
                 double productId = (Double) currentItem.get("id");
                 double price = (Double) currentItem.get("price");
                 int productIdInteger = (int) productId;
                 intent.putExtra("productItemId", productIdInteger);
                 intent.putExtra("detailName", (String) currentItem.get("productItemName"));
-                intent.putExtra("detailPrice", price); // Chuyển giá thành String
+                intent.putExtra("detailPrice", price);
                 intent.putExtra("detailDescription", (String) currentItem.get("description"));
                 intent.putExtra("imageUrl", (String) currentItem.get("imageUrl"));
 
@@ -100,16 +96,12 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             }
         });
 
-
-        // Xử lý sự kiện khi nhấp vào tên sản phẩm
         holder.tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Xử lý sự kiện khi nhấp vào tên sản phẩm ở đây
             }
         });
 
-        // Xử lý sự kiện khi nhấp vào nút mua
         holder.buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +115,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                 int productIdInteger = (int) productId;
                 intent.putExtra("productItemId", productIdInteger);
                 intent.putExtra("detailName", (String) currentItem.get("productItemName"));
-                intent.putExtra("detailPrice", price); // Chuyển giá thành String
+                intent.putExtra("detailPrice", price);
                 intent.putExtra("detailDescription", (String) currentItem.get("description"));
                 intent.putExtra("imageUrl", (String) currentItem.get("imageUrl"));
                 context.startActivity(intent);
