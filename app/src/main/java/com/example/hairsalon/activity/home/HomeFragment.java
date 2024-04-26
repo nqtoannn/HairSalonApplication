@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
     List<Map<String, Object>> productItemList;
-    List<HairService> hairServiceList;
+    List<Map<String, Object>> hairServiceList;
     RecyclerView recyclerView;
     RecyclerView recyclerViewService;
     TextView textView;
@@ -93,14 +93,14 @@ public class HomeFragment extends Fragment {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
-        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseServiceData>() {
+        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseData>() {
             @Override
-            public void onResponse(Call<ResponseServiceData> call, Response<ResponseServiceData> response) {
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
-                    ResponseServiceData responseServiceData = response.body();
-                    if (responseServiceData != null && responseServiceData.getStatus().equals("OK")) {
-                        hairServiceList = responseServiceData.getData().getHairService();
-                        HairServiceAdapter adapter = new HairServiceAdapter(requireContext(),hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        hairServiceList = responseData.getData();
+                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
                         recyclerViewService.setAdapter(adapter); // Đặt adapter cho RecyclerView
                     } else {
                         Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ResponseServiceData> call, Throwable t) {
+            public void onFailure(Call<ResponseData> call, Throwable t) {
                 Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
             }
         });

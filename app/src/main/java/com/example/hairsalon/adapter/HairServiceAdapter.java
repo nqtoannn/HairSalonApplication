@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.HairServiceViewHolder> {
-    private List<HairService> serviceList;
+    private List<Map<String, Object>> serviceList;
     private Context context;
 
-    public HairServiceAdapter(Context context,List<HairService> serviceList) {
-        this.context = context;
+    public HairServiceAdapter(List<Map<String, Object>> serviceList) {
+        //this.context = context;
         this.serviceList = serviceList;
     }
 
@@ -45,10 +45,11 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
     @Override
     public void onBindViewHolder(@NonNull HairServiceViewHolder holder, int position) {
         if (serviceList != null && !serviceList.isEmpty()) {
-            HairService currentItem = serviceList.get(position);
+            Map<String, Object> currentItem = serviceList.get(position);
             // Tiếp tục xử lý với currentItem
             Log.i("currentItem", currentItem.toString());
-            ImageRequest imageRequest = new ImageRequest(currentItem.getUrl(),
+            ImageRequest imageRequest = new ImageRequest(
+                    (String) currentItem.get("url"),
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap response) {
@@ -70,8 +71,8 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
 
             Volley.newRequestQueue(holder.itemView.getContext()).add(imageRequest);
 
-            holder.tvServiceName.setText((String) currentItem.getServiceName().toString());
-            holder.tvServicePrice.setText(String.valueOf(currentItem.getPrice()) + " VND");
+            holder.tvServiceName.setText((String) currentItem.get("serviceName"));
+            holder.tvServicePrice.setText(String.valueOf(currentItem.get("price")) + " VND");
 
             // Xử lý sự kiện khi nhấp vào hình ảnh
             // Xử lý sự kiện khi nhấp vào hình ảnh

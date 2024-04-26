@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.databinding.ActivityCustomerDetailBinding;
-import com.example.hairsalon.databinding.ActivityDetailedBinding;
 import com.example.hairsalon.model.Customer;
 import com.example.hairsalon.model.User;
 
