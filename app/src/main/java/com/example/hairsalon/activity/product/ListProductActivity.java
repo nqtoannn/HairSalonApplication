@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.example.hairsalon.adapter.ListAdapter;
+import com.example.hairsalon.adapter.GridAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityListProductBinding;
 import com.example.hairsalon.model.ProductItem;
@@ -27,22 +27,26 @@ public class
 ListProductActivity extends AppCompatActivity {
 
     ActivityListProductBinding binding;
-    ListAdapter listAdapter;
+    GridAdapter gridAdapter;
     ArrayList<ProductItem> dataArrayList = new ArrayList<>();
-    private List<Map<String, Object>>  productItemList = new ArrayList<>();
+    private List<Map<String, Object>> productItemList = new ArrayList<>();
+    String searchQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityListProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ApiService.apiService.getProductItem().enqueue(new Callback<ResponseData>() {
+        searchQuery = getIntent().getStringExtra("searchQuery");
+        if (searchQuery != null) {
+            performSearch(searchQuery);
+        } else ApiService.apiService.getProductItem().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
-                        productItemList = responseData.getData(); // Lấy danh sách sản phẩm từ ResponseData
+                        productItemList = responseData.getData();
                         for (Map<String, Object> productItem : productItemList) {
                             Integer id = ((Number) productItem.get("id")).intValue();
                             String productItemName = (String) productItem.get("productItemName");
@@ -55,9 +59,10 @@ ListProductActivity extends AppCompatActivity {
                             ProductItem productItemAdded = new ProductItem(id, productItemName, price, quantityInStock, warrantyTime, status, imageUrl, description);
                             dataArrayList.add(productItemAdded);
                         }
-                        listAdapter = new ListAdapter(ListProductActivity.this, dataArrayList);
+                        gridAdapter = new GridAdapter(ListProductActivity.this, dataArrayList);
                         Log.i("productItemList", dataArrayList.toString());
-                        binding.listview.setAdapter(listAdapter);
+                        binding.gridView.setAdapter(gridAdapter);
+
                     } else {
                         Log.e("Error", "No product data found in response");
                     }
@@ -72,21 +77,66 @@ ListProductActivity extends AppCompatActivity {
             }
         });
 
-        binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        if (dataArrayList.isEmpty()) {
+            binding.emptyTextView.setVisibility(View.VISIBLE);
+            binding.labelName.setText("Kết quả tìm kiếm của: " + searchQuery);
+        }
+
+        binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Lấy ra sản phẩm tương ứng với vị trí i trong danh sách
                 ProductItem clickedProduct = dataArrayList.get(i);
                 Log.i("clicked", clickedProduct.toString());
-
-                // Tạo intent để chuyển sang DetailedActivity và gửi dữ liệu sản phẩm
-                Intent intent = new Intent(ListProductActivity.this, DetailedActivity.class);
+                Intent intent = new Intent(ListProductActivity.this, DetailProductActivity.class);
+                intent.putExtra("productItemId", clickedProduct.getId());
                 intent.putExtra("detailName", clickedProduct.getProductItemName());
-                intent.putExtra("detailPrice", clickedProduct.getPrice().toString()); // Chuyển giá thành String
+                intent.putExtra("detailPrice", clickedProduct.getPrice());
                 intent.putExtra("detailDescription", clickedProduct.getDescription());
-                intent.putExtra("quantityInStock", clickedProduct.getQuantityInStock().toString());
+                intent.putExtra("imageUrl", clickedProduct.getImageUrl().toString());
                 startActivity(intent);
             }
         });
     }
+
+    private void performSearch(String query) {
+        // Gọi API search với query
+        ApiService.apiService.searchProductItemByName(query).enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        binding.emptyTextView.setVisibility(View.GONE);
+                        binding.labelName.setText("Kết quả tìm kiếm của: " + query);
+                        productItemList = responseData.getData();
+                        for (Map<String, Object> productItem : productItemList) {
+                            Integer id = ((Number) productItem.get("id")).intValue();
+                            String productItemName = (String) productItem.get("productItemName");
+                            double price = (double) productItem.get("price");
+                            Integer quantityInStock = ((Number) Objects.requireNonNull(productItem.get("quantityInStock"))).intValue();
+                            String imageUrl = (String) productItem.get("imageUrl");
+                            Integer warrantyTime = ((Number) Objects.requireNonNull(productItem.get("warrantyTime"))).intValue();
+                            String status = (String) productItem.get("status");
+                            String description = (String) productItem.get("description");
+                            ProductItem productItemAdded = new ProductItem(id, productItemName, price, quantityInStock, warrantyTime, status, imageUrl, description);
+                            dataArrayList.add(productItemAdded);
+                        }
+                        gridAdapter = new GridAdapter(ListProductActivity.this, dataArrayList);
+                        Log.i("productItemList", dataArrayList.toString());
+                        binding.gridView.setAdapter(gridAdapter);
+                    } else {
+                        Log.e("Error", "Unexpected status");
+                    }
+                } else {
+                    Log.e("Error", "API call failed with error code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage());
+            }
+        });
+    }
+
 }

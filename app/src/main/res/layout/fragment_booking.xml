@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="16dp">
+
+    <!-- App bar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/teal_200"
+        android:gravity="center"
+        app:contentInsetEnd="0dp"
+        app:contentInsetEndWithActions="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:subtitleTextColor="@android:color/white"
+        app:title="Đặt lịch làm tóc"
+        app:titleMarginEnd="16dp"
+        app:titleMarginStart="16dp"
+        app:titleTextColor="@android:color/white" />
+
+    <!-- Spinner chọn salon -->
+    <LinearLayout
+        android:id="@+id/pickSalon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/iconHairSalon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="DatePicker Icon"
+            android:src="@drawable/salon" />
+
+        <!-- Label -->
+        <TextView
+            android:id="@+id/tl2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Chọn salon"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Spinner chọn salon -->
+    <Spinner
+        android:id="@+id/spinner_salon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pickSalon"
+        android:layout_marginTop="16dp" />
+
+    <!-- Spinner chọn dịch vụ -->
+    <LinearLayout
+        android:id="@+id/pickService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_salon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/iconService"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="DatePicker Icon"
+            android:src="@drawable/hair_salon" />
+
+        <!-- Label -->
+        <TextView
+            android:id="@+id/tl3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Chọn dịch vụ"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Spinner chọn dịch vụ -->
+    <Spinner
+        android:id="@+id/spinner_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pickService"
+        android:layout_marginTop="16dp" />
+
+    <!-- Spinner chọn stylist -->
+    <LinearLayout
+        android:id="@+id/pickStylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_service"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/iconStylist"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="DatePicker Icon"
+            android:src="@drawable/stylist" />
+
+        <!-- Label -->
+        <TextView
+            android:id="@+id/tl4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Chọn Stylist"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Spinner chọn stylist -->
+    <Spinner
+        android:id="@+id/spinner_stylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pickStylist"
+        android:layout_marginTop="16dp" />
+
+    <!-- Chọn ngày -->
+    <TextView
+        android:id="@+id/tl5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_stylist"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:text="Chọn ngày"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/pickDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tl5"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/buttonChooseDate"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="DatePicker Icon"
+            android:src="@drawable/calendar" />
+
+        <!-- Label -->
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Nhấn để chọn ngày"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Chọn giờ -->
+    <TextView
+        android:id="@+id/txLabel6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pickDate"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Chọn giờ"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/pickTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txLabel6"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Icon -->
+        <ImageView
+            android:id="@+id/buttonChooseTime"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="TimePicker Icon"
+            android:src="@drawable/clock" />
+
+        <!-- Label -->
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Nhấn để chọn giờ"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Xác nhận -->
+    <Button
+        android:id="@+id/button_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pickTime"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Xác nhận" />
+
+</RelativeLayout>

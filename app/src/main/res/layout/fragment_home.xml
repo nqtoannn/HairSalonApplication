@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.home.HomeFragment">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:src="@drawable/barbershop_banner" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="10dp">
+                                <ImageView
+                                    android:id="@+id/iAvatar"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/userlogo"
+                                    android:layout_weight="01">
+                                </ImageView>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Nguyễn Quốc Toản"
+                                    android:id="@+id/txtUsername"
+                                    android:textSize="18sp"
+                                    android:layout_weight="01">
+                                </TextView>
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/shopping_cart"
+                                    android:layout_gravity="end"
+                                    android:id="@+id/iconCart"
+                                    >
+                                </ImageView>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/notification"
+                                    android:paddingLeft="10dp"
+                                    android:layout_gravity="end"
+                                    android:id="@+id/iconNotification">
+                                </ImageView>
+                        </LinearLayout>
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                        <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/btnHomeBooking"
+                                            android:layout_width="90dp"
+                                            android:layout_height="90dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:drawableTop="@drawable/booking_yellow"
+                                            android:text="Đặt lịch" />
+
+                                        <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/btnHomeHistory"
+
+                                            android:layout_width="90dp"
+                                            android:layout_height="90dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:drawableTop="@drawable/history"
+                                            android:text="Lịch sử" />
+
+                                        <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/btnHomeListPrice"
+                                            android:layout_width="90dp"
+                                            android:layout_height="90dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:drawableTop="@drawable/listprice"
+                                            android:text="Bảng giá" />
+
+                                        <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/btnHomeSale"
+                                            android:layout_width="90dp"
+                                            android:layout_height="90dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:drawableTop="@drawable/sale"
+                                            android:text="Ưu đãi" />
+
+                                        <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/btnListSalon"
+                                            android:layout_width="90dp"
+                                            android:layout_height="90dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:drawableTop="@drawable/location"
+                                            android:text="Salon" />
+                                </LinearLayout>
+
+                        </HorizontalScrollView>
+
+                        <TextView
+                            android:id="@+id/txtTopsp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                                android:text="Top sản phẩm"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                            android:padding="5dp">
+                        </TextView>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view_products"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txtTopsp"
+                            android:layout_marginTop="10dp"/>
+                        <TextView
+                            android:id="@+id/txtDanhsach"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Danh sách dịch vụ"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="10dp"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view_service"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txtDanhsach"
+                            android:layout_marginTop="10dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tin tức nổi bật"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                </LinearLayout>
+
+        </ScrollView>
+
+</RelativeLayout>
+
+
+
+
+</FrameLayout>

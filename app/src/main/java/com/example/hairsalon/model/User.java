@@ -1,28 +1,18 @@
 package com.example.hairsalon.model;
 
-import java.io.Serializable;
+public class User {
 
-public class User implements Serializable {
-    private Integer id;
     private String userName;
     private String email;
     private String password;
     private String role;
 
-    public User(Integer id, String userName, String password, String role, String email) {
-        this.id = id;
+
+    public User(String userName, String password, String role, String email) {
         this.userName = userName;
         this.email = email;
         this.password = password;
         this.role = role;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getUserName() {
@@ -58,3 +48,4 @@ public class User implements Serializable {
     }
 
 }
+

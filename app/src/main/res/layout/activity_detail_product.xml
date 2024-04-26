@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.product.DetailProductActivity">
+
+    <!-- Hình ảnh sản phẩm -->
+    <ImageView
+        android:id="@+id/image_product"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/maggi"
+        android:scaleType="centerCrop"/>
+
+    <!-- Tên sản phẩm -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/image_product">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Your existing layout content here -->
+
+            <TextView
+                android:id="@+id/text_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Tên sản phẩm"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/text_product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_product_name"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/price_placeholder"
+                android:textSize="16sp"/>
+            <!-- Hàng ngang chứa biểu tượng đánh giá -->
+            <LinearLayout
+                android:id="@+id/rating_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_product_price"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <!-- Biểu tượng đánh giá 5* -->
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/star"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/star"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/star"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/star"
+                    android:layout_marginEnd="4dp"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/star"
+                    android:layout_marginEnd="4dp"/>
+            </LinearLayout>
+
+            <!-- Mô tả về sản phẩm -->
+
+            <TextView
+                android:id="@+id/text_product_description_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_product_price"
+                android:layout_marginTop="50dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Mô tả sản phẩm:"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/text_product_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_product_description_label"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textStyle="italic"
+                android:text="Mô tả chi tiết về sản phẩm"
+                android:textSize="14sp"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+    <!-- Nút Mua ngay -->
+
+    <!-- Nút Thêm vào giỏ hàng -->
+
+    <!-- Biểu tượng giỏ hàng -->
+
+    <!-- Số lượng sản phẩm trong giỏ hàng -->
+
+
+    <Button
+        android:id="@+id/button_buy_now"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="201dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="24dp"
+        android:text="Mua ngay" />
+
+    <Button
+        android:id="@+id/button_add_to_cart"
+        android:layout_width="179dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_buy_now"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="221dp"
+        android:layout_marginBottom="-48dp"
+        android:drawableStart="@drawable/shopping_cart"
+        android:text="Thêm vào giỏ hàng" />
+
+    <ImageView
+        android:id="@+id/icon_cart"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/shopping_cart" />
+
+    <TextView
+        android:id="@+id/text_cart_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/icon_cart"
+        android:layout_alignEnd="@id/icon_cart"
+        android:layout_marginTop="-12dp"
+        android:layout_marginEnd="-9dp"
+        android:background="@color/transparent"
+        android:padding="4dp"
+        android:text="0"
+        android:textColor="#E31111"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

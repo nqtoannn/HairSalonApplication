@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- TextView tiêu đề -->
+    <TextView
+        android:id="@+id/customAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        android:text="Chi tiết dịch vụ tóc"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <!-- Các TextView hiển thị thông tin cuộc hẹn -->
+    <LinearLayout
+        android:id="@+id/nameSalon"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/customAppBar"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivSalon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="Service Icon"
+            android:src="@drawable/hair_salon" />
+
+        <TextView
+            android:id="@+id/tvNameSalon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Tên salon: Salon phường Linh Trung"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nameService"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameSalon"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivService"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="Service Icon"
+            android:src="@drawable/salon" />
+
+        <TextView
+            android:id="@+id/tvNameService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Tên dịch vụ: Cắt tóc 7 bước"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <!-- Time Layout -->
+    <LinearLayout
+        android:id="@+id/layoutTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/nameService"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivTime"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="DatePicker Icon"
+            android:src="@drawable/clock" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="04/02/2024, 9h30"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/layoutTime"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivAddress"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="DatePicker Icon"
+            android:src="@drawable/location_pin" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Đường số 8, Linh Trung, TP Thủ Đức"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <!-- Stylist Layout -->
+    <LinearLayout
+        android:id="@+id/layoutStylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/layoutAddress"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iconHairSalon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription="DatePicker Icon"
+            android:src="@drawable/stylist" />
+
+        <TextView
+            android:id="@+id/tvStylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Nguyễn Ngọc Thông"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hủy lịch"/>
+
+<!--        <Button-->
+<!--            android:id="@+id/buttonModify"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Sửa đổi lịch"/>-->
+
+    </LinearLayout>
+
+</RelativeLayout>
