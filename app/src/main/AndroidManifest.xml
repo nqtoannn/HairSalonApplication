@@ -69,7 +69,7 @@
             android:name=".activity.order.SuccessPay"
             android:exported="false" />
         <activity
-            android:name=".activity.navbar.HomeCustomer"
+            android:name=".activity.home.HomeCustomer"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

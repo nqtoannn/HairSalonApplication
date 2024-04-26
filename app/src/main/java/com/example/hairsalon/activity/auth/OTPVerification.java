@@ -27,7 +27,7 @@ import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.model.AuthenticationRequest;
 import com.example.hairsalon.model.ResponseAuthData;
 import com.example.hairsalon.model.User;
-import com.example.hairsalon.activity.navbar.HomeCustomer;
+import com.example.hairsalon.activity.home.HomeCustomer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;

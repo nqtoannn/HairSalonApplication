@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
     TextView textView;
 
 
-    Button btnHistory;
+    Button btnHistory, btnBooking;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class HomeFragment extends Fragment {
         textView.setText(String.valueOf(customerId));
         recyclerView = binding.recyclerViewProducts;
         recyclerViewService = binding.recyclerViewService;
-
+        btnBooking = binding.btnHomeBooking;
         btnHistory = binding.btnHomeHistory;
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -126,6 +128,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void setControl(View view) {
-
+        btnBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout, new BookingFragment());
+                fragmentTransaction.addToBackStack(null); // Thêm Fragment hiện tại vào back stack
+                fragmentTransaction.commit();}
+        });
     }
 }
