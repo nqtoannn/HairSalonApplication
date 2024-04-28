@@ -7,3 +7,4 @@ App login with
 * Java
 * Gradle
 
+[Salon.java](app%2Fsrc%2Fmain%2Fjava%2Fcom%2Fexample%2Fhairsalon%2Fmodel%2FSalon.java)
