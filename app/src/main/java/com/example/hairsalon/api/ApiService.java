@@ -57,11 +57,18 @@ public interface ApiService {
     @POST("auth/authenticate")
     Call<ResponseAuthData> authenticateUser(@Body AuthenticationRequest request);
 
+    @GET("services/findAll")
+    Call<ResponseServiceData> getAllHairService();
+
     @GET("services/search/{name}")
     Call<ResponseServiceData> getHairService(@Path("name") String name);
 
+    @GET("salon/findAll")
+    Call<ResponseData> getAllSalons();
+    @GET("users/employee/findAll")
+    Call<ResponseData> getAllEmployees();
+
     @GET("services/findAll")
     Call<ResponseData> getAllHairService();
-
 
 }
