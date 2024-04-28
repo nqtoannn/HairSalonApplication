@@ -50,7 +50,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
     private ActivityAppointmentBinding binding;
     private int selectedSalonId = 1;
-    private int selectedServiceId = 1;
+    int selectedServiceId = 1;
     private int selectedStylistId = 1;
     List<Map<String, Object>> salonList;
     List<HairService> hairServiceList;

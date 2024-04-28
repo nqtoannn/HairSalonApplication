@@ -1,4 +1,4 @@
-package com.example.hairsalon.activity.navbar;
+package com.example.hairsalon.activity.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -18,7 +20,7 @@ import com.example.hairsalon.activity.home.HomeFragment;
 import com.example.hairsalon.activity.home.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class Navbar extends AppCompatActivity {
+public class HomeCustomer extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
@@ -28,7 +30,6 @@ public class Navbar extends AppCompatActivity {
         setContentView(R.layout.activity_navbar);
         bottomNavigationView = findViewById(R.id.bottomNavBar);
         frameLayout = findViewById(R.id.frameLayout);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -48,6 +49,25 @@ public class Navbar extends AppCompatActivity {
             }
         });
         loadFragment(new HomeFragment(), true);
+    }
+
+    public void updateNavbar(Fragment fragment) {
+        if (fragment instanceof HomeFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navHome);
+            getSupportActionBar().setTitle("Home");
+        } else if (fragment instanceof ShopFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navShop);
+            getSupportActionBar().setTitle("Shop");
+        } else if (fragment instanceof BookingFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navBooking);
+            getSupportActionBar().setTitle("Booking");
+        } else if (fragment instanceof ExploreFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navExplore);
+            getSupportActionBar().setTitle("Explore");
+        } else if (fragment instanceof AccountFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navAccount);
+            getSupportActionBar().setTitle("Account");
+        }
     }
 
     private void loadFragment(Fragment fragment, boolean isAppInitialized) {

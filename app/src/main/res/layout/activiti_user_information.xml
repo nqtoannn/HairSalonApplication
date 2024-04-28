@@ -41,7 +41,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:id="@+id/ic_profile"
-            android:background="@drawable/user"/>
+            android:background="@drawable/userlogo"/>
         <TextView
             android:id="@+id/textView_show_full_name"
             android:layout_width="304dp"

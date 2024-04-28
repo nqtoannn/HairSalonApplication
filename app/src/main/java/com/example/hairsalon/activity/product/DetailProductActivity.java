@@ -25,6 +25,7 @@ import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.databinding.ActivityDetailProductBinding;
 import com.example.hairsalon.model.ResponseData;
+import com.example.hairsalon.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,14 +61,11 @@ public class DetailProductActivity extends AppCompatActivity {
             imageUrl = intent.getStringExtra("imageUrl");
             productItemId = intent.getIntExtra("productItemId", 0);
             binding.textProductName.setText(name);
-            binding.textProductDescription.setText(description);
-            String priceDisplay = String.valueOf(price);
-            String formattedPrice = String.format(getString(R.string.price_placeholder), priceDisplay);
-            binding.textProductPrice.setText(formattedPrice);
+            binding.textProductDescription.setText(description);;
+            binding.textProductPrice.setText(Utils.formatPrice(price));
             if (requestQueue == null) {
                 requestQueue = Volley.newRequestQueue(this);
             }
-
             ImageRequest imageRequest = new ImageRequest(
                     imageUrl,
                     new Response.Listener<Bitmap>() {

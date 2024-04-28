@@ -3,16 +3,20 @@ package com.example.hairsalon.activity.cart;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.hairsalon.R;
 import com.example.hairsalon.activity.order.PayActivity;
 import com.example.hairsalon.adapter.CartItemAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityCartBinding;
 import com.example.hairsalon.model.CartItem;
 import com.example.hairsalon.model.ResponseData;
+import com.example.hairsalon.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +33,7 @@ public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
     CartItemAdapter cartItemAdapter;
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
-    private List<Map<String, Object>>  cartItemList = new ArrayList<>();
+    private List<Map<String, Object>> cartItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +41,18 @@ public class CartActivity extends AppCompatActivity {
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getAllCartItem();
-
+        getAllCartItem(); // Bắt đầu lấy dữ liệu
         binding.payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CartActivity.this, PayActivity.class);
-                startActivity(intent);
+                if (dataArrayList.size() == 0) {
+                    Toast.makeText(CartActivity.this, "Bạn chưa có sản phẩm nào trong giỏ hàng", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(CartActivity.this, PayActivity.class);
+                    startActivity(intent);
+                }
             }
         });
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("BackTo", "Back");
-       // getAllCartItem();
     }
 
     private void getAllCartItem() {
@@ -61,28 +60,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
-                    double totalPrice = 0.0;
-                    ResponseData responseData = response.body();
-                    if (responseData != null && responseData.getStatus().equals("OK")) {
-                        cartItemList = responseData.getData(); // Lấy danh sách sản phẩm từ ResponseData
-                        for (Map<String, Object> cartItem : cartItemList) {
-                            Integer id = ((Number) cartItem.get("id")).intValue();
-                            String productItemName = (String) cartItem.get("productItemName");
-                            double price = (double) cartItem.get("price");
-                            Integer quantity = ((Number) Objects.requireNonNull(cartItem.get("quantity"))).intValue();
-                            String imageUrl = (String) cartItem.get("imageUrl");
-                            totalPrice += quantity * price;
-                            CartItem cartItemAdded = new CartItem(id, productItemName, quantity, imageUrl, price);
-                            dataArrayList.add(cartItemAdded);
-                        }
-                        Collections.reverse(dataArrayList);
-                        cartItemAdapter = new CartItemAdapter(CartActivity.this, dataArrayList);
-                        Log.i("productItemList", dataArrayList.toString());
-                        binding.listViewCart.setAdapter(cartItemAdapter);
-                        binding.totalPrice.setText(String.valueOf(totalPrice));
-                    } else {
-                        Log.e("Error", "No product data found in response");
-                    }
+                    processCartItems(response.body()); // Gọi phương thức xử lý dữ liệu khi nhận được dữ liệu từ máy chủ
                 } else {
                     Log.e("Error", "API call failed with error code: " + response.code());
                 }
@@ -95,4 +73,39 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
+    private void processCartItems(ResponseData responseData) {
+        Double totalPrice = 0.0;
+        if (responseData != null && responseData.getStatus().equals("OK")) {
+            cartItemList = responseData.getData();
+            for (Map<String, Object> cartItem : cartItemList) {
+                Integer id = ((Number) cartItem.get("id")).intValue();
+                String productItemName = (String) cartItem.get("productItemName");
+                double price = (double) cartItem.get("price");
+                Integer quantity = ((Number) Objects.requireNonNull(cartItem.get("quantity"))).intValue();
+                String imageUrl = (String) cartItem.get("imageUrl");
+                totalPrice += quantity * price;
+                CartItem cartItemAdded = new CartItem(id, productItemName, quantity, imageUrl, price);
+                dataArrayList.add(cartItemAdded);
+            }
+            Collections.reverse(dataArrayList);
+            cartItemAdapter = new CartItemAdapter(CartActivity.this, dataArrayList);
+            binding.listViewCart.setAdapter(cartItemAdapter);
+            binding.totalPrice.setText(Utils.formatPrice(totalPrice));
+            if (dataArrayList.size() == 0) {
+                binding.payButton.setEnabled(false);
+            } else {
+                binding.payButton.setEnabled(true);
+                binding.payButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
+            }
+        } else {
+            Log.e("Error", "No product data found in response");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("BackTo", "Back");
+        // getAllCartItem();
+    }
 }

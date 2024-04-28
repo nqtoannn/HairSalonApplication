@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.hairsalon.activity.shop.HomeShopActivity;
 import com.example.hairsalon.databinding.ActivitySuccessPayBinding;
 
 public class SuccessPay extends AppCompatActivity {
@@ -19,7 +21,7 @@ public class SuccessPay extends AppCompatActivity {
         binding.buttonBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SuccessPay.this, OrderHistoryActivity.class);
+                Intent intent = new Intent(SuccessPay.this, HomeShopActivity.class);
                 startActivity(intent);
             }
         });

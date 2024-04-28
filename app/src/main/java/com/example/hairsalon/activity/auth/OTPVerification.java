@@ -22,10 +22,12 @@ import android.widget.Toast;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.home.Home;
+import com.example.hairsalon.activity.home.HomeManage;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.model.AuthenticationRequest;
+import com.example.hairsalon.model.ResponseAuthData;
 import com.example.hairsalon.model.User;
-import com.example.hairsalon.activity.navbar.Navbar;
+import com.example.hairsalon.activity.home.HomeCustomer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -34,8 +36,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.concurrent.TimeUnit;
 
@@ -134,27 +134,61 @@ public class OTPVerification extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(OTPVerification.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getPhoneNumber(),mAuth.getCurrentUser().getUid());
-                    ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<Void>() {
+                    ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<ResponseAuthData>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                        public void onResponse(Call<ResponseAuthData> call, Response<ResponseAuthData> response) {
                             if (response.isSuccessful()) {
-                                startActivity(new Intent(OTPVerification.this, Navbar.class));
-                                Log.e("Error", "Done");
+                                ResponseAuthData responseAuthData = response.body();
+
+                                if(responseAuthData.getRole().equals("ADMIN")) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("userId", responseAuthData.getUserId());
+                                    Intent intent = new Intent(OTPVerification.this, HomeManage.class);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                } else if (responseAuthData.getRole().equals("CUSTOMER")){
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("customerId", responseAuthData.getUserId());
+                                    Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                                Log.e("Error", "login complete");
                             } else {
                                 User user = new User(mAuth.getCurrentUser().getPhoneNumber(),mAuth.getCurrentUser().getUid(),"CUSTOMER",mAuth.getCurrentUser().getPhoneNumber());
                                 ApiService.apiService.registerUser(user).enqueue(new Callback<Void>() {
                                     @Override
                                     public void onResponse(Call<Void> call, Response<Void> response) {
                                         AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getPhoneNumber(),mAuth.getCurrentUser().getUid());
-                                        ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<Void>() {
+                                        ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<ResponseAuthData>() {
                                             @Override
-                                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                                Log.e("Error", "Login done");
-                                                startActivity(new Intent(OTPVerification.this, Navbar.class));
+                                            public void onResponse(Call<ResponseAuthData> call, Response<ResponseAuthData> response) {
+                                                if (response.isSuccessful()) {
+                                                    ResponseAuthData responseAuthData = response.body();
+
+                                                    if(responseAuthData.getRole().equals("ADMIN")) {
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putInt("userId", responseAuthData.getUserId());
+                                                        Intent intent = new Intent(OTPVerification.this, HomeManage.class);
+                                                        intent.putExtras(bundle);
+                                                        startActivity(intent);
+                                                    } else if (responseAuthData.getRole().equals("CUSTOMER")){
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putInt("customerId", responseAuthData.getUserId());
+                                                        Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
+                                                        intent.putExtras(bundle);
+                                                        startActivity(intent);
+                                                    }
+                                                    Log.e("Error", "login complete");
+
+                                                } else {
+                                                    // Log thông báo "login failed"
+                                                    Log.e("Error", "login failed: ");
+                                                }
                                             }
 
                                             @Override
-                                            public void onFailure(Call<Void> call, Throwable t) {
+                                            public void onFailure(Call<ResponseAuthData> call, Throwable t) {
                                                 Log.e("Error", t.getMessage().toString());
                                             }
                                         });
@@ -168,7 +202,7 @@ public class OTPVerification extends AppCompatActivity {
                             }
                         }
                         @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<ResponseAuthData> call, Throwable t) {
                             Log.e("Error", "API call failed: " + t.getMessage());
                         }
                     });

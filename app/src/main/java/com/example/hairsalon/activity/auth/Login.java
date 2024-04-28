@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -18,10 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hairsalon.R;
-import com.example.hairsalon.activity.home.Home;
+import com.example.hairsalon.activity.home.HomeManage;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.model.AuthenticationRequest;
-import com.example.hairsalon.activity.navbar.Navbar;
+import com.example.hairsalon.activity.home.HomeCustomer;
+import com.example.hairsalon.model.ResponseAuthData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -133,24 +136,34 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
 
                         AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getEmail().toString(),mAuth.getCurrentUser().getUid().toString());
-                        ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<Void>() {
+                        ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<ResponseAuthData>() {
                             @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
+                            public void onResponse(Call<ResponseAuthData> call, Response<ResponseAuthData> response) {
                                 if (response.isSuccessful()) {
+                                    ResponseAuthData responseAuthData = response.body();
+                                    SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("userId", responseAuthData.getUserId());
+                                    editor.apply();
+                                    if(responseAuthData.getRole().equals("ADMIN")) {
+                                        Intent intent = new Intent(Login.this, HomeManage.class);
+                                        startActivity(intent);
+                                    } else if (responseAuthData.getRole().equals("CUSTOMER")){
+                                        Intent intent = new Intent(Login.this, HomeCustomer.class);
+                                        startActivity(intent);
+                                    }
                                     Log.e("Error", "login complete");
+
                                 } else {
+                                    // Log thông báo "login failed"
                                     Log.e("Error", "login failed: ");
                                 }
                             }
                             @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
+                            public void onFailure(Call<ResponseAuthData> call, Throwable t) {
                                 Log.e("Error", "API call failed: " + t.getMessage());
                             }
                         });
-//                        Intent intent = new Intent(Login.this, Home.class);
-//                        startActivity(intent);
-                        Intent intent = new Intent(Login.this, Navbar.class);
-                        startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Vui lòng xác thực email!",Toast.LENGTH_LONG).show();
                     }

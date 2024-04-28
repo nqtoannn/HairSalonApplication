@@ -6,6 +6,7 @@
 
     <application
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -13,32 +14,72 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".statistics.CustomerDetailActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerListActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".statistics.SanPham"
+            android:exported="false" />
+        <activity
+            android:name=".statistics.DoanhThu"
+            android:exported="false" />
+        <!--<activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />-->
+        <activity
+            android:name=".activity.home.HomeManage"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.appointment.AppointmentHistoryActivity"
-            android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name=".activity.appointment.AppointmentActivity" -->
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.appointment.AppointmentActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- <activity -->
+        <!-- android:name=".activity.shop.HomeShopActivity" -->
         <!-- android:exported="false" /> -->
-
-<!--        <activity-->
-<!--            android:name=".activity.shop.HomeShopActivity"-->
-<!--            android:exported="false" />-->
-         <activity
-         android:name=".activity.order.OrderHistoryActivity"
-         android:exported="false" />
-         <activity
-         android:name=".activity.product.ListProductActivity"
-         android:exported="false" />
-
+        <activity
+            android:name=".activity.order.OrderHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.product.ListProductActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.order.SuccessPay"
             android:exported="false" />
         <activity
-            android:name=".activity.navbar.Navbar"
-            android:exported="true" >
+            android:name=".activity.home.HomeCustomer"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.auth.Login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,13 +89,18 @@
         <activity
             android:name=".activity.order.PayActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.cart.CartActivity"
             android:exported="false" />
         <activity
             android:name=".activity.product.DetailProductActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.shop.HomeShopActivity"
             android:exported="true">
@@ -64,7 +110,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.auth.LoginWithOtp"
             android:exported="false" />
@@ -78,16 +123,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
         <activity
-            android:name=".activity.shop.HomeShopActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.auth.Login"
+            android:name=".statistics.CustomerListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

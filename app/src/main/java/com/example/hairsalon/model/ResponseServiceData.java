@@ -5,7 +5,7 @@ import java.util.List;
 public class ResponseServiceData {
     private String status;
     private String message;
-    private Data data;
+    private List<HairService> hairServices;
 
     public String getStatus() {
         return status;
@@ -23,23 +23,11 @@ public class ResponseServiceData {
         this.message = message;
     }
 
-    public Data getData() {
-        return data;
+    public List<HairService> getHairServices() {
+        return hairServices;
     }
 
-    public void setData(Data data) {
-        this.data = data;
-    }
-
-    public static class Data {
-        private List<HairService> hairService;
-
-        public List<HairService> getHairService() {
-            return hairService;
-        }
-
-        public void setHairService(List<HairService> hairService) {
-            this.hairService = hairService;
-        }
+    public void setHairServices(List<HairService> hairServices) {
+        this.hairServices = hairServices;
     }
 }
