@@ -111,27 +111,25 @@ public class AppointmentActivity extends AppCompatActivity {
 
         // Khởi tạo Spinner cho dịch vụ với tiêu đề
 
-        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseServiceData>() {
-            @Override
-            public void onResponse(Call<ResponseServiceData> call, retrofit2.Response<ResponseServiceData> response) {
-                if (response.isSuccessful()) {
-                    ResponseServiceData responseServiceData = response.body();
-                    if (responseServiceData != null && responseServiceData.getStatus().equals("OK")) {
-                        hairServiceList = responseServiceData.getData().getHairService();
-                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
-                    } else {
-                        Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
-                    }
-                } else {
-                    Log.e("Error", "API call failed with error code: " + response.code()); // Hiển thị thông báo nếu cuộc gọi API không thành công
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseServiceData> call, Throwable t) {
-                Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
-            }
-        });
+//        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseServiceData>() {
+//            @Override
+//            public void onResponse(Call<ResponseServiceData> call, retrofit2.Response<ResponseServiceData> response) {
+//                if (response.isSuccessful()) {
+//                    ResponseServiceData responseServiceData = response.body();
+//                    if (responseServiceData != null && responseServiceData.getStatus().equals("OK")) {// Tạo adapter mới với danh sách dịch vụ tóc
+//                    } else {
+//                        Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
+//                    }
+//                } else {
+//                    Log.e("Error", "API call failed with error code: " + response.code()); // Hiển thị thông báo nếu cuộc gọi API không thành công
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseServiceData> call, Throwable t) {
+//                Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
+//            }
+//        });
         List<Integer> serviceIds = new ArrayList<>();  // ID của các dịch vụ
         List<String> serviceNames = new ArrayList<>(); // Tên hiển thị của các dịch vụ
         for(HairService sv: hairServiceList){

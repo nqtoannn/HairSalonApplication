@@ -1,94 +1,227 @@
 package com.example.hairsalon.activity.auth;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
-import com.example.hairsalon.model.UserDetails;
-import com.google.firebase.Firebase;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.example.hairsalon.activity.home.HomeFragment;
+import com.example.hairsalon.api.ApiService;
+import com.example.hairsalon.constants.Constant;
+import com.example.hairsalon.databinding.ActivitiUserInformationBinding;
+import com.example.hairsalon.model.ResponseData;
+import com.example.hairsalon.model.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserProfileActivity extends AppCompatActivity
 {
-    private TextView textViewWelcome, textViewName, textViewEmail, textViewDob, textViewPhone;
+    private HomeFragment homeFragment;
+    private ActivitiUserInformationBinding binding;
+    private Button editButton;
     private ProgressBar progressBar;
-    private String fullName,email, doB,phone;
     private ImageView imgView;
-
+    private User user;
+    private List<Map<String, Object>> users = new ArrayList<>();
+    private  Integer customerId;
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.activiti_user_information);
+        binding = ActivitiUserInformationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Objects.requireNonNull(getSupportActionBar()).setTitle("Home");
+        SetEditableIs(false);
+        binding.btnEnableEditing.setActivated(true);
+        binding.btnApply.setActivated(false);
+        binding.btnCancel.setActivated(false);
+        Context context = homeFragment.getActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
 
-        textViewWelcome = findViewById(R.id.textView_show_welcome);
-        textViewName =findViewById(R.id.textView_show_full_name);
-        textViewEmail =findViewById(R.id.textView_show_email);
-        textViewDob =findViewById(R.id.textView_show_dob);
-        textViewPhone =findViewById(R.id.textView_show_phone);
-
-        FirebaseAuth authProfile = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = authProfile.getCurrentUser();
-
-        if(firebaseUser == null)
-        {
-            Toast.makeText(UserProfileActivity.this,
-                    "Something went wrong! User's detail are not available at the moment",
-                    Toast.LENGTH_LONG).show();
-        }else {
-            progressBar.setVisibility(View.VISIBLE);
-            showUserProfile(firebaseUser);
-        }
-
-
-    }
-
-    private void showUserProfile(FirebaseUser firebaseUser) {
-        String userID = firebaseUser.getUid();
-
-        //Extracting User Ref from DB for 'Registered Users'
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Registered Users");
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        ApiService.apiService.getCustomerByID(customerId).enqueue(new Callback<ResponseData>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserDetails readUserDetails = snapshot.getValue(UserDetails.class);
-                if(readUserDetails!=null)
-                {
-                fullName = firebaseUser.getDisplayName();
-                email = firebaseUser.getEmail();
-                doB = readUserDetails.doB;
-                phone = readUserDetails.phone;
-
-                textViewWelcome.setText("Welcom, " + fullName +"!");
-                textViewName.setText(fullName);
-                textViewEmail.setText(email);
-                textViewDob.setText(doB);
-                textViewPhone.setText(phone);
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if(response.isSuccessful()){
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        Map<String,Object> userInfo = responseData.getData().get(0);
+                            Integer id = ((Number) userInfo.get("id")).intValue();
+                            String fullName = (String) userInfo.get("fullName");
+                            String phoneNumber = (String) userInfo.get("phoneNumber");
+                            String add = (String) userInfo.get("address");
+                            String status = (String) userInfo.get("status");
+                            user = new User(fullName,phoneNumber,add,status);
+                    } else {
+                       Log.e("Error", "No user data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
+                   }
+            } else {
+                    Log.e("Error", "API call failed with error code: " + response.code()); // Hiển thị thông báo nếu cuộc gọi API không thành công
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(UserProfileActivity.this,"Something went wrong!",Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
+            }
+        });
+
+        SetValueToBinding(user);
+
+
+        binding.btnEnableEditing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SetEditableIs(true);
+                binding.btnEnableEditing.setActivated(false);
+                binding.btnApply.setActivated(true);
+                binding.btnCancel.setActivated(true);
+
+                SetPhoneEditConstrained();
+            }
+        });
+        binding.btnApply.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                makeEditRequest();
+                SetEditableIs(false);
+                binding.btnEnableEditing.setActivated(true);
+                binding.btnApply.setActivated(false);
+                binding.btnCancel.setActivated(false);
+            }
+        });
+        binding.btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SetValueToBinding(user);
+                SetEditableIs(false);
+                binding.btnEnableEditing.setActivated(true);
+                binding.btnApply.setActivated(false);
+                binding.btnCancel.setActivated(false);
             }
         });
     }
+    private void makeEditRequest() {
+        String apiUrl = Constant.baseUrl + "user/editUserInfor"; // đổi theo BE
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("userId", customerId); // id customer hiện tại
+            requestBody.put("fullName", binding.editTextShowFullName);// full name edit
+            requestBody.put("phoneNumber", binding.editTextShowPhone);// full name edit
+            requestBody.put("address", binding.editTextShowPhone);// full name edit
+            requestBody.put("status", binding.textViewShowStatus);
+            final String requestBodyString = requestBody.toString();
+            Log.i("request body", requestBodyString);
+            StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            // Xử lý phản hồi thành công từ máy chủ
+                            Toast.makeText(getApplicationContext(), "Đổi Info thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Xử lý lỗi khi gửi yêu cầu
+                            Log.e("appointment", error.getMessage());
+                            Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi đổi info", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Override
+                public byte[] getBody() {
+                    // Trả về mảng byte của requestBodyString
+                    return requestBodyString.getBytes();
+                }
 
+                @Override
+                public Map<String, String> getHeaders() {
+                    // Thiết lập tiêu đề yêu cầu
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+            };
+
+            // Thêm yêu cầu vào hàng đợi RequestQueue của Volley
+            Volley.newRequestQueue(this).add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi tạo yêu cầu", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void  SetPhoneEditConstrained(){
+        binding.editTextShowPhone.setEnabled(true);
+
+        EditText editTextPhone = binding.editTextShowPhone;
+        editTextPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Được gọi trước khi văn bản thay đổi. Không cần thiết cho việc này.
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Được gọi khi văn bản thay đổi.
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Được gọi sau khi văn bản thay đổi. Kiểm tra định dạng số điện thoại ở đây.
+                String phone = s.toString();
+                if (!isValidPhoneNumber(phone)) {
+                    editTextPhone.setError("Invalid phone number"); // Báo lỗi nếu số điện thoại không hợp lệ
+                } else {
+                    editTextPhone.setError(null); // Xóa báo lỗi nếu số điện thoại hợp lệ
+                }
+            }
+        });
+
+    }
+    private boolean isValidPhoneNumber(String phone) {
+        return phone.length() == 10 && phone.matches("\\d+"); // Kiểm tra độ dài là 10 ký tự và chỉ chứa các ký tự số
+    }
+
+    private void SetValueToBinding(User user){
+        binding.editTextShowFullName.setText(user.getUserName());
+        binding.editTextShowAddress.setText(user.getAddress());
+        binding.editTextShowPhone.setText(user.getPhone());
+        if(user.getStatus()){
+            binding.textViewShowStatus.setText("Active");
+
+        } else {
+            binding.textViewShowStatus.setText("Inactive");
+        }
+    }
+    private void SetEditableIs(boolean isEditable){
+        binding.editTextShowFullName.setEnabled(isEditable);
+        binding.editTextShowPhone.setEnabled(isEditable);
+        binding.editTextShowAddress.setEnabled(isEditable);
+    }
 }
