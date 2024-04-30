@@ -8,31 +8,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.cart.CartActivity;
-import com.example.hairsalon.activity.order.PayActivity;
-import com.example.hairsalon.activity.order.SuccessPay;
-import com.example.hairsalon.activity.product.ListProductActivity;
-import com.example.hairsalon.adapter.GridAdapter;
+import com.example.hairsalon.activity.product.ListProductSearchActivity;
 import com.example.hairsalon.adapter.ProductItemAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityHomeShopBinding;
-import com.example.hairsalon.databinding.ActivityListProductBinding;
-import com.example.hairsalon.model.ProductItem;
 import com.example.hairsalon.model.ResponseData;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -109,7 +101,7 @@ public class HomeShopActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     String searchQuery = binding.searchBar.getText().toString();
-                    Intent intent = new Intent(HomeShopActivity.this, ListProductActivity.class);
+                    Intent intent = new Intent(HomeShopActivity.this, ListProductSearchActivity.class);
                     intent.putExtra("searchQuery", searchQuery);
                     startActivity(intent);
                     return true;

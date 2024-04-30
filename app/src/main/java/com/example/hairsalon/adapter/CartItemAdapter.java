@@ -204,5 +204,4 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
         totalPriceTextView.setText(Utils.formatPrice(totalPrice));
     }
 
-
 }

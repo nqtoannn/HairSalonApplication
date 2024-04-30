@@ -5,12 +5,18 @@ import com.example.hairsalon.model.ResponseData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -24,6 +30,9 @@ public interface ApiService {
     @GET("productItem/findAll")
     Call<ResponseData> getProductItem();
 
+    @GET("services/findAll")
+    Call<ResponseData> getAllServiceHairs();
+
     @GET("productItem/search/{productItemName}")
     Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName);
 
@@ -35,6 +44,17 @@ public interface ApiService {
 
     @GET("orders/getAllOrdersByCustomerId/{customerId}")
     Call<ResponseData> getAllOrderByCustomerId(@Path("customerId") Integer customerId);
+    @Multipart
+    @POST("management/hairService/uploadImageServiceHair")
+    Call<Void> uploadServiceFile(@Part MultipartBody.Part file,
+                          @Query("namePath") String namePath,
+                          @Query("serviceHairId") String serviceHairId);
+
+    @Multipart
+    @POST("management/productItem/uploadImageProductItem")
+    Call<Void> uploadFile(@Part MultipartBody.Part file,
+                          @Query("namePath") String namePath,
+                          @Query("productItemId") String productItemId);
 
 
 }
