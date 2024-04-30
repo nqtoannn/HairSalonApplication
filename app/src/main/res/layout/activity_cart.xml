@@ -16,16 +16,16 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <!-- Layout cho mỗi item trong danh sách giỏ hàng -->
     <ListView
         android:id="@+id/list_view_cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_title"
+        android:layout_marginTop="8dp"
         android:divider="@null"
-        android:dividerHeight="0dp"
-        android:layout_marginTop="8dp" />
+        android:dividerHeight="0dp" />
 
-    <!-- Layout cho mỗi item trong danh sách giỏ hàng -->
     <include
         android:id="@+id/item_cart"
         layout="@layout/list_cart_item"
