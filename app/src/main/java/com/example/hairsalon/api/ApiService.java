@@ -35,6 +35,16 @@ public interface ApiService {
     @GET("users/findAll")
     Call<ResponseData> getUser();
 
+    @GET("management/getRevenueFromServiceByMonth/{year}/{month}")
+    Call<ResponseData> getRevenueFromServiceByMonth(@Path("year") int year, @Path("month") int month);
+
+
+    @GET("management/getRevenueFromProduct")
+    Call<ResponseData> getRevenueFromProduct();
+
+    @GET("management/getRevenueFromService")
+    Call<ResponseData> getRevenueFromService();
+
     @GET("productItem/search/{productItemName}")
     Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName);
 

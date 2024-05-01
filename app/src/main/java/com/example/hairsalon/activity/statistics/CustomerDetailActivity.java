@@ -1,4 +1,4 @@
-package com.example.hairsalon.statistics;
+package com.example.hairsalon.activity.statistics;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.databinding.ActivityCustomerDetailBinding;
-import com.example.hairsalon.databinding.ActivityDetailedBinding;
-import com.example.hairsalon.model.Customer;
 import com.example.hairsalon.model.User;
 
 public class CustomerDetailActivity extends AppCompatActivity {

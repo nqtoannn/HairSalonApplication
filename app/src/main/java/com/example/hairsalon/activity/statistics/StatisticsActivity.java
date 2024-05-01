@@ -1,4 +1,4 @@
-package com.example.hairsalon.statistics;
+package com.example.hairsalon.activity.statistics;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;

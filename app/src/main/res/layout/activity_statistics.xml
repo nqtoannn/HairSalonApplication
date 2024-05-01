@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".statistics.StatisticsActivity">
+    tools:context=".activity.statistics.StatisticsActivity">
 
     <ImageView
         android:id="@+id/imageView"
