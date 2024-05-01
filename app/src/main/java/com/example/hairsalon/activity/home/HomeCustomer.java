@@ -1,4 +1,4 @@
-package com.example.hairsalon.activity.navbar;
+package com.example.hairsalon.activity.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,39 +30,47 @@ public class HomeCustomer extends AppCompatActivity {
         setContentView(R.layout.activity_navbar);
         bottomNavigationView = findViewById(R.id.bottomNavBar);
         frameLayout = findViewById(R.id.frameLayout);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        int customerId = -1; // Set a default value if the ID is not found
-        if (bundle != null && bundle.containsKey("customerId")) {
-            customerId = bundle.getInt("customerId");
-        }
-        int finalCustomerId = customerId;
-        Log.d("ID", String.valueOf(finalCustomerId));
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemID = item.getItemId();
                 if( itemID == R.id.navHome){
-                    loadFragment(new HomeFragment(),false, finalCustomerId);
+                    loadFragment(new HomeFragment(),false);
                 } else if (itemID == R.id.navShop) {
-                    loadFragment(new ShopFragment(), false, finalCustomerId);
+                    loadFragment(new ShopFragment(), false);
                 } else if (itemID == R.id.navBooking) {
-                    loadFragment(new BookingFragment(), false, finalCustomerId);
+                    loadFragment(new BookingFragment(), false);
                 } else if (itemID == R.id.navExplore) {
-                    loadFragment(new ExploreFragment(), false, finalCustomerId);
+                    loadFragment(new ExploreFragment(), false);
                 } else {
-                    loadFragment(new AccountFragment(), false, finalCustomerId);
+                    loadFragment(new AccountFragment(), false);
                 }
                 return true;
             }
         });
-        loadFragment(new HomeFragment(), true, finalCustomerId);
+        loadFragment(new HomeFragment(), true);
     }
 
-    private void loadFragment(Fragment fragment, boolean isAppInitialized, int customerId) {
-        Intent intent = new Intent();
-        intent.putExtra("customerId", customerId);
-        fragment.setArguments(new Bundle(intent.getExtras()));
+    public void updateNavbar(Fragment fragment) {
+        if (fragment instanceof HomeFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navHome);
+            getSupportActionBar().setTitle("Home");
+        } else if (fragment instanceof ShopFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navShop);
+            getSupportActionBar().setTitle("Shop");
+        } else if (fragment instanceof BookingFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navBooking);
+            getSupportActionBar().setTitle("Booking");
+        } else if (fragment instanceof ExploreFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navExplore);
+            getSupportActionBar().setTitle("Explore");
+        } else if (fragment instanceof AccountFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.navAccount);
+            getSupportActionBar().setTitle("Account");
+        }
+    }
+
+    private void loadFragment(Fragment fragment, boolean isAppInitialized) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if(isAppInitialized){

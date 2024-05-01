@@ -64,6 +64,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.1.0")
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.squareup.retrofit2:retrofit:2.1.0")
+    implementation("androidx.activity:activity:1.8.0")
+    implementation(files("libs\\MPAndroidChart-v3.0.1.jar"))
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")

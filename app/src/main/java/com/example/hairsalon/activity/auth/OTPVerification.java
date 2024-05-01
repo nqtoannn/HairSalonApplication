@@ -27,7 +27,7 @@ import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.model.AuthenticationRequest;
 import com.example.hairsalon.model.ResponseAuthData;
 import com.example.hairsalon.model.User;
-import com.example.hairsalon.activity.navbar.HomeCustomer;
+import com.example.hairsalon.activity.home.HomeCustomer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -142,13 +142,13 @@ public class OTPVerification extends AppCompatActivity {
 
                                 if(responseAuthData.getRole().equals("ADMIN")) {
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("userId", responseAuthData.getUserId());
+                                    bundle.putInt("userId", responseAuthData.getAccountId());
                                     Intent intent = new Intent(OTPVerification.this, HomeManage.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                 } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("customerId", responseAuthData.getUserId());
+                                    bundle.putInt("customerId", responseAuthData.getAccountId());
                                     Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
@@ -168,13 +168,13 @@ public class OTPVerification extends AppCompatActivity {
 
                                                     if(responseAuthData.getRole().equals("ADMIN")) {
                                                         Bundle bundle = new Bundle();
-                                                        bundle.putInt("userId", responseAuthData.getUserId());
+                                                        bundle.putInt("userId", responseAuthData.getAccountId());
                                                         Intent intent = new Intent(OTPVerification.this, HomeManage.class);
                                                         intent.putExtras(bundle);
                                                         startActivity(intent);
                                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                                         Bundle bundle = new Bundle();
-                                                        bundle.putInt("customerId", responseAuthData.getUserId());
+                                                        bundle.putInt("customerId", responseAuthData.getAccountId());
                                                         Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
                                                         intent.putExtras(bundle);
                                                         startActivity(intent);

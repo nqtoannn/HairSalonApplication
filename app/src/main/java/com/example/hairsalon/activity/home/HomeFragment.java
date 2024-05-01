@@ -1,6 +1,8 @@
 package com.example.hairsalon.activity.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,28 +43,27 @@ public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
     List<Map<String, Object>> productItemList;
-    List<HairService> hairServiceList;
+    List<Map<String, Object>> hairServiceList;
     RecyclerView recyclerView;
     RecyclerView recyclerViewService;
     TextView textView;
 
 
-    Button btnHistory;
+    Button btnHistory, btnBooking;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        Bundle bundle = getArguments();
         textView = binding.txtUsername;
-        if (bundle != null && bundle.containsKey("customerId")) {
-            int id = bundle.getInt("customerId");
-            Log.d("Customer Id", String.valueOf(id));
-            textView.setText(String.valueOf(id));
-        }
+        Context context = getActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        Integer customerId = sharedPreferences.getInt("userId", -1);
+        Log.d("Customer Idddd", String.valueOf(customerId));
+        textView.setText(String.valueOf(customerId));
         recyclerView = binding.recyclerViewProducts;
         recyclerViewService = binding.recyclerViewService;
-
+        btnBooking = binding.btnHomeBooking;
         btnHistory = binding.btnHomeHistory;
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -92,14 +95,14 @@ public class HomeFragment extends Fragment {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
-        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseServiceData>() {
+        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseData>() {
             @Override
-            public void onResponse(Call<ResponseServiceData> call, Response<ResponseServiceData> response) {
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
-                    ResponseServiceData responseServiceData = response.body();
-                    if (responseServiceData != null && responseServiceData.getStatus().equals("OK")) {
-                        hairServiceList = responseServiceData.getData().getHairService();
-                        HairServiceAdapter adapter = new HairServiceAdapter(requireContext(),hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        hairServiceList = responseData.getData();
+                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
                         recyclerViewService.setAdapter(adapter); // Đặt adapter cho RecyclerView
                     } else {
                         Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
@@ -110,7 +113,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ResponseServiceData> call, Throwable t) {
+            public void onFailure(Call<ResponseData> call, Throwable t) {
                 Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
             }
         });
@@ -125,6 +128,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void setControl(View view) {
-
+        btnBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout, new BookingFragment());
+                fragmentTransaction.addToBackStack(null); // Thêm Fragment hiện tại vào back stack
+                fragmentTransaction.commit();}
+        });
     }
 }

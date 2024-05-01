@@ -5,26 +5,13 @@
       <entry key="AppointmentActivity">
         <State />
       </entry>
-      <entry key="AppointmentHistoryActivity">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="7XMZQW9XYP79HIQS" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-19T07:28:29.916236500Z" />
-        </State>
-      </entry>
       <entry key="DetailAppointmentActivity">
         <State />
       </entry>
       <entry key="HomeManage">
+        <State />
+      </entry>
+      <entry key="HomeShopActivity">
         <State />
       </entry>
       <entry key="Login">

@@ -23,6 +23,8 @@ import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.FragmentShopBinding;
 import com.example.hairsalon.model.ResponseData;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,8 @@ public class ShopFragment extends Fragment {
     private RecyclerView recyclerViewCheapProduct;
     private List<Map<String, Object>> productItemList;
 
+    private List<Map<String, Object>> cartItemList = new ArrayList<>();
+
     public ShopFragment() {
         // Required empty public constructor
     }
@@ -46,7 +50,6 @@ public class ShopFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentShopBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
         recyclerView = binding.recyclerViewProducts;
         recyclerViewCheapProduct = binding.recyclerViewProductsCheap;
 
@@ -67,7 +70,10 @@ public class ShopFragment extends Fragment {
                         productItemList = responseData.getData();
                         ProductItemAdapter adapter = new ProductItemAdapter(productItemList);
                         recyclerView.setAdapter(adapter);
-                        recyclerViewCheapProduct.setAdapter(adapter);
+                        List<Map<String, Object>> productItemListReverse = new ArrayList<>(productItemList);
+                        Collections.reverse(productItemListReverse);
+                        ProductItemAdapter cheapAdapter = new ProductItemAdapter(productItemListReverse);
+                        recyclerViewCheapProduct.setAdapter(cheapAdapter);
                     } else {
                         Log.e("Error", "No product data found in response");
                     }

@@ -32,6 +32,8 @@ public interface ApiService {
 
     @GET("services/findAll")
     Call<ResponseData> getAllServiceHairs();
+    @GET("users/findAll")
+    Call<ResponseData> getUser();
 
     @GET("productItem/search/{productItemName}")
     Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName);
@@ -56,5 +58,21 @@ public interface ApiService {
                           @Query("namePath") String namePath,
                           @Query("productItemId") String productItemId);
 
+    @POST("auth/register")
+    Call<Void> registerUser(@Body User user);
+
+    @POST("auth/authenticate")
+    Call<ResponseAuthData> authenticateUser(@Body AuthenticationRequest request);
+
+    @GET("services/search/{name}")
+    Call<ResponseServiceData> getHairService(@Path("name") String name);
+
+    @GET("salon/findAll")
+    Call<ResponseData> getAllSalons();
+    @GET("users/employee/findAll")
+    Call<ResponseData> getAllEmployees();
+
+    @GET("services/findAll")
+    Call<ResponseData> getAllHairService();
 
 }
