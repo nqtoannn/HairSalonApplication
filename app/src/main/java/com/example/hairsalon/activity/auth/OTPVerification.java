@@ -142,13 +142,13 @@ public class OTPVerification extends AppCompatActivity {
 
                                 if(responseAuthData.getRole().equals("ADMIN")) {
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("userId", responseAuthData.getUserId());
+                                    bundle.putInt("userId", responseAuthData.getAccountId());
                                     Intent intent = new Intent(OTPVerification.this, HomeManage.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                 } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("customerId", responseAuthData.getUserId());
+                                    bundle.putInt("customerId", responseAuthData.getAccountId());
                                     Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
@@ -168,13 +168,13 @@ public class OTPVerification extends AppCompatActivity {
 
                                                     if(responseAuthData.getRole().equals("ADMIN")) {
                                                         Bundle bundle = new Bundle();
-                                                        bundle.putInt("userId", responseAuthData.getUserId());
+                                                        bundle.putInt("userId", responseAuthData.getAccountId());
                                                         Intent intent = new Intent(OTPVerification.this, HomeManage.class);
                                                         intent.putExtras(bundle);
                                                         startActivity(intent);
                                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                                         Bundle bundle = new Bundle();
-                                                        bundle.putInt("customerId", responseAuthData.getUserId());
+                                                        bundle.putInt("customerId", responseAuthData.getAccountId());
                                                         Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
                                                         intent.putExtras(bundle);
                                                         startActivity(intent);

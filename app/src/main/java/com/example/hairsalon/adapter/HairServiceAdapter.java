@@ -74,8 +74,6 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
             holder.tvServiceName.setText((String) currentItem.get("serviceName"));
             holder.tvServicePrice.setText(String.valueOf(currentItem.get("price")) + " VND");
 
-            // Xử lý sự kiện khi nhấp vào hình ảnh
-            // Xử lý sự kiện khi nhấp vào hình ảnh
             holder.imageServiceView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

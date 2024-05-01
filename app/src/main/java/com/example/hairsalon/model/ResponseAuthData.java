@@ -2,7 +2,7 @@ package com.example.hairsalon.model;
 
 public class ResponseAuthData {
     private String role;
-    private Integer userId;
+    private Integer accountId;
     private String access_token;
     private String refresh_token;
 
@@ -14,12 +14,12 @@ public class ResponseAuthData {
         this.role = role;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public String getAccess_token() {

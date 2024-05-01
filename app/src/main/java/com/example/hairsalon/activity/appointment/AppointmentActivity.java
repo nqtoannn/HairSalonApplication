@@ -53,7 +53,7 @@ public class AppointmentActivity extends AppCompatActivity {
     int selectedServiceId = 1;
     private int selectedStylistId = 1;
     List<Map<String, Object>> salonList;
-    List<HairService> hairServiceList;
+    List<Map<String, Object>> hairServiceList;
     List<Map<String, Object>> employeeList;
 
     @Override
@@ -90,12 +90,8 @@ public class AppointmentActivity extends AppCompatActivity {
             }
 
         });
-        // Khởi tạo Spinner cho salon với tiêu đề
-       // Tên hiển thị của các salon
         ArrayAdapter<String> salonAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, salonNames);
         binding.spinnerSalon.setAdapter(salonAdapter);
-
-        // Xử lý sự kiện khi người dùng chọn salon từ spinner
         binding.spinnerSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -109,16 +105,22 @@ public class AppointmentActivity extends AppCompatActivity {
             }
         });
 
-        // Khởi tạo Spinner cho dịch vụ với tiêu đề
-
-        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseServiceData>() {
+        List<Integer> serviceIds = new ArrayList<>();
+        List<String> serviceNames = new ArrayList<>();
+        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseData>() {
             @Override
-            public void onResponse(Call<ResponseServiceData> call, retrofit2.Response<ResponseServiceData> response) {
+            public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
-                    ResponseServiceData responseServiceData = response.body();
-                    if (responseServiceData != null && responseServiceData.getStatus().equals("OK")) {
-                        hairServiceList = responseServiceData.getData().getHairService();
-                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        hairServiceList = responseData.getData();
+                        for (Map<String, Object> service:hairServiceList)
+                        {
+                            Integer id = (Integer) service.get("id");
+                            serviceIds.add(id);
+                            String serviceName = (String) service.get("serviceName");
+                            serviceNames.add(serviceName);
+                        }
                     } else {
                         Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
                     }
@@ -128,18 +130,10 @@ public class AppointmentActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseServiceData> call, Throwable t) {
+            public void onFailure(Call<ResponseData> call, Throwable t) {
                 Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
             }
         });
-        List<Integer> serviceIds = new ArrayList<>();  // ID của các dịch vụ
-        List<String> serviceNames = new ArrayList<>(); // Tên hiển thị của các dịch vụ
-        for(HairService sv: hairServiceList){
-            Integer id = sv.getId();
-            String serviceName = sv.getServiceName();
-            serviceIds.add(id);
-            serviceNames.add(serviceName);
-        }
         ArrayAdapter<String> serviceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, serviceNames);
         binding.spinnerService.setAdapter(serviceAdapter);
 

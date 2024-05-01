@@ -57,9 +57,6 @@ public interface ApiService {
     @POST("auth/authenticate")
     Call<ResponseAuthData> authenticateUser(@Body AuthenticationRequest request);
 
-    @GET("services/findAll")
-    Call<ResponseServiceData> getAllHairService();
-
     @GET("services/search/{name}")
     Call<ResponseServiceData> getHairService(@Path("name") String name);
 

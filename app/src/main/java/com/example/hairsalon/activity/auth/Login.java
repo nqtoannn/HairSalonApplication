@@ -143,7 +143,7 @@ public class Login extends AppCompatActivity {
                                     ResponseAuthData responseAuthData = response.body();
                                     SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putInt("userId", responseAuthData.getUserId());
+                                    editor.putInt("userId", responseAuthData.getAccountId());
                                     editor.apply();
                                     if(responseAuthData.getRole().equals("ADMIN")) {
                                         Intent intent = new Intent(Login.this, HomeManage.class);
