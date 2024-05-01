@@ -1,66 +1,97 @@
 package com.example.hairsalon.activity.manage;
-
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.hairsalon.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ServiceManageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.hairsalon.activity.servicehair.AddServiceHairActivity;
+import com.example.hairsalon.adapter.ListServiceHairAdapter;
+import com.example.hairsalon.api.ApiService;
+
+import com.example.hairsalon.databinding.FragmentServiceManageBinding;
+import com.example.hairsalon.model.ResponseData;
+import com.example.hairsalon.model.ServiceHair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 public class ServiceManageFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentServiceManageBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ArrayList<ServiceHair> dataArrayList = new ArrayList<>();
+    private List<Map<String, Object>> serviceHairList = new ArrayList<>();
 
-    public ServiceManageFragment() {
-        // Required empty public constructor
-    }
+    private ListServiceHairAdapter serviceHairAdapter;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ServiceManageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ServiceManageFragment newInstance(String param1, String param2) {
-        ServiceManageFragment fragment = new ServiceManageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentServiceManageBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Set up click listener for add button
+        binding.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start AddServiceHairActivity
+                Intent intent = new Intent(requireActivity(), AddServiceHairActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Fetch and display service hairs
+        getAllServiceHairs();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_service_manage, container, false);
+    private void getAllServiceHairs() {
+        ApiService.apiService.getAllServiceHairs().enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        dataArrayList.clear();
+                        serviceHairList = responseData.getData();
+                        for (Map<String, Object> serviceHair : serviceHairList) {
+                            Integer id = ((Number) serviceHair.get("id")).intValue();
+                            String serviceName = (String) serviceHair.get("serviceName");
+                            double price = (double) serviceHair.get("price");
+                            String imageUrl = (String) serviceHair.get("url");
+                            String description = (String) serviceHair.get("description");
+                            ServiceHair serviceHairAdd = new ServiceHair(id, serviceName, description, imageUrl, price);
+                            dataArrayList.add(serviceHairAdd);
+                        }
+                        serviceHairAdapter = new ListServiceHairAdapter(requireActivity(), dataArrayList);
+                        binding.gridView.setAdapter(serviceHairAdapter);
+                    } else {
+                        Log.e("Error", "No service hair data found in response");
+                    }
+                } else {
+                    Log.e("Error", "API call failed with error code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage());
+            }
+        });
     }
 }

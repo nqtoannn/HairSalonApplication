@@ -5,13 +5,13 @@
       <entry key="AppointmentActivity">
         <State />
       </entry>
-      <entry key="DetailAppointmentActivity">
-        <State />
-      </entry>
-      <entry key="HomeManage">
-        <State />
-      </entry>
       <entry key="HomeShopActivity">
+        <State />
+      </entry>
+      <entry key="ListProductItem">
+        <State />
+      </entry>
+      <entry key="ListServiceHairActivity">
         <State />
       </entry>
       <entry key="Login">

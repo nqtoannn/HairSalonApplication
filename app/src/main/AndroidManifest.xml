@@ -96,9 +96,6 @@
             android:name=".activity.product.DetailProductActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.navbar.Navbar"
-            android:exported="false" />
-        <activity
             android:name=".activity.auth.LoginWithOtp"
             android:exported="false" />
         <activity
@@ -110,11 +107,8 @@
         <activity android:name=".activity.home.Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
-            <activity
-                android:name=".activity.servicehair.ListServiceHairActivity"
-                android:exported="true">
         <activity
-            android:name=".statistics.CustomerListActivity"
+            android:name=".activity.servicehair.ListServiceHairActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -122,6 +116,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerListActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
     </application>
 
 </manifest>

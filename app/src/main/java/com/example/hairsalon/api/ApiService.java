@@ -1,7 +1,11 @@
 package com.example.hairsalon.api;
 
 import com.example.hairsalon.constants.Constant;
+import com.example.hairsalon.model.AuthenticationRequest;
+import com.example.hairsalon.model.ResponseAuthData;
 import com.example.hairsalon.model.ResponseData;
+import com.example.hairsalon.model.ResponseServiceData;
+import com.example.hairsalon.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,6 +14,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.cart.CartActivity;
-import com.example.hairsalon.activity.product.ListProductActivity;
+import com.example.hairsalon.activity.product.ListProductItem;
 import com.example.hairsalon.adapter.ProductItemAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.FragmentShopBinding;
@@ -101,7 +101,7 @@ public class ShopFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     String searchQuery = binding.searchBar.getText().toString();
-                    Intent intent = new Intent(requireContext(), ListProductActivity.class);
+                    Intent intent = new Intent(requireContext(), ListProductItem.class);
                     intent.putExtra("searchQuery", searchQuery);
                     startActivity(intent);
                     return true;

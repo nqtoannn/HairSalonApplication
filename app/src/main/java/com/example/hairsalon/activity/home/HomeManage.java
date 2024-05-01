@@ -46,7 +46,7 @@ public class HomeManage extends AppCompatActivity {
                 return true;
             }
         });
-        loadFragment(new HomeFragment(), true);
+        loadFragment(new ShopManageFragment(), true);
     }
 
     private void loadFragment(Fragment fragment, boolean isAppInitialized) {
