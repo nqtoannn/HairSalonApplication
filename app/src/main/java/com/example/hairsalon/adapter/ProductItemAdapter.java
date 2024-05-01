@@ -1,7 +1,5 @@
 package com.example.hairsalon.adapter;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,12 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
-import com.example.hairsalon.activity.cart.CartActivity;
 import com.example.hairsalon.activity.order.PayActivity;
 import com.example.hairsalon.activity.product.DetailProductActivity;
-import com.example.hairsalon.activity.product.ListProductActivity;
-import com.example.hairsalon.activity.shop.HomeShopActivity;
-import com.example.hairsalon.model.ProductItem;
 import com.example.hairsalon.utils.Utils;
 
 import java.util.List;

@@ -49,7 +49,6 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.grid_item, parent, false);
             holder = new ViewHolder();
@@ -87,10 +86,8 @@ public class GridAdapter extends BaseAdapter {
         );
 
         Volley.newRequestQueue(mContext).add(imageRequest);
-
         holder.textViewProductName.setText(productItem.getProductItemName());
         holder.textViewProductPrice.setText(Utils.formatPrice(productItem.getPrice()));
-
         return convertView;
     }
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,10 +12,14 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.servicehair.UpdateServiceHairActivity"
+            android:exported="false" />
         <activity
             android:name=".statistics.CustomerDetailActivity"
             android:exported="false" />
@@ -40,30 +45,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.appointment.AppointmentHistoryActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+             android:name=".activity.servicehair.AddServiceHairActivity"
+             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activity.servicehair.ListServiceHairActivity"-->
+<!--            android:exported="false"/>-->
         <activity
-            android:name=".activity.appointment.AppointmentActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- <activity -->
-        <!-- android:name=".activity.shop.HomeShopActivity" -->
-        <!-- android:exported="false" /> -->
+            android:name=".activity.product.AddProductItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.product.UpdateProductItemActivity"
+            android:exported="false" />
+         <activity
+         android:name=".activity.shop.HomeShopActivity"
+         android:exported="false" />
         <activity
             android:name=".activity.order.OrderHistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.product.ListProductActivity"
+            android:name=".activity.product.ListProductSearchActivity"
             android:exported="false" />
         <activity
             android:name=".activity.order.SuccessPay"
@@ -94,22 +94,10 @@
             android:exported="false" />
         <activity
             android:name=".activity.product.DetailProductActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
-            android:name=".activity.shop.HomeShopActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".activity.navbar.Navbar"
+            android:exported="false" />
         <activity
             android:name=".activity.auth.LoginWithOtp"
             android:exported="false" />
@@ -122,6 +110,9 @@
         <activity android:name=".activity.home.Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
+            <activity
+                android:name=".activity.servicehair.ListServiceHairActivity"
+                android:exported="true">
         <activity
             android:name=".statistics.CustomerListActivity"
             android:exported="true">
