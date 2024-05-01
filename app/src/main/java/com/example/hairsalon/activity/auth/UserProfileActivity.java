@@ -65,7 +65,7 @@ public class UserProfileActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
         customerId = sharedPreferences.getInt("userId", -1);
 
-        ApiService.apiService.getCustomerByID(customerId).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getCustomerByID(1).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if(response.isSuccessful()){
@@ -88,7 +88,7 @@ public class UserProfileActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-                Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
+                Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị kkmthông báo nếu cuộc gọi API thất bại
             }
         });
 
@@ -184,12 +184,10 @@ public class UserProfileActivity extends AppCompatActivity
         editTextPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Được gọi trước khi văn bản thay đổi. Không cần thiết cho việc này.
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Được gọi khi văn bản thay đổi.
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -212,12 +210,7 @@ public class UserProfileActivity extends AppCompatActivity
         binding.editTextShowFullName.setText(user.getUserName());
         binding.editTextShowAddress.setText(user.getAddress());
         binding.editTextShowPhone.setText(user.getPhone());
-        if(user.getStatus()){
-            binding.textViewShowStatus.setText("Active");
 
-        } else {
-            binding.textViewShowStatus.setText("Inactive");
-        }
     }
     private void SetEditableIs(boolean isEditable){
         binding.editTextShowFullName.setEnabled(isEditable);

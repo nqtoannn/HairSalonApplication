@@ -2,22 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AppointmentActivity">
-        <State />
-      </entry>
-      <entry key="DetailAppointmentActivity">
-        <State />
-      </entry>
-      <entry key="HomeManage">
-        <State />
-      </entry>
-      <entry key="HomeShopActivity">
-        <State />
-      </entry>
-      <entry key="Login">
-        <State />
-      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="userprofile">
         <State />
       </entry>
     </value>
