@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment {
         Integer customerId = sharedPreferences.getInt("userId", -1);
         Log.d("Customer Idddd", String.valueOf(customerId));
         textView.setText(String.valueOf(customerId));
-        recyclerView = binding.recyclerViewProducts;
         recyclerViewService = binding.recyclerViewService;
         btnBooking = binding.btnHomeBooking;
         btnHistory = binding.btnHomeHistory;
@@ -73,14 +72,14 @@ public class HomeFragment extends Fragment {
 
         GridLayoutManager layoutManagerService = new GridLayoutManager(requireContext(), spanCount, RecyclerView.HORIZONTAL, reverseLayout);
         recyclerViewService.setLayoutManager(layoutManagerService);
-        ApiService.apiService.getProductItem().enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
-                        productItemList = responseData.getData();
-                        ProductItemAdapter adapter = new ProductItemAdapter(productItemList);
+                        hairServiceList = responseData.getData();
+                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList);
                         recyclerView.setAdapter(adapter);
                     } else {
                         Log.e("Error", "No product data found in response");
@@ -117,7 +116,6 @@ public class HomeFragment extends Fragment {
                 Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
             }
         });
-
         setControl(view);
         setEvent();
         return view;

@@ -124,7 +124,7 @@
                             android:id="@+id/txtTopsp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                                android:text="Top sản phẩm"
+                                android:text="Top dịch vụ"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                             android:padding="5dp">
