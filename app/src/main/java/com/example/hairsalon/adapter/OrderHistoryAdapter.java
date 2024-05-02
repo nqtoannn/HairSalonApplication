@@ -1,6 +1,9 @@
 package com.example.hairsalon.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.order.OrderDetail;
 import com.example.hairsalon.model.Order;
 import com.example.hairsalon.model.OrderItem;
 
@@ -73,7 +77,7 @@ public class OrderHistoryAdapter extends ArrayAdapter<Order> {
                     holder.textStatus.setText("Người bán đang chuẩn bị hàng");
                     break;
                 case "REJECTED":
-                    holder.textStatus.setText("Đơn hàng đã bị từ chối vì sai sót bên cửa hàng");
+                    holder.textStatus.setText("Đơn hàng đã được hủy bởi khách hàng");
                     break;
                 case "DELIVERY":
                     holder.textStatus.setText("Đơn hàng được bàn giao cho đơn vị vận chuyển");
@@ -108,10 +112,27 @@ public class OrderHistoryAdapter extends ArrayAdapter<Order> {
                     }
             );
 
+
             // Add ImageRequest to Volley's request queue to load the image
             RequestQueue requestQueue = Volley.newRequestQueue(mContext);
             requestQueue.add(imageRequest);
         }
+
+        holder.productImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderItem orderItem = order.getOrderItems().get(0);
+                Intent intent = new Intent(mContext, OrderDetail.class);
+                intent.putExtra("orderId", order.getId());
+                intent.putExtra("nameProduct", orderItem.getProductItemName());
+                intent.putExtra("price", orderItem.getPrice());
+                intent.putExtra("address", "KTX Cỏ May, Khu phố 6, Linh Trung, Thủ Đức");
+                intent.putExtra("imageUrl", orderItem.getProductItemUrl());
+                intent.putExtra("status", order.getOrderStatus());
+                mContext.startActivity(intent); // Corrected line
+            }
+        });
+
 
         return view;
     }

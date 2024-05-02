@@ -15,7 +15,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.appointment.AppointmentActivity;
+import com.example.hairsalon.activity.appointment.AppointmentHistoryActivity;
 import com.example.hairsalon.activity.auth.Login;
+import com.example.hairsalon.activity.order.OrderHistoryActivity;
 import com.example.hairsalon.activity.manage.CustomerInfoFragment;
 import com.example.hairsalon.activity.manage.UserProfileFragment;
 import com.example.hairsalon.api.ApiService;
@@ -79,6 +82,24 @@ public class AccountFragment extends Fragment {
                 logout();
             }
         });
+
+        binding.btnBookingHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), AppointmentHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.btnOrderHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), OrderHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         return binding.getRoot();
     }
