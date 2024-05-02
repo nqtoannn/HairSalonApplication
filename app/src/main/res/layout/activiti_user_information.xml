@@ -60,13 +60,39 @@
                 android:layout_below="@id/editText_show_full_name"
                 android:background="@android:color/darker_gray"
                 android:id="@+id/divider_name"/>
+                <!--show email  -->
+                <ImageView
+                    android:id="@+id/ic_email"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@id/divider_name"
+                    android:layout_marginTop="31dp"
+                    android:background="@drawable/email" />
+
+                <TextView
+                    android:id="@+id/textView_show_email"
+                    android:layout_width="304dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/ic_email"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@id/divider_name"
+                    android:hint="Loading"
+                    android:textSize="18sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@id/textView_show_email"
+                    android:background="@android:color/darker_gray"
+                    android:id="@+id/divider_email"/>
             <!--show phone  -->
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:id="@+id/ic_phone"
                 android:background="@drawable/call"
-                android:layout_below="@id/divider_name"
+                android:layout_below="@id/divider_email"
                 android:layout_marginTop="20dp"/>
             <EditText
                 android:id="@+id/editText_show_phone"
@@ -75,7 +101,7 @@
                 android:layout_alignStart="@id/ic_profile"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@id/divider_name"
+                android:layout_below="@id/divider_email"
                 android:hint="Loading"
                 android:textSize="18sp" />
             <View
@@ -110,71 +136,55 @@
                 android:layout_below="@id/editText_show_address"
                 android:background="@android:color/darker_gray"
                 android:id="@+id/divider_address"/>
-                <!--show status  -->
-                <ImageView
-                    android:id="@+id/ic_status"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@id/divider_address"
-                    android:layout_marginTop="31dp"
-                    android:background="@drawable/status_icon" />
 
-                <TextView
-                    android:id="@+id/textView_show_status"
-                    android:layout_width="304dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignStart="@id/ic_status"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/divider_address"
-                    android:hint="Loading"
-                    android:textSize="18sp" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/textView_show_status"
-                    android:background="@android:color/darker_gray"
-                    android:id="@+id/divider_email"/>
         </RelativeLayout>
-
         <LinearLayout
+
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:orientation="vertical"
             android:background="@color/transparent">
+
             <Button
                 android:id="@+id/btn_enable_editing"
                 android:layout_width="323dp"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
 
-                android:outlineAmbientShadowColor="@color/black"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="45dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily=""
+                android:outlineAmbientShadowColor="@color/white"
                 android:text="Edit" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnCancel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Cancel"
-                    android:layout_marginRight="8dp"/>
-
-                <Button
-                    android:id="@+id/btnApply"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Apply"
-                    android:layout_marginLeft="8dp"/>
-
-            </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/edit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background_cancel"
+                android:text="Cancel"
+
+                />
+
+            <Button
+                android:id="@+id/btnApply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Apply"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/button_background_edit"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

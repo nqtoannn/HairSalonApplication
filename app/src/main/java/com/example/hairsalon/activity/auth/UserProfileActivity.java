@@ -1,6 +1,7 @@
 package com.example.hairsalon.activity.auth;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,13 +21,16 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hairsalon.R;
-import com.example.hairsalon.activity.home.HomeFragment;
+import com.example.hairsalon.activity.home.HomeCustomer;
+import com.example.hairsalon.activity.home.HomeManage;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.databinding.ActivitiUserInformationBinding;
+import com.example.hairsalon.model.AuthenticationRequest;
+import com.example.hairsalon.model.ResponseAuthData;
 import com.example.hairsalon.model.ResponseData;
 import com.example.hairsalon.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,33 +47,34 @@ import retrofit2.Response;
 
 public class UserProfileActivity extends AppCompatActivity
 {
-    private HomeFragment homeFragment;
     private ActivitiUserInformationBinding binding;
     private Button editButton;
     private ProgressBar progressBar;
     private ImageView imgView;
     private User user;
-    private List<Map<String, Object>> users = new ArrayList<>();
     private  Integer customerId;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle saveInstanceState){
+
         super.onCreate(saveInstanceState);
         binding = ActivitiUserInformationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Home");
         SetEditableIs(false);
         binding.btnEnableEditing.setActivated(true);
-        binding.btnApply.setActivated(false);
-        binding.btnCancel.setActivated(false);
-        Context context = homeFragment.getActivity();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("userId", -1);
+        binding.btnApply.setVisibility(View.GONE);
+        binding.btnCancel.setVisibility(View.GONE);
+//        Context context = homeFragment.getActivity();
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+//        customerId = sharedPreferences.getInt("userId", -1);
 
         ApiService.apiService.getCustomerByID(1).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if(response.isSuccessful()){
                     ResponseData responseData = response.body();
+                    Log.e("Success", "onResponse: " );
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         Map<String,Object> userInfo = responseData.getData().get(0);
                             Integer id = ((Number) userInfo.get("id")).intValue();
@@ -78,6 +83,8 @@ public class UserProfileActivity extends AppCompatActivity
                             String add = (String) userInfo.get("address");
                             String status = (String) userInfo.get("status");
                             user = new User(fullName,phoneNumber,add,status);
+                          SetValueToBinding(user);
+
                     } else {
                        Log.e("Error", "No user data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
                    }
@@ -92,7 +99,6 @@ public class UserProfileActivity extends AppCompatActivity
             }
         });
 
-        SetValueToBinding(user);
 
 
         binding.btnEnableEditing.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +108,8 @@ public class UserProfileActivity extends AppCompatActivity
                 binding.btnEnableEditing.setActivated(false);
                 binding.btnApply.setActivated(true);
                 binding.btnCancel.setActivated(true);
-
+                binding.btnApply.setVisibility(View.VISIBLE);
+                binding.btnCancel.setVisibility(View.VISIBLE);
                 SetPhoneEditConstrained();
             }
         });
@@ -112,11 +119,12 @@ public class UserProfileActivity extends AppCompatActivity
                 makeEditRequest();
                 SetEditableIs(false);
                 binding.btnEnableEditing.setActivated(true);
-                binding.btnApply.setActivated(false);
-                binding.btnCancel.setActivated(false);
+                binding.btnApply.setVisibility(View.GONE);
+                binding.btnCancel.setVisibility(View.GONE);
+
             }
         });
-        binding.btnApply.setOnClickListener(new View.OnClickListener() {
+        binding.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SetValueToBinding(user);
@@ -124,6 +132,8 @@ public class UserProfileActivity extends AppCompatActivity
                 binding.btnEnableEditing.setActivated(true);
                 binding.btnApply.setActivated(false);
                 binding.btnCancel.setActivated(false);
+                binding.btnApply.setVisibility(View.GONE);
+                binding.btnCancel.setVisibility(View.GONE);
             }
         });
     }
@@ -135,7 +145,7 @@ public class UserProfileActivity extends AppCompatActivity
             requestBody.put("fullName", binding.editTextShowFullName);// full name edit
             requestBody.put("phoneNumber", binding.editTextShowPhone);// full name edit
             requestBody.put("address", binding.editTextShowPhone);// full name edit
-            requestBody.put("status", binding.textViewShowStatus);
+
             final String requestBodyString = requestBody.toString();
             Log.i("request body", requestBodyString);
             StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
