@@ -13,10 +13,14 @@
         android:id="@+id/navStaffMn"
         android:icon="@drawable/teamwork"
         android:title="Staff" />
+<!--    <item-->
+<!--        android:id="@+id/navRevenueMn"-->
+<!--        android:icon="@drawable/revenue_manage"-->
+<!--        android:title="Revenue" />-->
     <item
-        android:id="@+id/navRevenueMn"
-        android:icon="@drawable/increase"
-        android:title="Revenue" />
+        android:id="@+id/navCustomerMn"
+        android:icon="@drawable/customer_manage"
+        android:title="Customer" />
     <item
         android:id="@+id/navAccountMn"
         android:icon="@drawable/userlogo"

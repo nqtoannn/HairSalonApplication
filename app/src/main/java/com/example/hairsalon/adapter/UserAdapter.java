@@ -33,7 +33,7 @@ public class UserAdapter extends ArrayAdapter<User> {
         int userId = userData.getId();
         ImageView listImage = view.findViewById(R.id.listImage);
         TextView listName = view.findViewById(R.id.listName);
-        listName.setText(userData.getUserName());
+        listName.setText(userData.getFullName());
         return view;
     }
 }

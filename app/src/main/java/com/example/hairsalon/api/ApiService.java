@@ -77,7 +77,7 @@ public interface ApiService {
 
     @GET("salon/findAll")
     Call<ResponseData> getAllSalons();
-    @GET("management/employee/findAll")
+    @GET("employee/findAll")
     Call<ResponseData> getAllEmployees();
     @GET("management/employee/findById/{employeeId}")
     Call<ResponseData> getEmployeeById(@Path("employeeId") Integer employeeId);
@@ -87,5 +87,9 @@ public interface ApiService {
 
     @POST("management/employee/updateStatusUser")
     Call<ResponseData> updateUserStatus(@Body JsonObject json);
+
+    @POST("auth/addEmployee")
+    Call<ResponseAuthData> addNewEmployee(@Body JsonObject json);
+
 
 }
