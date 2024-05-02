@@ -26,17 +26,14 @@ public class UserAdapter extends ArrayAdapter<User> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-        User listData = getItem(position);
-
+        User userData = getItem(position);
         if (view == null){
             view = LayoutInflater.from(getContext()).inflate(R.layout.list_customer, parent, false);
         }
-
+        int userId = userData.getId();
         ImageView listImage = view.findViewById(R.id.listImage);
         TextView listName = view.findViewById(R.id.listName);
-
-        listName.setText(listData.getUserName());
-
+        listName.setText(userData.getUserName());
         return view;
     }
 }

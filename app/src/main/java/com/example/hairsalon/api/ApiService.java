@@ -8,6 +8,9 @@ import com.example.hairsalon.model.ResponseServiceData;
 import com.example.hairsalon.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -37,8 +40,8 @@ public interface ApiService {
 
     @GET("services/findAll")
     Call<ResponseData> getAllServiceHairs();
-    @GET("users/findAll")
-    Call<ResponseData> getUser();
+    @GET("management/customer/findAll")
+    Call<ResponseData> getAllCustomner();
 
     @GET("productItem/search/{productItemName}")
     Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName);
@@ -76,6 +79,8 @@ public interface ApiService {
     Call<ResponseData> getAllSalons();
     @GET("employee/findAll")
     Call<ResponseData> getAllEmployees();
+    @GET("management/employee/findById/{employeeId}")
+    Call<ResponseData> getEmployeeById(@Path("employeeId") Integer employeeId);
 
     @GET("services/findAll")
     Call<ResponseData> getAllHairService();
@@ -84,5 +89,7 @@ public interface ApiService {
     Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") Integer customerId);
 
 
+    @POST("management/employee/updateStatusUser")
+    Call<ResponseData> updateUserStatus(@Body JsonObject json);
 
 }

@@ -18,6 +18,7 @@ import com.example.hairsalon.activity.home.BookingFragment;
 import com.example.hairsalon.activity.home.ExploreFragment;
 import com.example.hairsalon.activity.home.HomeFragment;
 import com.example.hairsalon.activity.home.ShopFragment;
+import com.example.hairsalon.activity.shop.HomeShopActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeCustomer extends AppCompatActivity {
