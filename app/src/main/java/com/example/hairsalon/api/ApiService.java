@@ -74,7 +74,7 @@ public interface ApiService {
 
     @GET("salon/findAll")
     Call<ResponseData> getAllSalons();
-    @GET("management/employee/findAll")
+    @GET("employee/findAll")
     Call<ResponseData> getAllEmployees();
 
     @GET("services/findAll")
