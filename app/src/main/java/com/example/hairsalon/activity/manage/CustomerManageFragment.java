@@ -1,7 +1,11 @@
 package com.example.hairsalon.activity.manage;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,35 +13,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-
 import com.example.hairsalon.R;
-import com.example.hairsalon.activity.product.AddProductItemActivity;
-import com.example.hairsalon.adapter.ListProductItemAdapter;
 import com.example.hairsalon.adapter.UserAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.FragmentEmployeeManageBinding;
-import com.example.hairsalon.model.ProductItem;
 import com.example.hairsalon.model.ResponseData;
 import com.example.hairsalon.model.User;
-import com.example.hairsalon.statistics.CustomerDetailActivity;
-import com.example.hairsalon.statistics.CustomerListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmployeeManageFragment extends Fragment {
+public class CustomerManageFragment extends Fragment {
     private FragmentEmployeeManageBinding binding;
     private ArrayList<User> dataArrayList = new ArrayList<>();
     private List<Map<String, Object>> employeeList = new ArrayList<>();
@@ -53,18 +44,14 @@ public class EmployeeManageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Call method to fetch product items
+        binding.labelName.setText("Danh sách khách hàng");
+        binding.btnAdd.setVisibility(View.GONE);
         getAllEmployee();
         binding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddEmployeeFragment fragment = new AddEmployeeFragment();
-                            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                            FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.replace(R.id.frameLayoutMn, fragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
+//                Intent intent = new Intent(requireActivity(), AddProductItemActivity.class);
+//                startActivity(intent);
             }
         });
         binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,7 +62,7 @@ public class EmployeeManageFragment extends Fragment {
 
                 if (selectedUser != null) {
                     int userId = selectedUser.getId();
-                    EmployeeInfoFragment fragment = EmployeeInfoFragment.newInstance(userId);
+                    CustomerInfoFragment fragment = CustomerInfoFragment.newInstance(userId);
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.frameLayoutMn, fragment);
@@ -87,7 +74,7 @@ public class EmployeeManageFragment extends Fragment {
     }
 
     private void getAllEmployee() {
-        ApiService.apiService.getAllEmployees().enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCustomner().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {

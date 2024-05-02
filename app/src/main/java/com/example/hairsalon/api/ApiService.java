@@ -92,4 +92,8 @@ public interface ApiService {
     @POST("management/employee/updateStatusUser")
     Call<ResponseData> updateUserStatus(@Body JsonObject json);
 
+    @POST("auth/addEmployee")
+    Call<ResponseAuthData> addNewEmployee(@Body JsonObject json);
+
+
 }

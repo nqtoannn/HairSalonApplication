@@ -23,7 +23,6 @@ public class AccountFragment extends Fragment {
 
     private Button btnLogOut;
     private TextView txtUsername;
-    private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,9 +34,6 @@ public class AccountFragment extends Fragment {
     }
 
     private void setEvent() {
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.getCurrentUser().getUid();
-        txtUsername.setText("User UID: " + mAuth.getCurrentUser().getUid());
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

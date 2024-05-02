@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.manage.CustomerManageFragment;
 import com.example.hairsalon.activity.manage.EmployeeManageFragment;
 import com.example.hairsalon.activity.manage.RevenueFragment;
 import com.example.hairsalon.activity.manage.ServiceManageFragment;
@@ -38,8 +39,10 @@ public class HomeManage extends AppCompatActivity {
                     loadFragment(new ServiceManageFragment(), false);
                 } else if (itemID == R.id.navStaffMn) {
                     loadFragment(new EmployeeManageFragment(), false);
-                } else if (itemID == R.id.navRevenueMn) {
-                    loadFragment(new RevenueFragment(), false);
+//                } else if (itemID == R.id.navRevenueMn) {
+//                    loadFragment(new RevenueFragment(), false);
+                } else if (itemID == R.id.navCustomerMn) {
+                    loadFragment(new CustomerManageFragment(), false);
                 } else {
                     loadFragment(new AccountFragment(), false);
                 }

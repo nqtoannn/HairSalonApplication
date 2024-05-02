@@ -126,6 +126,11 @@ public class AdminLogin extends AppCompatActivity {
 //                        startActivity(intent);
                         Toast.makeText( AdminLogin.this, "Vui lòng đăng nhập khách hàng!",Toast.LENGTH_SHORT).show();
                     }
+                    else if (responseAuthData.getRole().equals("EMPLOYEE")){
+                        Toast.makeText( AdminLogin.this, "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AdminLogin.this, HomeManage.class);
+                        startActivity(intent);
+                    }
                     Log.e("Error", "login complete");
 
                 } else {
