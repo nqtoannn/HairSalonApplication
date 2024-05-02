@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.Response;
 import retrofit2.Callback;
@@ -51,17 +52,18 @@ public class DoanhThu extends AppCompatActivity {
                 // Lấy ngày bắt đầu và ngày kết thúc từ TextViews
                 String startDate = binding.textViewDateStart.getText().toString();
                 String endDate = binding.textViewDateEnd.getText().toString();
-
                 // Kiểm tra xem đã chọn đủ ngày bắt đầu và ngày kết thúc chưa
                 if (!startDate.equals("Nhấn để chọn ngày bắt đầu") && !endDate.equals("Nhấn để chọn ngày kết thúc")) {
                     // Đã chọn đủ ngày bắt đầu và ngày kết thúc, thực hiện thống kê dữ liệu ở đây
+                    //Log.e("abc",""+startDate+"..a.."+endDate);
+
                     performStatistics(startDate, endDate);
                 } else {
                     // Nếu chưa chọn đủ ngày bắt đầu và ngày kết thúc, hiển thị thông báo cho người dùng
                     Toast.makeText(DoanhThu.this, "Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc!", Toast.LENGTH_SHORT).show();
                 }
                 // Hiển thị biểu đồ cột
-                //displayBarChart();
+                //performStatistics(startDate, endDate);
             }
         });
 
@@ -148,33 +150,39 @@ public class DoanhThu extends AppCompatActivity {
     private void performStatistics(String startDate, String endDate) {
         // Tạo danh sách dữ liệu để lưu trữ các mục của biểu đồ cột
         ArrayList<BarEntry> entries = new ArrayList<>();
-
+        Log.e("success","ád");
         // Lấy năm và tháng từ các ngày bắt đầu và kết thúc
         int startYear = getYearFromDateString(startDate);
         int startMonth = getMonthFromDateString(startDate);
         int endYear = getYearFromDateString(endDate);
         int endMonth = getMonthFromDateString(endDate);
+        //Log.e("abcdef", ".."+startYear+".."+startMonth+".."+endYear+".."+endMonth);
 
         // Gọi API để lấy dữ liệu doanh thu của từng tháng trong khoảng thời gian
         for (int year = startYear; year <= endYear; year++) {
             int monthStart = (year == startYear) ? startMonth : 1;
             int monthEnd = (year == endYear) ? endMonth : 12;
+            Log.e("abcdef",".."+monthStart+".."+monthEnd);
 
             for (int month = monthStart; month <= monthEnd; month++) {
                 int finalMonth = month;
+                Log.e("abcdef",".."+month);
                 ApiService.apiService.getRevenueFromServiceByMonth(year, month).enqueue(new Callback<ResponseData>() {
                     @Override
                     public void onResponse(retrofit2.Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                         if (response.isSuccessful() && response.body() != null) {
                             ResponseData responseData = response.body();
+                            Log.e("success","abc");
                             if (responseData.getData() != null && !responseData.getData().isEmpty()) {
                                 // Lấy tổng doanh thu của tháng từ dữ liệu trả về
-                                float revenueOfMonth = Float.parseFloat(responseData.getData().get(0).toString());
-                                entries.add(new BarEntry(finalMonth, revenueOfMonth));
-
+                                double revenueOfMonth = calculateTotalRevenue(responseData.getData());
+                                entries.add(new BarEntry((float) finalMonth, (float) revenueOfMonth));
+                                Log.e("success","11"+entries);
                                 // Hiển thị biểu đồ cột sau khi đã có đủ dữ liệu từ các tháng
                                 if (entries.size() == (endMonth - startMonth + 1)) {
                                     showBarChart(entries);
+                                    Log.e("success",""+entries);
+
                                 }
                             }
                         }
@@ -201,6 +209,16 @@ public class DoanhThu extends AppCompatActivity {
         BarData barData = new BarData(barDataSet);
         binding.barChart.setData(barData);
         binding.barChart.invalidate(); // Refresh biểu đồ
+    }
+
+    private double calculateTotalRevenue(List<Map<String, Object>> dataList) {
+        double totalRevenue = 0.0;
+        for (Map<String, Object> data : dataList) {
+            // Lấy giá trị doanh thu từ mục dữ liệu và cộng vào tổng doanh thu
+            double revenue = ((Number) data.get("value")).doubleValue();
+            totalRevenue += revenue;
+        }
+        return totalRevenue;
     }
 
 

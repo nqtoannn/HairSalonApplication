@@ -35,14 +35,14 @@ public interface ApiService {
     @GET("users/findAll")
     Call<ResponseData> getUser();
 
-    @GET("management/getRevenueFromServiceByMonth/{year}/{month}")
+    @GET("management/revenueFromServiceByMonth/{year}/{month}")
     Call<ResponseData> getRevenueFromServiceByMonth(@Path("year") int year, @Path("month") int month);
 
 
-    @GET("management/getRevenueFromProduct")
+    @GET("management/revenueFromProduct")
     Call<ResponseData> getRevenueFromProduct();
 
-    @GET("management/getRevenueFromService")
+    @GET("management/revenueFromService")
     Call<ResponseData> getRevenueFromService();
 
     @GET("productItem/search/{productItemName}")

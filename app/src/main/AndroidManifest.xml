@@ -22,9 +22,9 @@
 <!--        <activity-->
 <!--            android:name=".statistics.CustomerListActivity"-->
 <!--            android:exported="false" />-->
-        <activity
-            android:name=".activity.statistics.SanPham"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activity.statistics.SanPham"-->
+<!--            android:exported="false" />-->
 <!--        <activity-->
 <!--            android:name=".activity.statistics.DoanhThu"-->
 <!--            android:exported="false" />-->
