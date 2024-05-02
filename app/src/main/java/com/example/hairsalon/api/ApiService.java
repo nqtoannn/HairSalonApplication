@@ -95,5 +95,8 @@ public interface ApiService {
     @POST("auth/addEmployee")
     Call<ResponseAuthData> addNewEmployee(@Body JsonObject json);
 
+    @GET("management/customer/findById/{customerId}")
+    Call<ResponseData> getCustomerById(@Path("customerId") Integer customerId);
+
 
 }
