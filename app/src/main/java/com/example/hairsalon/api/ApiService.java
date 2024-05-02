@@ -22,6 +22,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -91,7 +92,8 @@ public interface ApiService {
 
     @POST("management/employee/updateStatusUser")
     Call<ResponseData> updateUserStatus(@Body JsonObject json);
-
+    @PUT("users/updateUserProfile")
+    Call<ResponseData> updateUserProfile(@Body JsonObject json);
     @POST("auth/addEmployee")
     Call<ResponseAuthData> addNewEmployee(@Body JsonObject json);
 

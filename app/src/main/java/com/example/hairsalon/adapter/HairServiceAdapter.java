@@ -1,5 +1,7 @@
 package com.example.hairsalon.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.appointment.AppointmentActivity;
 import com.example.hairsalon.activity.home.BookingFragment;
 import com.example.hairsalon.activity.servicehair.DetailServiceHairActivity;
 import com.example.hairsalon.model.HairService;
@@ -30,10 +33,11 @@ import java.util.Map;
 
 public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.HairServiceViewHolder> {
     private List<Map<String, Object>> serviceList;
-    private Context context;
+    //private FragmentManager fragmentManager;
+
 
     public HairServiceAdapter(List<Map<String, Object>> serviceList) {
-        //this.context = context;
+        //this.fragmentManager = fragmentManager;
         this.serviceList = serviceList;
     }
 
@@ -113,16 +117,18 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
             holder.btnBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    BookingFragment bookingFragment = new BookingFragment();
+//                    BookingFragment bookingFragment = new BookingFragment();
+//                    fragmentManager.beginTransaction()
+//                            .replace(R.id.frameLayout, bookingFragment)
+//                            .addToBackStack(null) // Để có thể quay lại Fragment trước đó
+//                            .commit();
+                    double idDouble = (Double) currentItem.get("id");
 
-                    // Truy cập FragmentManager từ context của ViewHolder
-                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-
-                    // Bắt đầu một transaction fragment và thêm BookingFragment vào fragment_container
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, bookingFragment)
-                            .addToBackStack(null) // Để có thể quay lại Fragment trước đó
-                            .commit();
+                    int idInt = Double.valueOf(idDouble).intValue();
+                    Intent intent2 = new Intent(holder.itemView.getContext(), AppointmentActivity.class);
+                    intent2.putExtra("serviceHairId", idInt);
+                    intent2.putExtra("serviceName", currentItem.get("serviceName").toString());
+                    holder.itemView.getContext().startActivity(intent2);
                 }
 
             });
