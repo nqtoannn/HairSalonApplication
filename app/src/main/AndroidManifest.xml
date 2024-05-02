@@ -58,12 +58,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.servicehair.UpdateServiceHairActivity"
-            android:exported="false" />
-        <activity
-            android:name=".statistics.CustomerDetailActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activity.servicehair.UpdateServiceHairActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerDetailActivity"-->
+<!--            android:exported="false" />-->
         <activity
          android:name=".statistics.CustomerListActivity"
          android:exported="true">
@@ -73,20 +73,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".statistics.SanPham"
-            android:exported="false" />
-        <activity
-            android:name=".statistics.DoanhThu"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".statistics.SanPham"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".statistics.DoanhThu"-->
+<!--            android:exported="false" />-->
         <!--
 <activity
             android:name=".statistics.StatisticsActivity"
             android:exported="false" />
         -->
-        <activity
-            android:name=".activity.home.HomeManage"
-            android:exported="false">
+<!--        <activity-->
+<!--            android:name=".activity.home.HomeManage"-->
+<!--            android:exported="false">-->
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -94,7 +94,6 @@
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
-        </activity>
         <activity
             android:name=".activity.servicehair.AddServiceHairActivity"
             android:exported="false" /> <!-- <activity -->
@@ -114,9 +113,6 @@
             android:exported="false" />
         <activity
             android:name=".activity.product.UpdateProductItemActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.shop.HomeShopActivity"
             android:exported="false" />
         <activity
             android:name=".activity.shop.HomeShopActivity"
