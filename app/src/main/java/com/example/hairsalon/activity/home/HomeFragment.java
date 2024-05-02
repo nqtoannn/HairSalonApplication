@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
         textView = binding.txtUsername;
         Context context = getActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        Integer customerId = sharedPreferences.getInt("userId", -1);
+        Integer customerId = sharedPreferences.getInt("userId", 1);
         ApiService.apiService.getCustomerById(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment {
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         Map<String, Object> customer = responseData.getData().get(0);
                         binding.txtUsername.setText(customer.get("fullName").toString());
-
                     }
                 } else {
                     Toast.makeText(requireContext(), "Thay đổi trạng thái tài khoản không thành công!", Toast.LENGTH_SHORT).show();
