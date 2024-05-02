@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.home.HomeManage;
 import com.example.hairsalon.activity.product.AddProductItemActivity;
 import com.example.hairsalon.activity.product.ListProductItem;
 import com.example.hairsalon.api.ApiService;
@@ -135,7 +136,7 @@ public class AddServiceHairActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Toast.makeText(AddServiceHairActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AddServiceHairActivity.this, ListServiceHairActivity.class);
+                Intent intent = new Intent(AddServiceHairActivity.this, HomeManage.class);
                 startActivity(intent);
             }
             @Override

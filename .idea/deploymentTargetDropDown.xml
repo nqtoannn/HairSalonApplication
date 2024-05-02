@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AppointmentActivity">
+      <entry key="AdminLogin">
         <State />
       </entry>
-      <entry key="HomeShopActivity">
+      <entry key="AppointmentActivity">
         <State />
       </entry>
       <entry key="ListProductItem">

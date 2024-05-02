@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity {
 
     EditText edtEmail, edtPassword;
     AppCompatButton btnLogin;
-    TextView txtForgetPassword,txtRegister;
+    TextView txtForgetPassword,txtRegister, txtAdminLogin;
     ImageView passwordIcon;
     RelativeLayout signInWithOTP;
     private FirebaseAuth mAuth;
@@ -57,9 +57,11 @@ public class Login extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         txtForgetPassword = findViewById(R.id.txtForgetPassword);
+        txtAdminLogin = findViewById(R.id.txtAdminLogin);
         txtRegister = findViewById(R.id.txtRegister);
         signInWithOTP = findViewById(R.id.signInOTP);
         passwordIcon = findViewById(R.id.passwordIcon);
+
     }
 
     private  void setEvent(){
@@ -81,6 +83,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
+            }
+        });
+        txtAdminLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, AdminLogin.class);
                 startActivity(intent);
             }
         });
@@ -133,7 +142,6 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     if(mAuth.getCurrentUser().isEmailVerified()){
-                        Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
 
                         AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getEmail().toString(),mAuth.getCurrentUser().getUid().toString());
                         ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<ResponseAuthData>() {
@@ -146,9 +154,10 @@ public class Login extends AppCompatActivity {
                                     editor.putInt("userId", responseAuthData.getAccountId());
                                     editor.apply();
                                     if(responseAuthData.getRole().equals("ADMIN")) {
-                                        Intent intent = new Intent(Login.this, HomeManage.class);
-                                        startActivity(intent);
+//                                        Intent intent = new Intent(Login.this, HomeManage.class);
+//                                        startActivity(intent);
                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
+                                        Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(Login.this, HomeCustomer.class);
                                         startActivity(intent);
                                     }
