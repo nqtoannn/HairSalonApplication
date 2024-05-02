@@ -74,10 +74,15 @@ public interface ApiService {
 
     @GET("salon/findAll")
     Call<ResponseData> getAllSalons();
-    @GET("users/employee/findAll")
+    @GET("management/employee/findAll")
     Call<ResponseData> getAllEmployees();
 
     @GET("services/findAll")
     Call<ResponseData> getAllHairService();
+
+    @GET("customer/findAllAppointmentByCustomerId/{customerId}")
+    Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") Integer customerId);
+
+
 
 }

@@ -7,7 +7,6 @@
 
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,54 +15,68 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.order.OrderDetail"
+            android:exported="false" />
+        <activity
+            android:name=".activity.servicehair.DetailServiceHairActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.servicehair.UpdateServiceHairActivity"
             android:exported="false" />
         <activity
             android:name=".statistics.CustomerDetailActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".statistics.CustomerListActivity"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".statistics.CustomerListActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".statistics.SanPham"
             android:exported="false" />
         <activity
             android:name=".statistics.DoanhThu"
             android:exported="false" />
-        <!--<activity
+        <!--
+<activity
             android:name=".statistics.StatisticsActivity"
-            android:exported="false" />-->
+            android:exported="false" />
+        -->
         <activity
             android:name=".activity.home.HomeManage"
-            android:exported="false"/>
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+            android:exported="false" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity
-             android:name=".activity.servicehair.AddServiceHairActivity"
-             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".activity.servicehair.ListServiceHairActivity"-->
-<!--            android:exported="false"/>-->
+            android:name=".activity.servicehair.AddServiceHairActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".activity.servicehair.ListServiceHairActivity" -->
+        <!-- android:exported="false"/> -->
         <activity
             android:name=".activity.product.AddProductItemActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.appointment.AppointmentHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.appointment.AppointmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.appointment.DetailAppointmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.product.UpdateProductItemActivity"
             android:exported="false" />
-         <activity
-         android:name=".activity.shop.HomeShopActivity"
-         android:exported="false" />
         <activity
-            android:name=".activity.order.OrderHistoryActivity"
+            android:name=".activity.shop.HomeShopActivity"
             android:exported="false" />
         <activity
             android:name=".activity.product.ListProductSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.order.OrderHistoryActivity"
             android:exported="false" />
         <activity
             android:name=".activity.order.SuccessPay"
@@ -71,16 +84,18 @@
         <activity
             android:name=".activity.home.HomeCustomer"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activity.auth.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -105,24 +120,6 @@
         <activity android:name=".activity.home.Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
-<!--        <activity-->
-<!--            android:name=".activity.servicehair.ListServiceHairActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-<!--        <activity-->
-<!--            android:name=".statistics.CustomerListActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
     </application>
 
 </manifest>

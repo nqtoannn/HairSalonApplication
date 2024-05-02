@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.appointment.AppointmentHistoryActivity;
 import com.example.hairsalon.activity.auth.Login;
 import com.example.hairsalon.adapter.HairServiceAdapter;
 import com.example.hairsalon.adapter.ProductItemAdapter;
@@ -42,7 +43,6 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
-    List<Map<String, Object>> productItemList;
     List<Map<String, Object>> hairServiceList;
     RecyclerView recyclerView;
     RecyclerView recyclerViewService;
@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
         Log.d("Customer Idddd", String.valueOf(customerId));
         textView.setText(String.valueOf(customerId));
         recyclerViewService = binding.recyclerViewService;
+        recyclerView = binding.recyclerViewService1;
         btnBooking = binding.btnHomeBooking;
         btnHistory = binding.btnHomeHistory;
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -78,6 +79,7 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
+                        hairServiceList = responseData.getData();
                         hairServiceList = responseData.getData();
                         HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList);
                         recyclerView.setAdapter(adapter);
@@ -119,7 +121,10 @@ public class HomeFragment extends Fragment {
         setControl(view);
         setEvent();
         return view;
+
     }
+
+
 
     private void setEvent() {
 
@@ -135,5 +140,13 @@ public class HomeFragment extends Fragment {
                 fragmentTransaction.addToBackStack(null); // Thêm Fragment hiện tại vào back stack
                 fragmentTransaction.commit();}
         });
+        binding.btnHomeHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), AppointmentHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
