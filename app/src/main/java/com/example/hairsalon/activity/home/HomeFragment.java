@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,6 +60,26 @@ public class HomeFragment extends Fragment {
         Context context = getActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
         Integer customerId = sharedPreferences.getInt("userId", -1);
+        ApiService.apiService.getCustomerById(customerId).enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        Map<String, Object> customer = responseData.getData().get(0);
+                        binding.txtUsername.setText(customer.get("fullName").toString());
+
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Thay đổi trạng thái tài khoản không thành công!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage());
+            }
+        });
         Log.d("Customer Idddd", String.valueOf(customerId));
         textView.setText(String.valueOf(customerId));
         recyclerViewService = binding.recyclerViewService;

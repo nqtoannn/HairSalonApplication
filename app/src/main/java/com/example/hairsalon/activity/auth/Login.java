@@ -154,8 +154,7 @@ public class Login extends AppCompatActivity {
                                     editor.putInt("userId", responseAuthData.getAccountId());
                                     editor.apply();
                                     if(responseAuthData.getRole().equals("ADMIN")) {
-//                                        Intent intent = new Intent(Login.this, HomeManage.class);
-//                                        startActivity(intent);
+
                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                         Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(Login.this, HomeCustomer.class);
