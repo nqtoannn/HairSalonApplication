@@ -11,14 +11,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.appointment.AppointmentActivity;
 import com.example.hairsalon.activity.appointment.AppointmentHistoryActivity;
 import com.example.hairsalon.activity.auth.Login;
 import com.example.hairsalon.activity.order.OrderHistoryActivity;
+import com.example.hairsalon.activity.manage.CustomerInfoFragment;
+import com.example.hairsalon.activity.manage.UserProfileFragment;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.FragmentAccountBinding;
+import com.example.hairsalon.model.Customer;
 import com.example.hairsalon.model.ResponseData;
 
 import java.util.Map;
@@ -60,6 +65,17 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        binding.btnCustomerProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProfileFragment fragment = UserProfileFragment.newInstance(customerId);
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.frameLayout, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         binding.btnLogOutAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +110,6 @@ public class AccountFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-
         // Điều hướng sang màn hình đăng nhập
         Intent intent = new Intent(requireActivity(), Login.class);
         startActivity(intent);

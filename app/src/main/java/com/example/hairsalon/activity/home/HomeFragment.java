@@ -139,16 +139,11 @@ public class HomeFragment extends Fragment {
             }
         });
         setControl(view);
-        setEvent();
         return view;
 
     }
 
 
-
-    private void setEvent() {
-
-    }
 
     private void setControl(View view) {
         btnBooking.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +152,7 @@ public class HomeFragment extends Fragment {
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frameLayout, new BookingFragment());
-                fragmentTransaction.addToBackStack(null); // Thêm Fragment hiện tại vào back stack
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();}
         });
         binding.btnHomeHistory.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +162,5 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
     }
 }
