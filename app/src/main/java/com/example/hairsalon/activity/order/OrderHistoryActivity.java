@@ -43,6 +43,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
+                    dataArrayList.clear();
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         List<Map<String, Object>> orderList = responseData.getData();
@@ -66,7 +67,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
                                 OrderItem orderItem = new OrderItem(orderItemId, price, quantity, productItemId, productItemUrl, productItemName);
                                 orderItems.add(orderItem);
                             }
-
                             Order orderData = new Order(id, orderItems, totalPrice, paymentMethod, orderStatus, orderDate);
                             dataArrayList.add(orderData);
                         }
@@ -86,5 +86,11 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllOrderItemHistory();
     }
 }
