@@ -72,8 +72,6 @@ public class DetailAppointmentActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 cancelAnAppointment();
-                finish();
-
             }
         });
         builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -99,6 +97,7 @@ public class DetailAppointmentActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             setResult(RESULT_OK);
                             Toast.makeText(getApplicationContext(), "Hủy đặt lịch thành công", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     },
                     new Response.ErrorListener() {

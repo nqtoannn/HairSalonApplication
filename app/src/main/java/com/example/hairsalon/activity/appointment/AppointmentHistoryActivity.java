@@ -43,7 +43,6 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
         binding.listViewAppointments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Lấy ra cuộc hẹn tương ứng với vị trí i trong danh sách
                 Appointment clickedAppointment = dataArrayList.get(i);
                 Log.i("clicked", clickedAppointment.getSalonName());
                 // Tạo intent để chuyển sang DetailAppointmentActivity và gửi dữ liệu cuộc hẹn
@@ -65,57 +64,49 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("BackTo", "Back");
-        try {
-            dataArrayList.clear();
-            // Cập nhật Adapter với dataArrayList trống
-            appointmentAdapter.notifyDataSetChanged();
-            getAllAppointments();
-        } catch (Exception e) {
-            Log.e("Loi", e.getMessage());
-        }
-
+        getAllAppointments();
     }
 
     private void getAllAppointments() {
+        ApiService.apiService.getAllAppointmentByCustomerId(1).enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    Log.i("appointment", "Thành công");
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        dataArrayList.clear();
+                        appointmentList = responseData.getData();
+                        for (Map<String, Object> appointment : appointmentList) {
+                            Integer id = ((Number) appointment.get("id")).intValue();
+                            String customerName = (String) appointment.get("customerName");
+                            String userName = (String) appointment.get("userName");
+                            String appointmentDate = (String) appointment.get("appointmentDate");
+                            String appointmentTime = (String) appointment.get("appointmentTime");
+                            String status = (String) appointment.get("status");
+                            String salonName = (String) appointment.get("salonName");
+                            String serviceName = (String) appointment.get("serviceName");
+                            String salonAddress = (String) appointment.get("salonAddress");
+                            Appointment appointmentAdded = new Appointment(id, customerName, appointmentTime, appointmentDate,
+                                    serviceName, status, userName, salonAddress, salonName);
+                            dataArrayList.add(appointmentAdded);
+                        }
+                        appointmentAdapter = new AppointmentAdapter(AppointmentHistoryActivity.this, dataArrayList);
+                        binding.listViewAppointments.setAdapter(appointmentAdapter);
+                        appointmentAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.e("appointment", "No product data found in response");
+                    }
+                } else {
+                    Log.e("appointment", "API call failed with error code: " + response.code());
+                }
+            }
 
-//        ApiService.apiService.getAllAppointmentByCustomerId(1).enqueue(new Callback<ResponseData>() {
-//            @Override
-//            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-//                if (response.isSuccessful()) {
-//                    Log.i("appointment", "Thành công");
-//                    ResponseData responseData = response.body();
-//                    if (responseData != null && responseData.getStatus().equals("OK")) {
-//                        appointmentList = responseData.getData();
-//                        for (Map<String, Object> appointment : appointmentList) {
-//                            Integer id = ((Number) appointment.get("id")).intValue();
-//                            String customerName = (String) appointment.get("customerName");
-//                            String userName = (String) appointment.get("userName");
-//                            String appointmentDate = (String) appointment.get("appointmentDate");
-//                            String appointmentTime = (String) appointment.get("appointmentTime");
-//                            String status = (String) appointment.get("status");
-//                            String salonName = (String) appointment.get("salonName");
-//                            String serviceName = (String) appointment.get("serviceName");
-//                            String salonAddress = (String) appointment.get("salonAddress");
-//                            Appointment appointmentAdded = new Appointment(id, customerName, appointmentTime, appointmentDate,
-//                                    serviceName, status, userName, salonAddress, salonName);
-//                            dataArrayList.add(appointmentAdded);
-//                        }
-//                        appointmentAdapter = new AppointmentAdapter(AppointmentHistoryActivity.this, dataArrayList);
-//                        binding.listViewAppointments.setAdapter(appointmentAdapter);
-//                    } else {
-//                        Log.e("appointment", "No product data found in response");
-//                    }
-//                } else {
-//                    Log.e("appointment", "API call failed with error code: " + response.code());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseData> call, Throwable t) {
-//                Log.e("appointment", "API call failed: " + t.getMessage());
-//            }
-//        });
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("appointment", "API call failed: " + t.getMessage());
+            }
+        });
     }
 
 

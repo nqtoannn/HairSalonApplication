@@ -16,24 +16,12 @@
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 
-    <!-- TextView Reminder -->
-    <TextView
-        android:id="@+id/textViewReminder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/customAppBar"
-        android:background="@color/teal_200"
-        android:padding="16dp"
-        android:text="Chỉ còn 1 ngày nữa là đến lịch hẹn làm tóc của bạn"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
-
     <!-- ListView for appointment info -->
     <ListView
         android:id="@+id/listViewAppointments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewReminder"
+        android:layout_below="@id/customAppBar"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"

@@ -52,6 +52,15 @@ public class BookingFragment extends Fragment {
     List<Map<String, Object>> hairServiceList;
     private int selectedStylistId = 1;
 
+    int[] serviceIds = null;
+    String[] serviceNames = {};
+
+    int[] salonIds;
+    String[] salonNames;
+
+     int[] stylistIds;
+     String[] stylistNames;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,24 +72,27 @@ public class BookingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize Spinner for salon with titles
-        List<Integer> salonIds =new ArrayList<>(); // ID của các salon
-        List<String> salonNames = new ArrayList<>(); //Tên các salon
-        ApiService.apiService.getAllSalons().enqueue(new Callback<ResponseData>(){
+        ApiService.apiService.getAllSalons().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
-                    if(responseData != null && responseData.getStatus().equals("OK")){
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
                         salonList = responseData.getData();
-                        for (Map<String, Object> salon:salonList)
-                        {
-//                            Integer id = Math.round(salon.get("id"));
-                            Integer id = Double.valueOf((Double) salon.get("id")).intValue();
-                            salonIds.add(id);
+                        salonIds = new int[salonList.size()];
+                        salonNames = new String[salonList.size()];
+                        int index = 0;
+                        for (Map<String, Object> salon : salonList) {
+                            Integer id = ((Double) salon.get("id")).intValue();
+                            salonIds[index] = id;
                             String salonName = (String) salon.get("salonName");
-                            salonNames.add(salonName);
+                            salonNames[index] = salonName;
+                            index++;
                         }
+
+                        // Tạo ArrayAdapter từ mảng salonNames và gắn nó vào Spinner
+                        ArrayAdapter<String> salonAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, salonNames);
+                        binding.spinnerSalon.setAdapter(salonAdapter);
                     } else {
                         Log.e("Error", "No salon data found in response");
                     }
@@ -88,23 +100,19 @@ public class BookingFragment extends Fragment {
                     Log.e("Error", "API call failed with error code: " + response.code());
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
-
         });
-        // Khởi tạo Spinner cho salon với tiêu đề
-        // Tên hiển thị của các salon
-        ArrayAdapter<String> salonAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, salonNames);
-        binding.spinnerSalon.setAdapter(salonAdapter);
 
-        // Xử lý sự kiện khi người dùng chọn salon từ spinner
+// Xử lý sự kiện khi người dùng chọn salon từ Spinner
         binding.spinnerSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Lưu ID của salon được chọn
-                selectedSalonId = salonIds.get(position);
+                int selectedSalonId = salonIds[position];
             }
 
             @Override
@@ -114,23 +122,30 @@ public class BookingFragment extends Fragment {
         });
 
 
+
         // Initialize Spinner for service with titles
-        List<Integer> serviceIds = new ArrayList<>();
-        List<String> serviceNames = new ArrayList<>();
+
         ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
-                        hairServiceList = responseData.getData();
-                        for (Map<String, Object> service:hairServiceList)
-                        {
-                            Integer id = Double.valueOf((Double) service.get("id")).intValue();
-                            serviceIds.add(id);
+                        List<Map<String, Object>> hairServiceList = responseData.getData();
+                        serviceIds = new int[hairServiceList.size()];
+                        serviceNames = new String[hairServiceList.size()];
+                        int index = 0;
+                        for (Map<String, Object> service : hairServiceList) {
+                            Integer id = ((Double) service.get("id")).intValue();
+                            serviceIds[index] = id;
                             String serviceName = (String) service.get("serviceName");
-                            serviceNames.add(serviceName);
+                            serviceNames[index] = serviceName;
+                            index++;
                         }
+
+                        // Tạo ArrayAdapter từ mảng serviceNames và gắn nó vào Spinner
+                        ArrayAdapter<String> serviceAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, serviceNames);
+                        binding.spinnerService.setAdapter(serviceAdapter);
                     } else {
                         Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
                     }
@@ -144,15 +159,12 @@ public class BookingFragment extends Fragment {
                 Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
             }
         });
-        ArrayAdapter<String> serviceAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, serviceNames);
-        binding.spinnerService.setAdapter(serviceAdapter);
 
-        // Xử lý sự kiện khi người dùng chọn dịch vụ từ spinner
         binding.spinnerService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Lưu ID của dịch vụ được chọn
-                selectedServiceId = serviceIds.get(position);
+                selectedServiceId = serviceIds[position];
             }
 
             @Override
@@ -161,24 +173,57 @@ public class BookingFragment extends Fragment {
             }
         });
 
-        // Initialize Spinner for stylist with titles
-        final int[] stylistIds = {1, 2, 3};
-        final String[] stylistNames = {"Stylist A", "Stylist B", "Stylist C"};
-        ArrayAdapter<String> stylistAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, stylistNames);
-        binding.spinnerStylist.setAdapter(stylistAdapter);
 
-        // Handle event when user selects stylist from spinner
+        // Initialize Spinner for stylist with titles
+
+        ApiService.apiService.getAllEmployees().enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        List<Map<String, Object>> stylistList = responseData.getData();
+                        stylistIds = new int[stylistList.size()];
+                        stylistNames = new String[stylistList.size()];
+                        int index = 0;
+                        for (Map<String, Object> service : stylistList) {
+                            Integer id = ((Double) service.get("id")).intValue();
+                            stylistIds[index] = id;
+                            String userName = (String) service.get("userName");
+                            stylistNames[index] = userName;
+                            index++;
+                        }
+
+                        // Tạo ArrayAdapter từ mảng serviceNames và gắn nó vào Spinner
+                        ArrayAdapter<String> stylistAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, stylistNames);
+                        binding.spinnerStylist.setAdapter(stylistAdapter);
+                    } else {
+                        Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
+                    }
+                } else {
+                    Log.e("Error", "API call failed with error code: " + response.code()); // Hiển thị thông báo nếu cuộc gọi API không thành công
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage()); // Hiển thị thông báo nếu cuộc gọi API thất bại
+            }
+        });
+
         binding.spinnerStylist.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Lưu ID của dịch vụ được chọn
                 selectedStylistId = stylistIds[position];
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Handle when no item is selected
+                // Xử lý khi không có mục nào được chọn
             }
         });
+
 
         // Handle event when user clicks on date
         binding.textViewDate.setOnClickListener(new View.OnClickListener() {

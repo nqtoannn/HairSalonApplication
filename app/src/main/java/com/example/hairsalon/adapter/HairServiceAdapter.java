@@ -1,6 +1,7 @@
 package com.example.hairsalon.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.home.BookingFragment;
+import com.example.hairsalon.activity.servicehair.DetailServiceHairActivity;
 import com.example.hairsalon.model.HairService;
 
 import java.util.List;
@@ -77,26 +79,24 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
             holder.imageServiceView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     // Lấy Context từ View được click
-//                Context context = holder.itemView.getContext();
-//
-//                // Tạo Intent để chuyển sang DetailProductActivity
-//                Intent intent = new Intent(context, DetailProductActivity.class);
-//
-//                // Truyền dữ liệu đi kèm trong Intent
-//
-//                double productId = (Double) currentItem.get("id");
-//                double price = (Double) currentItem.get("price");
-//                int productIdInteger = (int) productId;
-//                intent.putExtra("productItemId", productIdInteger);
-//                intent.putExtra("detailName", (String) currentItem.get("productItemName"));
-//                intent.putExtra("detailPrice", price); // Chuyển giá thành String
-//                intent.putExtra("detailDescription", (String) currentItem.get("description"));
-//                intent.putExtra("imageUrl", (String) currentItem.get("imageUrl"));
-//
-//
-//                // Start Activity
-//                context.startActivity(intent);
+                Context context = holder.itemView.getContext();
+
+                // Tạo Intent để chuyển sang DetailProductActivity
+                Intent intent = new Intent(context, DetailServiceHairActivity.class);
+
+                // Truyền dữ liệu đi kèm trong Intent
+                    double idDouble = (Double) currentItem.get("id");
+                    int idInt = Double.valueOf(idDouble).intValue();
+                    double price = (Double) currentItem.get("price");
+                intent.putExtra("serviceHairId", idInt);
+                intent.putExtra("detailName", (String) currentItem.get("serviceName"));
+                intent.putExtra("detailPrice", price); // Chuyển giá thành String
+                intent.putExtra("detailDescription", (String) currentItem.get("description"));
+                intent.putExtra("imageUrl", (String) currentItem.get("url"));
+                // Start Activity
+                context.startActivity(intent);
                 }
             });
 

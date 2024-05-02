@@ -62,7 +62,6 @@ public class ListProductItem extends AppCompatActivity {
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         // Xóa dữ liệu trước đó trong dataArrayList
                         dataArrayList.clear();
-
                         productItemList = responseData.getData();
                         for (Map<String, Object> productItem : productItemList) {
                             Integer id = ((Number) productItem.get("id")).intValue();

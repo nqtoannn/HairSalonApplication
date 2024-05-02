@@ -85,6 +85,10 @@ public interface ApiService {
     @GET("services/findAll")
     Call<ResponseData> getAllHairService();
 
+    @GET("customer/findAllAppointmentByCustomerId/{customerId}")
+    Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") Integer customerId);
+
+
     @POST("management/employee/updateStatusUser")
     Call<ResponseData> updateUserStatus(@Body JsonObject json);
 
