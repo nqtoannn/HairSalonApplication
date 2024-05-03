@@ -38,7 +38,6 @@ public class DetailAppointmentActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent intent = getIntent();
         if (intent != null) {
-            // Lấy dữ liệu từ intent và hiển thị lên giao diện
             String salonName = intent.getStringExtra("salonName");
             String serviceName = intent.getStringExtra("serviceName");
             String time = intent.getStringExtra("time");
@@ -46,25 +45,28 @@ public class DetailAppointmentActivity extends AppCompatActivity {
             time = time + ", ngày " + date;
             String address = intent.getStringExtra("address");
             String stylist = intent.getStringExtra("stylist");
-
-            // Hiển thị dữ liệu lên giao diện
             binding.tvNameSalon.setText("Tên salon: " + salonName);
             binding.tvNameService.setText("Tên dịch vụ: " + serviceName);
             binding.tvTime.setText("Thời gian: " + time);
             binding.tvAddress.setText("Địa chỉ: " + address);
             binding.tvStylist.setText("Stylist: " + stylist);
-        }if(!intent.getStringExtra("isEmployee").equals("WAITING")){
-            binding.buttonCancel.setVisibility(View.GONE);
-        };
-        if (intent.getStringExtra("isEmployee") != null) {
-            binding.buttonCancel.setText("Hoàn thành");
-            binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showConfirmationDialogDone();
-                }
-            });
-        }else {
+        }
+        if(intent.getStringExtra("isEmployee")!=null){
+            if (intent.getStringExtra("status").equals("WAITING")) {
+                binding.buttonCancel.setText("Hoàn thành");
+
+                binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showConfirmationDialogDone();
+                    }
+                });
+            }
+            else {
+                binding.buttonCancel.setVisibility(View.GONE);
+            }
+        }
+        else {
             binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

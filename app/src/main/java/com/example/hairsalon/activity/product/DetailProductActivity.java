@@ -2,7 +2,9 @@ package com.example.hairsalon.activity.product;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,7 +45,7 @@ public class DetailProductActivity extends AppCompatActivity {
     ActivityDetailProductBinding binding;
     RequestQueue requestQueue;
 
-    private Integer productItemId;
+    private Integer productItemId, cartId;
     private String name, imageUrl;
     private Double price;
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
@@ -52,7 +54,10 @@ public class DetailProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        cartId = sharedPreferences.getInt("cartId", -1);
         getAllCartItemsAndUpdateCount();
+
         Intent intent = getIntent();
         if (intent != null) {
             name = intent.getStringExtra("detailName");
@@ -127,7 +132,7 @@ public class DetailProductActivity extends AppCompatActivity {
 
     private void getAllCartItemsAndUpdateCount() {
         Log.i("Called Api", "Called");
-        ApiService.apiService.getAllCartItemsByCartId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
@@ -165,7 +170,7 @@ public class DetailProductActivity extends AppCompatActivity {
         String apiUrl = Constant.baseUrl + "customer/addToCart";
         try {
             JSONObject requestBody = new JSONObject();
-            requestBody.put("cart_id", 1);
+            requestBody.put("cart_id", cartId);
             requestBody.put("product_item_id", productItemId);
             requestBody.put("quantity", 1);
 
