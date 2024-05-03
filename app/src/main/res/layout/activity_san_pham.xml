@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".statistics.SanPham">
+    tools:context=".activity.statistics.SanPham">
 
     <ImageView
         android:id="@+id/imageView"
@@ -20,7 +20,7 @@
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thống kê theo Sản phẩm"
+        android:text="Thống kê giữa Sản phẩm và Doanh thu"
         android:textColor="#817828"
         android:textSize="24sp"
         android:textStyle="bold" />
