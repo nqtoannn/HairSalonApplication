@@ -132,7 +132,7 @@ public class PayActivity extends AppCompatActivity {
                     double finalPrice = price + deliveryPrice;
                     binding.totalPrice.setText(Utils.formatPrice(finalPrice));
                 } else {
-                    double finalPrice = totalPrice + deliveryPrice;
+                    double finalPrice = 9999.0;
                     binding.totalPrice.setText(Utils.formatPrice(finalPrice));
                 }
 

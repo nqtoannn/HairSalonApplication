@@ -15,52 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
         tools:targetApi="31">
-        <activity
-            android:name=".statistics.CustomerDetailActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".statistics.CustomerListActivity"-->
-<!--            android:exported="false" />-->
-        <activity
-            android:name=".statistics.SanPham"
-            android:exported="false" />
-        <activity
-            android:name=".statistics.DoanhThu"
-            android:exported="false" />
-        <!--<activity
-            android:name=".statistics.StatisticsActivity"
-            android:exported="false" />-->
-        <activity
-            android:name=".activity.auth.UserProfileActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".activity.home.HomeManage"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.appointment.AppointmentHistoryActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.appointment.AppointmentActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- <activity -->
         <!-- android:name=".activity.shop.HomeShopActivity" -->
         <!-- android:exported="false" /> -->
         <activity
@@ -73,24 +27,6 @@
             android:name=".activity.order.SuccessPay"
             android:exported="false" />
         <activity
-            android:name=".activity.home.HomeCustomer"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.auth.Login"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".activity.order.PayActivity"
             android:exported="false" />
         <activity
@@ -98,13 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.product.DetailProductActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".activity.shop.HomeShopActivity"
             android:exported="true">
@@ -114,18 +44,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.auth.LoginWithOtp"
-            android:exported="false" />
-        <activity
-            android:name=".activity.auth.OTPVerification"
-            android:exported="false" />
-        <activity
-            android:name=".activity.auth.Register"
-            android:exported="false" />
-        <activity android:name=".activity.home.Home" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".activity.auth.ForgetPassword" />
 <!--        <activity-->
 <!--            android:name=".statistics.CustomerListActivity"-->
 <!--            android:exported="true">-->
