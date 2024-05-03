@@ -1,7 +1,5 @@
 package com.example.hairsalon.activity.manage;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +10,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.hairsalon.R;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.FragmentEmployeeInfoBinding;
 import com.example.hairsalon.model.ResponseData;
@@ -28,20 +29,20 @@ import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CustomerInfoFragment#newInstance} factory method to
+ * Use the {@link UserProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CustomerInfoFragment extends Fragment {
+public class UserProfileFragment extends Fragment {
 
     private FragmentEmployeeInfoBinding binding;
     private List<Map<String, Object>> employeeList = new ArrayList<>();
     private Integer employeeId;
-    public CustomerInfoFragment() {
+    public UserProfileFragment() {
         // Required empty public constructor
     }
 
-    public static CustomerInfoFragment newInstance(Integer employeeId) {
-        CustomerInfoFragment fragment = new CustomerInfoFragment();
+    public static UserProfileFragment newInstance(Integer employeeId) {
+        UserProfileFragment fragment = new UserProfileFragment();
         Bundle args = new Bundle();
         args.putInt("employeeId",employeeId);
         fragment.setArguments(args);
@@ -60,7 +61,8 @@ public class CustomerInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentEmployeeInfoBinding.inflate(inflater, container, false);
-        binding.lableName.setText("Thông tin khách hàng");
+        binding.lableName.setText("Thông tin tài khoản");
+        binding.btnActive.setText("Sửa thông tin");
         View view = binding.getRoot();
         if (employeeId != null) {
             loadUserInfo();
@@ -68,30 +70,12 @@ public class CustomerInfoFragment extends Fragment {
         binding.btnActive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("id", employeeId);
-                Map<String, Object> employee = employeeList.get(0);
-                if(employee.get("status").equals("OK")){
-                    jsonObject.addProperty("status", "NOT_OK");
-                }
-                else {
-                    jsonObject.addProperty("status", "OK");
-                }
-                ApiService.apiService.updateUserStatus(jsonObject).enqueue(new Callback<ResponseData>() {
-                    @Override
-                    public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(requireContext(),"Thay đổi trạng thái tài khoản thành công!",Toast.LENGTH_SHORT);
-                            loadUserInfo();
-                        } else {
-                            Toast.makeText(requireContext(),"Thay đổi trạng thái tài khoản không thành công!",Toast.LENGTH_SHORT);
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<ResponseData> call, Throwable t) {
-                        Log.e("Error", "API call failed: " + t.getMessage());
-                    }
-                });
+                UserProfileUpdateFragment fragment =new UserProfileUpdateFragment();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.frameLayout, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -113,13 +97,7 @@ public class CustomerInfoFragment extends Fragment {
                         binding.textFullName.setText("Tên: " + employee.get("fullName").toString());
                         binding.textPhoneNumber.setText("Số điện thoại: " + employee.get("phoneNumber").toString());
                         binding.textRole.setVisibility(View.GONE);
-                        if(employee.get("status").toString().equals("OK")){
-                            binding.textStatus.setText("Trạng thái: Hoạt động");
-                            binding.btnActive.setText("Khóa tài khoản");
-                        }else {
-                            binding.textStatus.setText("Trạng thái: Không hoạt động");
-                            binding.btnActive.setText("Kích hoạt");
-                        }
+                        binding.textStatus.setVisibility(View.GONE);
                     } else {
                         Log.e("Error", "No product data found in response");
                     }

@@ -44,7 +44,7 @@ public class HomeManage extends AppCompatActivity {
                 } else if (itemID == R.id.navCustomerMn) {
                     loadFragment(new CustomerManageFragment(), false);
                 } else {
-                    loadFragment(new AccountFragment(), false);
+                    loadFragment(new AccountManageFragment(), false);
                 }
                 return true;
             }
