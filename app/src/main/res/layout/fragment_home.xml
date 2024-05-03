@@ -135,12 +135,6 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/txtDanhsach"
                             android:layout_marginTop="10dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tin tức nổi bật"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
 
                 </LinearLayout>
 

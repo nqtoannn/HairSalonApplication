@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".activity.employee.HomeEmployee"
@@ -52,6 +51,30 @@
         <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
+        <activity
+            android:name=".activity.statistics.CustomerDetailActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerListActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activity.statistics.SanPham"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activity.statistics.DoanhThu"-->
+<!--            android:exported="false" />-->
+        <!--<activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />-->
+        <activity
+            android:name=".activity.statistics.DoanhThu"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.auth.AdminLogin"
             android:exported="true">
@@ -163,6 +186,15 @@
         <activity android:name=".activity.home.Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
+<!--        <activity-->
+<!--            android:name=".activity.statistics."-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
     </application>
 
 </manifest>
