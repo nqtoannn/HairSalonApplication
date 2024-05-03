@@ -10,6 +10,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -29,15 +30,15 @@
             android:name=".activity.servicehair.UpdateServiceHairActivity"
             android:exported="false" />
         <activity
-            android:name=".statistics.CustomerDetailActivity"
+            android:name=".activity.statistics.CustomerDetailActivity"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".statistics.CustomerListActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".statistics.SanPham"
+            android:name=".activity.statistics.SanPham"
             android:exported="false" />
         <activity
-            android:name=".statistics.DoanhThu"
+            android:name=".activity.statistics.DoanhThu"
             android:exported="false" />
         <!--
 <activity
@@ -51,9 +52,6 @@
         <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
-        <activity
-            android:name=".activity.statistics.CustomerDetailActivity"
-            android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".statistics.CustomerListActivity"-->
 <!--            android:exported="false" />-->
@@ -66,15 +64,6 @@
         <!--<activity
             android:name=".statistics.StatisticsActivity"
             android:exported="false" />-->
-        <activity
-            android:name=".activity.statistics.DoanhThu"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activity.auth.AdminLogin"
             android:exported="true">
