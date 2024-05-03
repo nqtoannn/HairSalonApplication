@@ -49,6 +49,9 @@ public interface ApiService {
     @GET("customer/findAllCartItems/{cartId}")
     Call<ResponseData> getAllCartItemsByCartId(@Path("cartId") Integer cartId);
 
+    @GET("customer/findById/{customerId}")
+    Call<ResponseData> getCustomerByID(@Path("customerId") Integer customerId);
+
     @DELETE("customer/deleteAllCartItemByCartId/{cartId}")
     Call<Void> deleteAllCartItemsByCartId(@Path("cartId") Integer cartId);
 
@@ -77,7 +80,9 @@ public interface ApiService {
 
     @GET("salon/findAll")
     Call<ResponseData> getAllSalons();
-    @GET("employee/findAll")
+    @GET("news/getAll")
+    Call<ResponseData> getAllNews();
+    @GET("management/employee/findAll")
     Call<ResponseData> getAllEmployees();
     @GET("management/employee/findById/{employeeId}")
     Call<ResponseData> getEmployeeById(@Path("employeeId") Integer employeeId);

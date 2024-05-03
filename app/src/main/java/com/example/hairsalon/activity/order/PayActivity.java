@@ -4,7 +4,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,18 +56,22 @@ public class PayActivity extends AppCompatActivity {
     ActivityPayBinding binding;
 
     CartItemAdapter cartItemAdapter;
+    ArrayList<Map<String, Object>> data = new ArrayList<>();
     ArrayList<Map<String, Object>> cartItemList = new ArrayList<>();
+
 
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
     double price = 0.0;
     double deliveryPrice = 0;
-    Integer productItemId;
+    Integer productItemId, customerId;
     private Double totalPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
         Intent intent = getIntent();
         if (intent.getStringExtra("detailName") != null) {
             binding.linearLayout.setVisibility(View.VISIBLE);
@@ -107,6 +113,33 @@ public class PayActivity extends AppCompatActivity {
             binding.listViewProducts.setVisibility(View.VISIBLE);
             getCartItems();
         }
+
+        ApiService.apiService.getCustomerByID(customerId).enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        data = (ArrayList<Map<String, Object>>) responseData.getData();
+                        totalPrice = 0.0;
+                        Map<String, Object> dataItem = data.get(0);
+                        binding.textCustomerName.setText(dataItem.get("fullName").toString());
+                        binding.textCustomerAddress.setText(dataItem.get("address").toString());
+
+                    } else {
+                        Log.e("Error", "No cart item data found in response");
+                    }
+                } else {
+                    Log.e("Error", "API call failed with error code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage());
+            }
+        });
+
 
         setupSpinners();
         binding.payButton.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +185,7 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void getCartItems() {
-        ApiService.apiService.getAllCartItemsByCartId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(7).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
@@ -208,7 +241,7 @@ public class PayActivity extends AppCompatActivity {
         String apiUrl = Constant.baseUrl + "customer/order";
         try {
             JSONObject requestBody = new JSONObject();
-            requestBody.put("customerId", 1);
+            requestBody.put("customerId", customerId);
             requestBody.put("payId", 1);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String currentDate = dateFormat.format(new Date());
@@ -271,7 +304,7 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void deleteAllCartItems() {
-        ApiService.apiService.deleteAllCartItemsByCartId(1).enqueue(new Callback<Void>() {
+        ApiService.apiService.deleteAllCartItemsByCartId(7).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
                 if (response.isSuccessful()) {

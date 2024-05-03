@@ -144,7 +144,7 @@ public class AddProductItemActivity extends AppCompatActivity {
             requestBody.put("productId", 7);
             requestBody.put("warrantyTime", 18);
             requestBody.put("quantity", 100);
-            requestBody.put("status", "NEW");
+            requestBody.put("status", "OK");
             requestBody.put("description", binding.description.getText().toString());
             requestBody.put("imageUrl", "");
         } catch (JSONException e) {

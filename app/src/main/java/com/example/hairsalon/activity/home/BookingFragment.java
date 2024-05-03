@@ -2,8 +2,10 @@ package com.example.hairsalon.activity.home;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,11 +62,14 @@ public class BookingFragment extends Fragment {
 
      int[] stylistIds;
      String[] stylistNames;
+     Integer customerId;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBookingBinding.inflate(inflater, container, false);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
         return binding.getRoot();
     }
 
@@ -289,7 +294,7 @@ public class BookingFragment extends Fragment {
         String apiUrl = Constant.baseUrl + "appointments/makeApm";
         try {
             JSONObject requestBody = new JSONObject();
-            requestBody.put("customerId", 1);
+            requestBody.put("customerId", customerId);
             requestBody.put("serviceId", selectedServiceId);
             requestBody.put("salonId", selectedSalonId);
             requestBody.put("appointmentDate", binding.textViewDate.getText().toString());
