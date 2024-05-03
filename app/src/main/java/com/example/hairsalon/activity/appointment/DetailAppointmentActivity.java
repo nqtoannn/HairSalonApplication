@@ -33,6 +33,7 @@ public class DetailAppointmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityDetailAppointmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Intent intent = getIntent();
@@ -52,14 +53,27 @@ public class DetailAppointmentActivity extends AppCompatActivity {
             binding.tvTime.setText("Thời gian: " + time);
             binding.tvAddress.setText("Địa chỉ: " + address);
             binding.tvStylist.setText("Stylist: " + stylist);
+        }if(!intent.getStringExtra("isEmployee").equals("WAITING")){
+            binding.buttonCancel.setVisibility(View.GONE);
+        };
+        if (intent.getStringExtra("isEmployee") != null) {
+            binding.buttonCancel.setText("Hoàn thành");
+            binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showConfirmationDialogDone();
+                }
+            });
+        }else {
+            binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showConfirmationDialog();
+                }
+            });
         }
 
-        binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showConfirmationDialog();
-            }
-        });
+
     }
 
 
@@ -81,6 +95,68 @@ public class DetailAppointmentActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+    private void showConfirmationDialogDone() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận hoàn thành");
+        builder.setMessage("Bạn đã hoàn thành lịch này?");
+        builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                doneAnAppointment();
+            }
+        });
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+    private void doneAnAppointment() {
+        String apiUrl = Constant.baseUrl + "appointments/update-status";
+        Intent intent = getIntent();
+        Integer id = intent.getIntExtra("id", 0);
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("appointmentId", id);
+            requestBody.put("statusCode", 4);
+            StringRequest request = new StringRequest(Request.Method.PUT, apiUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            setResult(RESULT_OK);
+                            Toast.makeText(getApplicationContext(), "Hoàn thành lịch đặt thành công", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("cancel",  error.getMessage());
+                            Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi hoàn thành đặt lịch", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Override
+                public byte[] getBody() {
+                    return requestBody.toString().getBytes();
+                }
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+            };
+            Volley.newRequestQueue(this).add(request);
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("cancel",  e.getMessage());
+            Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi tạo yêu cầu", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void cancelAnAppointment() {

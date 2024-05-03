@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activity.employee.HomeEmployee"
+            android:exported="false" />
+        <activity
             android:name=".activity.order.OrderDetail"
             android:exported="false" />
         <activity
@@ -57,43 +60,38 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--        <activity-->
-<!--            android:name=".activity.servicehair.UpdateServiceHairActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".statistics.CustomerDetailActivity"-->
-<!--            android:exported="false" />-->
+        </activity> <!-- <activity -->
+        <!-- android:name=".activity.servicehair.UpdateServiceHairActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".statistics.CustomerDetailActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
-         android:name=".statistics.CustomerListActivity"
-         android:exported="true">
+            android:name=".statistics.CustomerListActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--        <activity-->
-<!--            android:name=".statistics.SanPham"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".statistics.DoanhThu"-->
-<!--            android:exported="false" />-->
+        </activity> <!-- <activity -->
+        <!-- android:name=".statistics.SanPham" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".statistics.DoanhThu" -->
+        <!-- android:exported="false" /> -->
         <!--
 <activity
             android:name=".statistics.StatisticsActivity"
             android:exported="false" />
         -->
-<!--        <activity-->
-<!--            android:name=".activity.home.HomeManage"-->
-<!--            android:exported="false">-->
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+        <!-- <activity -->
+        <!-- android:name=".activity.home.HomeManage" -->
+        <!-- android:exported="false"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
         <activity
             android:name=".activity.servicehair.AddServiceHairActivity"
             android:exported="false" /> <!-- <activity -->
