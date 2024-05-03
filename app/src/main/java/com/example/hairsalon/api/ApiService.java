@@ -106,5 +106,6 @@ public interface ApiService {
     Call<ResponseData> getAllAppointmentByEmployeeId(@Path("employeeId") Integer employeeId);
     @GET("management/employee/findAllAppointmentDone/{employeeId}")
     Call<ResponseData> getAllAppointmentDoneByEmployeeId(@Path("employeeId") Integer employeeId);
-
+    @GET("customer/getCartByCustomerId/{customerId}")
+    Call<Integer> getCartIdByCustomerId(@Path("customerId") Integer customerId);
 }
