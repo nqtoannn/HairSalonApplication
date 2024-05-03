@@ -1,7 +1,9 @@
 package com.example.hairsalon.activity.home;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -45,6 +47,7 @@ public class ShopFragment extends Fragment {
     private List<Map<String, Object>> productItemList;
 
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
+    Integer cartId;
 
     public ShopFragment() {
         // Required empty public constructor
@@ -63,6 +66,9 @@ public class ShopFragment extends Fragment {
 
         LinearLayoutManager layoutManagerCheapProduct = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewCheapProduct.setLayoutManager(layoutManagerCheapProduct);
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        cartId = sharedPreferences.getInt("cartId", -1);
 
         getAllCartItemsAndUpdateCount();
 
@@ -123,7 +129,7 @@ public class ShopFragment extends Fragment {
     }
 
     private void getAllCartItemsAndUpdateCount() {
-        ApiService.apiService.getAllCartItemsByCartId(7).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {

@@ -4,7 +4,9 @@ package com.example.hairsalon.activity.shop;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -42,6 +44,8 @@ public class HomeShopActivity extends AppCompatActivity {
     RecyclerView recyclerViewCheapProduct;
     List<Map<String, Object>> productItemList;
 
+    Integer cartId;
+
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
 
     @Override
@@ -49,7 +53,8 @@ public class HomeShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        cartId = sharedPreferences.getInt("cartId", -1);
 
         recyclerView = findViewById(R.id.recycler_view_products);
         recyclerViewCheapProduct = findViewById(R.id.recycler_view_products_cheap);
@@ -141,7 +146,7 @@ public class HomeShopActivity extends AppCompatActivity {
 
     private void getAllCartItemsAndUpdateCount() {
         Log.i("Called Api", "Called");
-        ApiService.apiService.getAllCartItemsByCartId(7).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {

@@ -36,7 +36,7 @@ public class CartActivity extends AppCompatActivity {
     CartItemAdapter cartItemAdapter;
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
-    Integer customerId;
+    Integer customerId, cartId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,8 @@ public class CartActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
         customerId = sharedPreferences.getInt("userId", -1);
+        cartId = sharedPreferences.getInt("cartId", -1);
+
 
         getAllCartItem(); // Bắt đầu lấy dữ liệu
         binding.payButton.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +63,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void getAllCartItem() {
-        ApiService.apiService.getAllCartItemsByCartId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {

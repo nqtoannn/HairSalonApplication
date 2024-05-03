@@ -63,7 +63,7 @@ public class PayActivity extends AppCompatActivity {
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
     double price = 0.0;
     double deliveryPrice = 0;
-    Integer productItemId, customerId;
+    Integer productItemId, customerId, cartId;
     private Double totalPrice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class PayActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
         customerId = sharedPreferences.getInt("userId", -1);
+        cartId = sharedPreferences.getInt("cartId", -1);
         Intent intent = getIntent();
         if (intent.getStringExtra("detailName") != null) {
             binding.linearLayout.setVisibility(View.VISIBLE);
@@ -185,7 +186,7 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void getCartItems() {
-        ApiService.apiService.getAllCartItemsByCartId(7).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
