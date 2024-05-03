@@ -2,6 +2,8 @@ package com.example.hairsalon.activity.order;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -30,16 +32,19 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     ArrayList<Order> dataArrayList = new ArrayList<>();
 
+    Integer customerId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityOrderHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
         getAllOrderItemHistory();
     }
 
     private void getAllOrderItemHistory() {
-        ApiService.apiService.getAllOrderByCustomerId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllOrderByCustomerId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {

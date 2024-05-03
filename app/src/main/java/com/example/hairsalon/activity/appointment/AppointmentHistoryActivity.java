@@ -2,7 +2,9 @@ package com.example.hairsalon.activity.appointment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     ArrayList<Appointment> dataArrayList = new ArrayList<>();
 
     AppointmentAdapter appointmentAdapter;
+    Integer customerId;
 
 
     private List<Map<String, Object>> appointmentList = new ArrayList<>();
@@ -39,6 +42,8 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAppointmentHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
         getAllAppointments();
         binding.listViewAppointments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -68,7 +73,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     }
 
     private void getAllAppointments() {
-        ApiService.apiService.getAllAppointmentByCustomerId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllAppointmentByCustomerId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {

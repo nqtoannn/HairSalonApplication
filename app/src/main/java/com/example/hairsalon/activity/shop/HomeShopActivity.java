@@ -3,10 +3,12 @@ package com.example.hairsalon.activity.shop;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -96,19 +98,38 @@ public class HomeShopActivity extends AppCompatActivity {
             }
         });
 
-        binding.searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//        binding.searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+//                    String searchQuery = binding.searchBar.getText().toString();
+//                    Intent intent = new Intent(HomeShopActivity.this, ListProductSearchActivity.class);
+//                    intent.putExtra("searchQuery", searchQuery);
+//                    startActivity(intent);
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+
+        binding.searchBar.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    String searchQuery = binding.searchBar.getText().toString();
-                    Intent intent = new Intent(HomeShopActivity.this, ListProductSearchActivity.class);
-                    intent.putExtra("searchQuery", searchQuery);
-                    startActivity(intent);
-                    return true;
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (binding.searchBar.getRight() - binding.searchBar.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        String searchQuery = binding.searchBar.getText().toString();
+                        @SuppressLint("ClickableViewAccessibility") Intent intent = new Intent(HomeShopActivity.this, ListProductSearchActivity.class);
+                        intent.putExtra("searchQuery", searchQuery);
+                        startActivity(intent);
+                        return true;
+                    }
                 }
                 return false;
             }
         });
+
     }
 
     @Override
@@ -120,7 +141,7 @@ public class HomeShopActivity extends AppCompatActivity {
 
     private void getAllCartItemsAndUpdateCount() {
         Log.i("Called Api", "Called");
-        ApiService.apiService.getAllCartItemsByCartId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(7).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {

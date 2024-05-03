@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.Service;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,12 +69,15 @@ public class AppointmentActivity extends AppCompatActivity {
     String[] stylistNames;
 
     int serviceHairId = -1;
+    Integer customerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAppointmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -302,7 +307,7 @@ public class AppointmentActivity extends AppCompatActivity {
         String apiUrl = Constant.baseUrl + "appointments/makeApm";
         try {
             JSONObject requestBody = new JSONObject();
-            requestBody.put("customerId", 1); // Thay đổi customerId tùy theo người dùng hiện tại
+            requestBody.put("customerId", customerId); // Thay đổi customerId tùy theo người dùng hiện tại
             requestBody.put("serviceId", selectedServiceId); // Sử dụng ID của dịch vụ được chọn
             requestBody.put("salonId", selectedSalonId); // Sử dụng ID của salon được chọn
             requestBody.put("appointmentDate", binding.textViewDate.getText().toString()); // Sử dụng ngày được chọn

@@ -1,12 +1,15 @@
 package com.example.hairsalon.activity.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.cart.CartActivity;
 import com.example.hairsalon.activity.product.ListProductItem;
+import com.example.hairsalon.activity.product.ListProductSearchActivity;
+import com.example.hairsalon.activity.shop.HomeShopActivity;
 import com.example.hairsalon.adapter.ProductItemAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.FragmentShopBinding;
@@ -96,15 +101,19 @@ public class ShopFragment extends Fragment {
             }
         });
 
-        binding.searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        binding.searchBar.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    String searchQuery = binding.searchBar.getText().toString();
-                    Intent intent = new Intent(requireContext(), ListProductItem.class);
-                    intent.putExtra("searchQuery", searchQuery);
-                    startActivity(intent);
-                    return true;
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (binding.searchBar.getRight() - binding.searchBar.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        String searchQuery = binding.searchBar.getText().toString();
+                        @SuppressLint("ClickableViewAccessibility") Intent intent = new Intent(requireContext(), ListProductSearchActivity.class);
+                        intent.putExtra("searchQuery", searchQuery);
+                        startActivity(intent);
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -114,7 +123,7 @@ public class ShopFragment extends Fragment {
     }
 
     private void getAllCartItemsAndUpdateCount() {
-        ApiService.apiService.getAllCartItemsByCartId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(7).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
