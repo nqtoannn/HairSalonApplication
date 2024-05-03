@@ -1,6 +1,9 @@
 package com.example.hairsalon.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,18 +23,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.appointment.AppointmentActivity;
 import com.example.hairsalon.activity.home.BookingFragment;
+import com.example.hairsalon.activity.servicehair.DetailServiceHairActivity;
 import com.example.hairsalon.model.HairService;
 
 import java.util.List;
 import java.util.Map;
 
 public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.HairServiceViewHolder> {
-    private List<HairService> serviceList;
-    private Context context;
+    private List<Map<String, Object>> serviceList;
+    //private FragmentManager fragmentManager;
 
-    public HairServiceAdapter(Context context,List<HairService> serviceList) {
-        this.context = context;
+
+    public HairServiceAdapter(List<Map<String, Object>> serviceList) {
+        //this.fragmentManager = fragmentManager;
         this.serviceList = serviceList;
     }
 
@@ -45,10 +51,11 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
     @Override
     public void onBindViewHolder(@NonNull HairServiceViewHolder holder, int position) {
         if (serviceList != null && !serviceList.isEmpty()) {
-            HairService currentItem = serviceList.get(position);
+            Map<String, Object> currentItem = serviceList.get(position);
             // Tiếp tục xử lý với currentItem
             Log.i("currentItem", currentItem.toString());
-            ImageRequest imageRequest = new ImageRequest(currentItem.getUrl(),
+            ImageRequest imageRequest = new ImageRequest(
+                    (String) currentItem.get("url"),
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap response) {
@@ -70,34 +77,30 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
 
             Volley.newRequestQueue(holder.itemView.getContext()).add(imageRequest);
 
-            holder.tvServiceName.setText((String) currentItem.getServiceName().toString());
-            holder.tvServicePrice.setText(String.valueOf(currentItem.getPrice()) + " VND");
+            holder.tvServiceName.setText((String) currentItem.get("serviceName"));
+            holder.tvServicePrice.setText(String.valueOf(currentItem.get("price")) + " VND");
 
-            // Xử lý sự kiện khi nhấp vào hình ảnh
-            // Xử lý sự kiện khi nhấp vào hình ảnh
             holder.imageServiceView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     // Lấy Context từ View được click
-//                Context context = holder.itemView.getContext();
-//
-//                // Tạo Intent để chuyển sang DetailProductActivity
-//                Intent intent = new Intent(context, DetailProductActivity.class);
-//
-//                // Truyền dữ liệu đi kèm trong Intent
-//
-//                double productId = (Double) currentItem.get("id");
-//                double price = (Double) currentItem.get("price");
-//                int productIdInteger = (int) productId;
-//                intent.putExtra("productItemId", productIdInteger);
-//                intent.putExtra("detailName", (String) currentItem.get("productItemName"));
-//                intent.putExtra("detailPrice", price); // Chuyển giá thành String
-//                intent.putExtra("detailDescription", (String) currentItem.get("description"));
-//                intent.putExtra("imageUrl", (String) currentItem.get("imageUrl"));
-//
-//
-//                // Start Activity
-//                context.startActivity(intent);
+                Context context = holder.itemView.getContext();
+
+                // Tạo Intent để chuyển sang DetailProductActivity
+                Intent intent = new Intent(context, DetailServiceHairActivity.class);
+
+                // Truyền dữ liệu đi kèm trong Intent
+                    double idDouble = (Double) currentItem.get("id");
+                    int idInt = Double.valueOf(idDouble).intValue();
+                    double price = (Double) currentItem.get("price");
+                intent.putExtra("serviceHairId", idInt);
+                intent.putExtra("detailName", (String) currentItem.get("serviceName"));
+                intent.putExtra("detailPrice", price); // Chuyển giá thành String
+                intent.putExtra("detailDescription", (String) currentItem.get("description"));
+                intent.putExtra("imageUrl", (String) currentItem.get("url"));
+                // Start Activity
+                context.startActivity(intent);
                 }
             });
 
@@ -114,16 +117,18 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
             holder.btnBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    BookingFragment bookingFragment = new BookingFragment();
+//                    BookingFragment bookingFragment = new BookingFragment();
+//                    fragmentManager.beginTransaction()
+//                            .replace(R.id.frameLayout, bookingFragment)
+//                            .addToBackStack(null) // Để có thể quay lại Fragment trước đó
+//                            .commit();
+                    double idDouble = (Double) currentItem.get("id");
 
-                    // Truy cập FragmentManager từ context của ViewHolder
-                    FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-
-                    // Bắt đầu một transaction fragment và thêm BookingFragment vào fragment_container
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, bookingFragment)
-                            .addToBackStack(null) // Để có thể quay lại Fragment trước đó
-                            .commit();
+                    int idInt = Double.valueOf(idDouble).intValue();
+                    Intent intent2 = new Intent(holder.itemView.getContext(), AppointmentActivity.class);
+                    intent2.putExtra("serviceHairId", idInt);
+                    intent2.putExtra("serviceName", currentItem.get("serviceName").toString());
+                    holder.itemView.getContext().startActivity(intent2);
                 }
 
             });

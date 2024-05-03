@@ -11,6 +11,11 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.manage.CustomerManageFragment;
+import com.example.hairsalon.activity.manage.EmployeeManageFragment;
+import com.example.hairsalon.activity.manage.RevenueFragment;
+import com.example.hairsalon.activity.manage.ServiceManageFragment;
+import com.example.hairsalon.activity.manage.ShopManageFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeManage extends AppCompatActivity {
@@ -29,20 +34,22 @@ public class HomeManage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemID = item.getItemId();
                 if( itemID == R.id.navShopMn){
-                    loadFragment(new HomeFragment(),false);
+                    loadFragment(new ShopManageFragment(),false);
                 } else if (itemID == R.id.navServiceMn) {
-                    loadFragment(new ShopFragment(), false);
+                    loadFragment(new ServiceManageFragment(), false);
                 } else if (itemID == R.id.navStaffMn) {
-                    loadFragment(new BookingFragment(), false);
-                } else if (itemID == R.id.navRevenueMn) {
-                    loadFragment(new ExploreFragment(), false);
+                    loadFragment(new EmployeeManageFragment(), false);
+//                } else if (itemID == R.id.navRevenueMn) {
+//                    loadFragment(new RevenueFragment(), false);
+                } else if (itemID == R.id.navCustomerMn) {
+                    loadFragment(new CustomerManageFragment(), false);
                 } else {
-                    loadFragment(new AccountFragment(), false);
+                    loadFragment(new AccountManageFragment(), false);
                 }
                 return true;
             }
         });
-        loadFragment(new HomeFragment(), true);
+        loadFragment(new ShopManageFragment(), true);
     }
 
     private void loadFragment(Fragment fragment, boolean isAppInitialized) {

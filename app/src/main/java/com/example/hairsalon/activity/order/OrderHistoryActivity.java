@@ -2,6 +2,8 @@ package com.example.hairsalon.activity.order;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -30,19 +32,23 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     ArrayList<Order> dataArrayList = new ArrayList<>();
 
+    Integer customerId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityOrderHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
         getAllOrderItemHistory();
     }
 
     private void getAllOrderItemHistory() {
-        ApiService.apiService.getAllOrderByCustomerId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllOrderByCustomerId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
+                    dataArrayList.clear();
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         List<Map<String, Object>> orderList = responseData.getData();
@@ -66,7 +72,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
                                 OrderItem orderItem = new OrderItem(orderItemId, price, quantity, productItemId, productItemUrl, productItemName);
                                 orderItems.add(orderItem);
                             }
-
                             Order orderData = new Order(id, orderItems, totalPrice, paymentMethod, orderStatus, orderDate);
                             dataArrayList.add(orderData);
                         }
@@ -86,5 +91,11 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllOrderItemHistory();
     }
 }

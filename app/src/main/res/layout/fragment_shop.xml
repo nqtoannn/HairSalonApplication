@@ -33,7 +33,9 @@
             android:layout_weight="1"
             android:background="#DDDDDD"
             android:hint="Tìm kiếm sản phẩm"
-            android:imeOptions="actionDone" />
+            android:imeOptions="actionGo"
+            android:drawableRight="@drawable/search" />
+
 
         <!-- Cart Icon -->
         <ImageView

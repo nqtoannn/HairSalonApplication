@@ -2,6 +2,24 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AdminLogin">
+        <State />
+      </entry>
+      <entry key="CustomerListActivity">
+        <State />
+      </entry>
+      <entry key="ListProductItem">
+        <State />
+      </entry>
+      <entry key="ListServiceHairActivity">
+        <State />
+      </entry>
+      <entry key="Login">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <runningDeviceTargetSelectedWithDropDown>

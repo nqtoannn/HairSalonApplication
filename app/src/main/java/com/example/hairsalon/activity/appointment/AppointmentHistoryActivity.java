@@ -2,7 +2,9 @@ package com.example.hairsalon.activity.appointment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     ArrayList<Appointment> dataArrayList = new ArrayList<>();
 
     AppointmentAdapter appointmentAdapter;
+    Integer customerId;
 
 
     private List<Map<String, Object>> appointmentList = new ArrayList<>();
@@ -39,11 +42,12 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAppointmentHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
         getAllAppointments();
         binding.listViewAppointments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Lấy ra cuộc hẹn tương ứng với vị trí i trong danh sách
                 Appointment clickedAppointment = dataArrayList.get(i);
                 Log.i("clicked", clickedAppointment.getSalonName());
                 // Tạo intent để chuyển sang DetailAppointmentActivity và gửi dữ liệu cuộc hẹn
@@ -65,27 +69,18 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("BackTo", "Back");
-        try {
-            dataArrayList.clear();
-            // Cập nhật Adapter với dataArrayList trống
-            appointmentAdapter.notifyDataSetChanged();
-            getAllAppointments();
-        } catch (Exception e) {
-            Log.e("Loi", e.getMessage());
-        }
-
+        getAllAppointments();
     }
 
     private void getAllAppointments() {
-
-        ApiService.apiService.getAllAppointmentByCustomerId(1).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllAppointmentByCustomerId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     Log.i("appointment", "Thành công");
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
+                        dataArrayList.clear();
                         appointmentList = responseData.getData();
                         for (Map<String, Object> appointment : appointmentList) {
                             Integer id = ((Number) appointment.get("id")).intValue();
@@ -103,6 +98,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                         }
                         appointmentAdapter = new AppointmentAdapter(AppointmentHistoryActivity.this, dataArrayList);
                         binding.listViewAppointments.setAdapter(appointmentAdapter);
+                        appointmentAdapter.notifyDataSetChanged();
                     } else {
                         Log.e("appointment", "No product data found in response");
                     }

@@ -23,8 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class
-ListProductActivity extends AppCompatActivity {
+public class ListProductSearchActivity extends AppCompatActivity {
 
     ActivityListProductBinding binding;
     GridAdapter gridAdapter;
@@ -59,10 +58,9 @@ ListProductActivity extends AppCompatActivity {
                             ProductItem productItemAdded = new ProductItem(id, productItemName, price, quantityInStock, warrantyTime, status, imageUrl, description);
                             dataArrayList.add(productItemAdded);
                         }
-                        gridAdapter = new GridAdapter(ListProductActivity.this, dataArrayList);
+                        gridAdapter = new GridAdapter(ListProductSearchActivity.this, dataArrayList);
                         Log.i("productItemList", dataArrayList.toString());
                         binding.gridView.setAdapter(gridAdapter);
-
                     } else {
                         Log.e("Error", "No product data found in response");
                     }
@@ -87,7 +85,7 @@ ListProductActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ProductItem clickedProduct = dataArrayList.get(i);
                 Log.i("clicked", clickedProduct.toString());
-                Intent intent = new Intent(ListProductActivity.this, DetailProductActivity.class);
+                Intent intent = new Intent(ListProductSearchActivity.this, DetailProductActivity.class);
                 intent.putExtra("productItemId", clickedProduct.getId());
                 intent.putExtra("detailName", clickedProduct.getProductItemName());
                 intent.putExtra("detailPrice", clickedProduct.getPrice());
@@ -121,7 +119,7 @@ ListProductActivity extends AppCompatActivity {
                             ProductItem productItemAdded = new ProductItem(id, productItemName, price, quantityInStock, warrantyTime, status, imageUrl, description);
                             dataArrayList.add(productItemAdded);
                         }
-                        gridAdapter = new GridAdapter(ListProductActivity.this, dataArrayList);
+                        gridAdapter = new GridAdapter(ListProductSearchActivity.this, dataArrayList);
                         Log.i("productItemList", dataArrayList.toString());
                         binding.gridView.setAdapter(gridAdapter);
                     } else {
@@ -138,5 +136,4 @@ ListProductActivity extends AppCompatActivity {
             }
         });
     }
-
 }

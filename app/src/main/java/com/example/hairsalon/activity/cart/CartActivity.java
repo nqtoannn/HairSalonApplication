@@ -2,7 +2,9 @@ package com.example.hairsalon.activity.cart;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,12 +36,15 @@ public class CartActivity extends AppCompatActivity {
     CartItemAdapter cartItemAdapter;
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
+    Integer customerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
+        customerId = sharedPreferences.getInt("userId", -1);
 
         getAllCartItem(); // Bắt đầu lấy dữ liệu
         binding.payButton.setOnClickListener(new View.OnClickListener() {
