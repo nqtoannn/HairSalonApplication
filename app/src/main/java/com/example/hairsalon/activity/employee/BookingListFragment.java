@@ -48,6 +48,8 @@ public class BookingListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    Integer employeeId;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +63,7 @@ public class BookingListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Context context = getActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        Integer employeeId = sharedPreferences.getInt("userId", 1);
+        employeeId = sharedPreferences.getInt("userId", 1);
         binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -82,6 +84,10 @@ public class BookingListFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        getAllAppointment(employeeId);
+    }
+
+    private void getAllAppointment(int employeeId){
         ApiService.apiService.getAllAppointmentByEmployeeId(employeeId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -118,5 +124,12 @@ public class BookingListFragment extends Fragment {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getAllAppointment(employeeId);
     }
 }
