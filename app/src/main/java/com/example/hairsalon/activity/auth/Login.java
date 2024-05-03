@@ -25,10 +25,13 @@ import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.model.AuthenticationRequest;
 import com.example.hairsalon.activity.home.HomeCustomer;
 import com.example.hairsalon.model.ResponseAuthData;
+import com.example.hairsalon.model.ResponseData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -154,9 +157,23 @@ public class Login extends AppCompatActivity {
                                     editor.putInt("userId", responseAuthData.getAccountId());
                                     editor.apply();
                                     if(responseAuthData.getRole().equals("ADMIN")) {
-
+                                        Toast.makeText(getApplicationContext(), "Thông tin đăng nhập không chính xác!",Toast.LENGTH_SHORT).show();
                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                         Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
+                                        ApiService.apiService.getCartIdByCustomerId(responseAuthData.getAccountId()).enqueue(new Callback<Integer>() {
+                                            @Override
+                                            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                                SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = prefs.edit();
+                                                editor.putInt("cartId", response.body());
+                                                editor.apply();
+                                                Log.e("ID", response.body().toString());
+                                            }
+                                            @Override
+                                            public void onFailure(Call<Integer> call, Throwable t) {
+                                                Log.e("Error", "API call failed: " + t.getMessage());
+                                            }
+                                        });
                                         Intent intent = new Intent(Login.this, HomeCustomer.class);
                                         startActivity(intent);
                                     }
