@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hairsalon.R;
+import com.example.hairsalon.activity.employee.HomeEmployee;
 import com.example.hairsalon.activity.home.HomeCustomer;
 import com.example.hairsalon.activity.home.HomeManage;
 import com.example.hairsalon.api.ApiService;
@@ -122,13 +123,11 @@ public class AdminLogin extends AppCompatActivity {
                         Intent intent = new Intent(AdminLogin.this, HomeManage.class);
                         startActivity(intent);
                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
-//                        Intent intent = new Intent(AdminLogin.this, HomeCustomer.class);
-//                        startActivity(intent);
                         Toast.makeText( AdminLogin.this, "Vui lòng đăng nhập khách hàng!",Toast.LENGTH_SHORT).show();
                     }
                     else if (responseAuthData.getRole().equals("EMPLOYEE")){
                         Toast.makeText( AdminLogin.this, "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AdminLogin.this, HomeManage.class);
+                        Intent intent = new Intent(AdminLogin.this, HomeEmployee.class);
                         startActivity(intent);
                     }
                     Log.e("Error", "login complete");

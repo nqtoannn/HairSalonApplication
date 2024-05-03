@@ -94,16 +94,17 @@ public interface ApiService {
     @GET("customer/findAllAppointmentByCustomerId/{customerId}")
     Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") Integer customerId);
 
-
     @POST("management/employee/updateStatusUser")
     Call<ResponseData> updateUserStatus(@Body JsonObject json);
     @PUT("users/updateUserProfile")
     Call<ResponseData> updateUserProfile(@Body JsonObject json);
     @POST("auth/addEmployee")
     Call<ResponseAuthData> addNewEmployee(@Body JsonObject json);
-
     @GET("management/customer/findById/{customerId}")
     Call<ResponseData> getCustomerById(@Path("customerId") Integer customerId);
-
+    @GET("management/employee/findAllAppointment/{employeeId}")
+    Call<ResponseData> getAllAppointmentByEmployeeId(@Path("employeeId") Integer employeeId);
+    @GET("management/employee/findAllAppointmentDone/{employeeId}")
+    Call<ResponseData> getAllAppointmentDoneByEmployeeId(@Path("employeeId") Integer employeeId);
 
 }
