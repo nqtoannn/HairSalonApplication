@@ -1,0 +1,86 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="20dp"
+    android:layout_below="@id/text_product_description"
+    android:padding="8dp">
+
+    <!-- Tên người dùng -->
+    <TextView
+        android:id="@+id/text_comment_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên người dùng"
+        android:textStyle="bold"/>
+
+    <!-- Nội dung bình luận -->
+
+
+    <!-- Icon rating -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Ngôi sao 1 -->
+        <ImageView
+            android:id="@+id/star1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star"
+            android:tint="@color/your_star_color"
+            android:layout_marginEnd="4dp"/>
+
+        <!-- Ngôi sao 2 -->
+        <ImageView
+            android:id="@+id/star2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star"
+            android:tint="@color/your_star_color"
+            android:layout_marginEnd="4dp"/>
+
+        <!-- Ngôi sao 3 -->
+        <ImageView
+            android:id="@+id/star3"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star"
+            android:tint="@color/your_star_color"
+            android:layout_marginEnd="4dp"/>
+
+        <!-- Ngôi sao 4 -->
+        <ImageView
+            android:id="@+id/star4"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star"
+            android:tint="@color/your_star_color"
+            android:layout_marginEnd="4dp"/>
+
+        <!-- Ngôi sao 5 -->
+        <ImageView
+            android:id="@+id/star5"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star"
+            android:tint="@color/your_star_color"/>
+
+    </LinearLayout>
+    />
+    <TextView
+        android:id="@+id/text_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nội dung bình luận"/>
+
+    <!-- Ngày bình luận -->
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/text_comment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày bình luận"/>
+</LinearLayout>
