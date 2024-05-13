@@ -118,4 +118,8 @@ public interface ApiService {
     Call<ResponseData> getAllAppointmentDoneByEmployeeId(@Path("employeeId") Integer employeeId);
     @GET("customer/getCartByCustomerId/{customerId}")
     Call<Integer> getCartIdByCustomerId(@Path("customerId") Integer customerId);
+
+    @GET("customer/review/findAllReviewByServiceId/{serviceId}")
+    Call<ResponseData> findAllReviewByServiceId(@Path("serviceId") Integer serviceId);
+
 }

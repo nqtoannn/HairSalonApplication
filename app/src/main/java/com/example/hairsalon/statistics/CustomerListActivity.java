@@ -9,8 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 
-
-
+import com.example.hairsalon.activity.statistics.CustomerDetailActivity;
 import com.example.hairsalon.adapter.UserAdapter;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.databinding.ActivityCustomerListBinding;
