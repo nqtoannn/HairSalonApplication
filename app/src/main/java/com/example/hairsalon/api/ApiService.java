@@ -43,14 +43,10 @@ public interface ApiService {
     Call<ResponseData> getAllServiceHairs();
     @GET("management/customer/findAll")
     Call<ResponseData> getAllCustomner();
-
     @GET("management/revenueFromServiceByMonth/{year}/{month}")
     Call<ResponseData> getRevenueFromServiceByMonth(@Path("year") int year, @Path("month") int month);
-
-
     @GET("management/revenueFromProduct")
     Call<ResponseData> getRevenueFromProduct();
-
     @GET("management/revenueFromService")
     Call<ResponseData> getRevenueFromService();
 

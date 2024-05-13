@@ -25,6 +25,8 @@ import com.example.hairsalon.databinding.FragmentEmployeeManageBinding;
 import com.example.hairsalon.model.ProductItem;
 import com.example.hairsalon.model.ResponseData;
 import com.example.hairsalon.model.User;
+import com.example.hairsalon.activity.statistics.CustomerDetailActivity;
+import com.example.hairsalon.statistics.CustomerListActivity;
 
 import java.util.ArrayList;
 import java.util.List;

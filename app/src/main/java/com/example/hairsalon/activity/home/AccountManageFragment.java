@@ -15,6 +15,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.auth.Login;
 import com.example.hairsalon.activity.manage.UserProfileFragment;
+import com.example.hairsalon.activity.statistics.DoanhThu;
+import com.example.hairsalon.activity.statistics.SanPham;
 import com.example.hairsalon.databinding.FragmentAccountBinding;
 
 public class AccountManageFragment extends Fragment {
@@ -30,16 +32,28 @@ public class AccountManageFragment extends Fragment {
         Integer customerId = sharedPreferences.getInt("userId", -1);
         binding.username.setText("ADMIN");
         binding.userId.setText("Id:" + customerId);
-        binding.btnCustomerProfile.setText("Doanh thu");
+        binding.btnCustomerProfile.setText("Thống kê doanh thu");
         binding.btnBookingHistory.setText("Quản lý dịch vụ");
         binding.btnOrderHistory.setText("Quản lý đơn hàng");
-        binding.btnSupport.setText("Hỗ trợ");
+        binding.btnSupport.setText("So sánh doanh thu");
         binding.btnCustomerProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//add doanh thu
+//add doanh
+                Intent intent = new Intent(requireContext(), DoanhThu.class);
+                startActivity(intent);
             }
         });
+
+        binding.btnSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//add doanh
+                Intent intent = new Intent(requireContext(), SanPham.class);
+                startActivity(intent);
+            }
+        });
+
         binding.btnLogOutAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +63,8 @@ public class AccountManageFragment extends Fragment {
 
         return binding.getRoot();
     }
+
+
 
     private void logout() {
         // Xóa tất cả dữ liệu của người dùng đã đăng nhập
