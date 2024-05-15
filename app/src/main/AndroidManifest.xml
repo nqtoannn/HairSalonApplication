@@ -19,7 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <!--
@@ -112,13 +111,13 @@
 
         <activity
             android:name=".activity.auth.Login"
-            android:exported="false"/>
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity> &lt;!&ndash; <activity &ndash;&gt;-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- <activity -->
         <!-- android:name=".activity.servicehair.UpdateServiceHairActivity" -->
         <!-- android:exported="false" /> -->
         <!-- <activity -->
