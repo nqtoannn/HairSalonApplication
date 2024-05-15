@@ -24,6 +24,13 @@
         android:textColor="#817828"
         android:textSize="24sp"
         android:textStyle="bold" />
+    <Button
+        android:id="@+id/btnExportPDFSP"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Xuất dưới dạng PDF" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChart"

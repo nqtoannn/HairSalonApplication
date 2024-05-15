@@ -118,6 +118,14 @@
         android:layout_height="wrap_content"
         android:text="Thống kê" />
 
+    <Button
+        android:id="@+id/btnExportPDFDT"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Xuất dưới dạng PDF" />
+
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChart"
         android:layout_width="match_parent"
