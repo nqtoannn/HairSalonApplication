@@ -89,4 +89,5 @@ dependencies {
     implementation ("org.projectlombok:lombok:1.18.20")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.itextpdf:itextg:5.5.10")
 }
