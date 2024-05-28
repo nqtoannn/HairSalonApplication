@@ -263,7 +263,7 @@ public class DoanhThu extends AppCompatActivity {
             // Tạo một Bitmap mới với kích thước đã được giảm
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(chartBitmap, scaledWidth, scaledHeight, true);
             try {
-                File pdfFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "chart.pdf");
+                File pdfFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "BaoCaoDoanhThu.pdf");
                 FileOutputStream outputStream = new FileOutputStream(pdfFile);
 
                 // Tạo Document của iTextPDF và PdfWriter để ghi vào tệp PDF

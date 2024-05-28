@@ -161,7 +161,7 @@ public class SanPham extends AppCompatActivity {
             try {
                 // Tạo tệp PDF trong thư mục Documents trên bộ nhớ ngoài
 
-                File pdfFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "chart.pdf");
+                File pdfFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "SoSanhDoanhTHu.pdf");
                 FileOutputStream outputStream = new FileOutputStream(pdfFile);
 
                 // Tạo Document của iTextPDF và PdfWriter để ghi vào tệp PDF

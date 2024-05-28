@@ -9,12 +9,6 @@
     android:background="@color/white"
     tools:context=".activity.statistics.StatisticsActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        app:srcCompat="@drawable/logo" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"

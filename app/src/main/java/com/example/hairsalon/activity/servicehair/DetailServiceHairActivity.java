@@ -59,9 +59,7 @@ public class DetailServiceHairActivity extends AppCompatActivity {
     private Integer serviceHairId, customerId;
     private String name, imageUrl;
     private Double price;
-
     RequestQueue requestQueue;
-
     ArrayList<Review> dataArrayList = new ArrayList<>();
     private List<Map<String, Object>> reviewItemList = new ArrayList<>();
 
@@ -165,7 +163,7 @@ public class DetailServiceHairActivity extends AppCompatActivity {
                         Collections.reverse(dataArrayList);
                         ReviewAdapter reviewAdapter = new ReviewAdapter(DetailServiceHairActivity.this, dataArrayList);
                         binding.listviewComments.setAdapter(reviewAdapter);
-                        int itemHeight = 220; // Độ cao của mỗi item
+                        int itemHeight = 320; // Độ cao của mỗi item
                         int totalHeight = itemHeight * dataArrayList.size(); // Tích của độ cao và số lượng item
                         ViewGroup.LayoutParams params = binding.listviewComments.getLayoutParams();
                         params.height = totalHeight;
