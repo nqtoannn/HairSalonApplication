@@ -143,7 +143,7 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Xử lý xóa sản phẩm ở vị trí đã xác định
-                int itemId = mCartItems.get(position).getId();
+                String itemId = mCartItems.get(position).getId();
                 System.out.println("ItemId"+ itemId);
                 Log.i("ItemId", String.valueOf(itemId));
                 // Xử lý xóa sản phẩm ở vị trí đã xác định
@@ -173,8 +173,8 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
         TextView xSeparatorTextView;
     }
 
-    private void removeCartItem(Integer cartItemId) {
-        String apiUrl = Constant.baseUrl + "customer/deleteCartItem/" + String.valueOf(cartItemId);
+    private void removeCartItem(String cartItemId) {
+        String apiUrl = Constant.baseUrl + "cart/" + String.valueOf(cartItemId);
 
         // Tạo yêu cầu xóa mục khỏi giỏ hàng
         StringRequest request = new StringRequest(Request.Method.DELETE, apiUrl,

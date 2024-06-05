@@ -44,7 +44,7 @@ public class HomeShopActivity extends AppCompatActivity {
     RecyclerView recyclerViewCheapProduct;
     List<Map<String, Object>> productItemList;
 
-    Integer cartId;
+    String cartId;
 
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class HomeShopActivity extends AppCompatActivity {
         binding = ActivityHomeShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-        cartId = sharedPreferences.getInt("cartId", -1);
+        cartId = sharedPreferences.getString("cartId", "");
 
         recyclerView = findViewById(R.id.recycler_view_products);
         recyclerViewCheapProduct = findViewById(R.id.recycler_view_products_cheap);

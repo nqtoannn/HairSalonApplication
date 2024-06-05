@@ -117,13 +117,13 @@ public class DetailAppointmentActivity extends AppCompatActivity {
         builder.show();
     }
     private void doneAnAppointment() {
-        String apiUrl = Constant.baseUrl + "appointments/update-status";
+        String apiUrl = Constant.baseUrl + "appointment/updateStatus";
         Intent intent = getIntent();
-        Integer id = intent.getIntExtra("id", 0);
+        String id = intent.getStringExtra("id");
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("appointmentId", id);
-            requestBody.put("statusCode", 4);
+            requestBody.put("status", "SUCCESS" );
             StringRequest request = new StringRequest(Request.Method.PUT, apiUrl,
                     new Response.Listener<String>() {
                         @Override

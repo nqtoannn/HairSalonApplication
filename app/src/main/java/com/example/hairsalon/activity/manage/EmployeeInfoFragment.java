@@ -35,15 +35,15 @@ public class EmployeeInfoFragment extends Fragment {
 
     private FragmentEmployeeInfoBinding binding;
     private List<Map<String, Object>> employeeList = new ArrayList<>();
-    private Integer employeeId;
+    private String employeeId;
     public EmployeeInfoFragment() {
         // Required empty public constructor
     }
 
-    public static EmployeeInfoFragment newInstance(Integer employeeId) {
+    public static EmployeeInfoFragment newInstance(String employeeId) {
         EmployeeInfoFragment fragment = new EmployeeInfoFragment();
         Bundle args = new Bundle();
-        args.putInt("employeeId",employeeId);
+        args.putString("employeeId",employeeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,7 +52,7 @@ public class EmployeeInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            employeeId = getArguments().getInt("employeeId");
+            employeeId = getArguments().getString("employeeId");
         }
     }
 

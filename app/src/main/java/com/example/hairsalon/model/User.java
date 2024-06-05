@@ -2,7 +2,7 @@ package com.example.hairsalon.model;
 
 public class User {
 
-    private Integer id;
+    private String id;
     private String userName;
     private String email;
     private String password;
@@ -12,7 +12,7 @@ public class User {
     private String address;
     private String status;
 
-    public User(Integer id, String userName, String email, String password, String role, String fullName, String phoneNumber, String address, String status) {
+    public User(String id, String userName, String email, String password, String role, String fullName, String phoneNumber, String address, String status) {
         this.id = id;
         this.userName = userName;
         this.email = email;
@@ -43,11 +43,11 @@ public class User {
         return email;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

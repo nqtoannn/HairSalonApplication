@@ -48,8 +48,6 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView recyclerViewService;
     TextView textView;
-
-
     Button btnHistory, btnBooking;
     @Nullable
     @Override
@@ -59,7 +57,7 @@ public class HomeFragment extends Fragment {
         textView = binding.txtUsername;
         Context context = getActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        Integer customerId = sharedPreferences.getInt("userId", 1);
+        String customerId = sharedPreferences.getString("userId", "");
         ApiService.apiService.getCustomerById(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -70,7 +68,7 @@ public class HomeFragment extends Fragment {
                         binding.txtUsername.setText(customer.get("fullName").toString());
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Thay đổi trạng thái tài khoản không thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Không thể kết nối đến máy chủ!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -79,17 +77,16 @@ public class HomeFragment extends Fragment {
                 Log.e("Error", "API call failed: " + t.getMessage());
             }
         });
-        Log.d("Customer Idddd", String.valueOf(customerId));
-        textView.setText(String.valueOf(customerId));
+        textView.setText(customerId);
         recyclerViewService = binding.recyclerViewService;
         recyclerView = binding.recyclerViewService1;
         btnBooking = binding.btnHomeBooking;
         btnHistory = binding.btnHomeHistory;
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        int spanCount = 2; // Số cột bạn muốn hiển thị
-        int orientation = LinearLayoutManager.HORIZONTAL; // Hướng hiển thị
-        boolean reverseLayout = false; // Không đảo ngược layout
+        int spanCount = 2;
+        int orientation = LinearLayoutManager.HORIZONTAL;
+        boolean reverseLayout = false;
 
         GridLayoutManager layoutManagerService = new GridLayoutManager(requireContext(), spanCount, RecyclerView.HORIZONTAL, reverseLayout);
         recyclerViewService.setLayoutManager(layoutManagerService);
@@ -123,13 +120,13 @@ public class HomeFragment extends Fragment {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         hairServiceList = responseData.getData();
-                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList); // Tạo adapter mới với danh sách dịch vụ tóc
-                        recyclerViewService.setAdapter(adapter); // Đặt adapter cho RecyclerView
+                        HairServiceAdapter adapter = new HairServiceAdapter(hairServiceList);
+                        recyclerViewService.setAdapter(adapter);
                     } else {
-                        Log.e("Error", "No hair service data found in response"); // Hiển thị thông báo nếu không có dữ liệu dịch vụ tóc
+                        Log.e("Error", "No hair service data found in response");
                     }
                 } else {
-                    Log.e("Error", "API service call failed with error code: " + response.code()); // Hiển thị thông báo nếu cuộc gọi API không thành công
+                    Log.e("Error", "API service call failed with error code: " + response.code());
                 }
             }
 

@@ -56,7 +56,7 @@ public class UpdateProductItemActivity extends AppCompatActivity {
     String path;
 
     RequestQueue requestQueue;
-    Integer productItemId;
+    String productItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class UpdateProductItemActivity extends AppCompatActivity {
             double price = intent.getDoubleExtra("detailPrice", 0.0);
             String description = intent.getStringExtra("description");
             String imageUrl = intent.getStringExtra("imageUrl");
-            productItemId = intent.getIntExtra("productItemId", 0);
+            productItemId = intent.getStringExtra("productItemId");
             Integer quantity = intent.getIntExtra("quantity", 0);
             binding.nameProduct.setText(name);
             binding.description.setText(description);;
@@ -186,7 +186,7 @@ public class UpdateProductItemActivity extends AppCompatActivity {
         });
     }
 
-    private JSONObject updateProductItem(Integer productItemId) {
+    private JSONObject updateProductItem(String productItemId) {
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("productItemId", productItemId);
@@ -232,7 +232,7 @@ public class UpdateProductItemActivity extends AppCompatActivity {
         });
     }
 
-    private void updateProductItemStatus(Integer productItemId) {
+    private void updateProductItemStatus(String productItemId) {
         String apiUrl = Constant.baseUrl + "management/productItem/updateStatus";
         try {
             JSONObject requestBody = new JSONObject();
@@ -283,7 +283,7 @@ public class UpdateProductItemActivity extends AppCompatActivity {
         }
     }
 
-    private void showConfirmationDialog(Integer productItemId) {
+    private void showConfirmationDialog(String productItemId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Xác nhận hành động");
         builder.setMessage("Bạn có chắc chắn muốn ngừng kinh doanh mặt hàng này không?");

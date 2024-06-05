@@ -74,7 +74,7 @@ public class EmployeeManageFragment extends Fragment {
                 User selectedUser = adapter.getItem(position);
 
                 if (selectedUser != null) {
-                    int userId = selectedUser.getId();
+                    String userId = selectedUser.getId();
                     EmployeeInfoFragment fragment = EmployeeInfoFragment.newInstance(userId);
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -98,7 +98,7 @@ public class EmployeeManageFragment extends Fragment {
 
                         employeeList = responseData.getData();
                         for (Map<String, Object> employee : employeeList) {
-                            Integer id = ((Number) employee.get("id")).intValue();
+                            String id = ((String) employee.get("id"));
                             String email = (String) employee.get("email");
                             String userName = (String) employee.get("userName");
                             String fullName = (String) employee.get("fullName");

@@ -45,7 +45,7 @@ public class DetailProductActivity extends AppCompatActivity {
     ActivityDetailProductBinding binding;
     RequestQueue requestQueue;
 
-    private Integer productItemId, cartId;
+    private String productItemId, customerId;
     private String name, imageUrl;
     private Double price;
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
@@ -55,16 +55,15 @@ public class DetailProductActivity extends AppCompatActivity {
         binding = ActivityDetailProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-        cartId = sharedPreferences.getInt("cartId", -1);
+        customerId = sharedPreferences.getString("userId","");
         getAllCartItemsAndUpdateCount();
-
         Intent intent = getIntent();
         if (intent != null) {
             name = intent.getStringExtra("detailName");
             price = intent.getDoubleExtra("detailPrice", 0.0);
             String description = intent.getStringExtra("detailDescription");
             imageUrl = intent.getStringExtra("imageUrl");
-            productItemId = intent.getIntExtra("productItemId", 0);
+            productItemId = intent.getStringExtra("productItemId");
             binding.textProductName.setText(name);
             binding.textProductDescription.setText(description);;
             binding.textProductPrice.setText(Utils.formatPrice(price));
@@ -132,7 +131,7 @@ public class DetailProductActivity extends AppCompatActivity {
 
     private void getAllCartItemsAndUpdateCount() {
         Log.i("Called Api", "Called");
-        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
@@ -164,14 +163,14 @@ public class DetailProductActivity extends AppCompatActivity {
 
     private void addToCart() {
         Intent intent = getIntent();
-        if (productItemId == 0) {
-            productItemId = intent.getIntExtra("productItemId", 0);
+        if (productItemId.isEmpty()) {
+            productItemId = intent.getStringExtra("productItemId");
         }
-        String apiUrl = Constant.baseUrl + "customer/addToCart";
+        String apiUrl = Constant.baseUrl + "cart";
         try {
             JSONObject requestBody = new JSONObject();
-            requestBody.put("cart_id", cartId);
-            requestBody.put("product_item_id", productItemId);
+            requestBody.put("customerId", customerId);
+            requestBody.put("productItemId", productItemId);
             requestBody.put("quantity", 1);
 
             StringRequest request = new StringRequest(Request.Method.POST, apiUrl,

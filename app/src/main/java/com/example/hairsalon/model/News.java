@@ -1,7 +1,7 @@
 package com.example.hairsalon.model;
 
 public class News {
-    private Integer id;
+    private String id;
     private String title;
     private String description;
     private String imageUrl;
@@ -12,11 +12,11 @@ public class News {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

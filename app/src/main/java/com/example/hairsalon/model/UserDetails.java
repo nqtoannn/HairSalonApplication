@@ -9,5 +9,6 @@ public class UserDetails {
     public UserDetails(String textDoB, String textPhone){
         this.doB =textDoB;
         this.phone = textPhone;
+
     }
 }

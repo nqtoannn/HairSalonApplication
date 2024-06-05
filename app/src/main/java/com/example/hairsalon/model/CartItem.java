@@ -1,13 +1,13 @@
 package com.example.hairsalon.model;
 
 public class CartItem {
-    private Integer id;
+    private String id;
     private String productItemName;
     private Integer quantity;
     private String imageUrl;
     private Double price;
 
-    public CartItem(Integer id, String productItemName, Integer quantity, String imageUrl, Double price) {
+    public CartItem(String id, String productItemName, Integer quantity, String imageUrl, Double price) {
         this.id = id;
         this.productItemName = productItemName;
         this.quantity = quantity;
@@ -15,11 +15,11 @@ public class CartItem {
         this.price = price;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

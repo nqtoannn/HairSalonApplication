@@ -142,13 +142,13 @@ public class OTPVerification extends AppCompatActivity {
 
                                 if(responseAuthData.getRole().equals("ADMIN")) {
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("userId", responseAuthData.getAccountId());
+                                    bundle.putString("userId", responseAuthData.getAccountId());
                                     Intent intent = new Intent(OTPVerification.this, HomeManage.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                 } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                     Bundle bundle = new Bundle();
-                                    bundle.putInt("customerId", responseAuthData.getAccountId());
+                                    bundle.putString("customerId", responseAuthData.getAccountId());
                                     Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
@@ -168,13 +168,13 @@ public class OTPVerification extends AppCompatActivity {
 
                                                     if(responseAuthData.getRole().equals("ADMIN")) {
                                                         Bundle bundle = new Bundle();
-                                                        bundle.putInt("userId", responseAuthData.getAccountId());
+                                                        bundle.putString("userId", responseAuthData.getAccountId());
                                                         Intent intent = new Intent(OTPVerification.this, HomeManage.class);
                                                         intent.putExtras(bundle);
                                                         startActivity(intent);
                                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                                         Bundle bundle = new Bundle();
-                                                        bundle.putInt("customerId", responseAuthData.getAccountId());
+                                                        bundle.putString("customerId", responseAuthData.getAccountId());
                                                         Intent intent = new Intent(OTPVerification.this, HomeCustomer.class);
                                                         intent.putExtras(bundle);
                                                         startActivity(intent);
@@ -193,10 +193,8 @@ public class OTPVerification extends AppCompatActivity {
                                             }
                                         });
                                     }
-
                                     @Override
                                     public void onFailure(Call<Void> call, Throwable t) {
-
                                     }
                                 });
                             }
@@ -241,12 +239,10 @@ public class OTPVerification extends AppCompatActivity {
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
         }
 
         @Override
@@ -275,7 +271,6 @@ public class OTPVerification extends AppCompatActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event){
         if (keyCode ==KeyEvent.KEYCODE_DEL){
-
             if (seclectedPosition == 5 && otp6.getText().toString().equals("")){
                 seclectedPosition = 4;
                 showKeyboard(otp5);
@@ -298,18 +293,15 @@ public class OTPVerification extends AppCompatActivity {
         return super.onKeyUp(keyCode,event);
         }
     }
-
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
 
         }
-
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
             Toast.makeText(OTPVerification.this,e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
         }
-
         @Override
         public void onCodeSent(@NonNull String verificationId,
                                @NonNull PhoneAuthProvider.ForceResendingToken token) {
@@ -317,7 +309,6 @@ public class OTPVerification extends AppCompatActivity {
             verifiID = verificationId;
         }
     };
-
     private void sendOTP(String phone){
         mAuth = FirebaseAuth.getInstance();
         PhoneAuthOptions options =
@@ -330,6 +321,4 @@ public class OTPVerification extends AppCompatActivity {
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
-
-
 }

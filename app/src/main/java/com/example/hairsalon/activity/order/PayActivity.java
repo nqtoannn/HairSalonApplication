@@ -2,7 +2,6 @@ package com.example.hairsalon.activity.order;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -29,50 +27,44 @@ import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.databinding.ActivityPayBinding;
 import com.example.hairsalon.model.CartItem;
 import com.example.hairsalon.model.ResponseData;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import com.android.volley.Response;
 import com.example.hairsalon.utils.Utils;
-
 import android.content.Intent;
-
 import java.util.Objects;
 
 
 public class PayActivity extends AppCompatActivity {
 
     ActivityPayBinding binding;
-
     CartItemAdapter cartItemAdapter;
     ArrayList<Map<String, Object>> data = new ArrayList<>();
     ArrayList<Map<String, Object>> cartItemList = new ArrayList<>();
-
-
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
     double price = 0.0;
     double deliveryPrice = 0;
-    Integer productItemId, customerId, cartId;
+    String productItemId, customerId;
     private Double totalPrice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("userId", -1);
-        cartId = sharedPreferences.getInt("cartId", -1);
+        customerId = sharedPreferences.getString("userId", "");
+
         Intent intent = getIntent();
         if (intent.getStringExtra("detailName") != null) {
             binding.linearLayout.setVisibility(View.VISIBLE);
@@ -80,7 +72,7 @@ public class PayActivity extends AppCompatActivity {
             String name = intent.getStringExtra("detailName");
             price = intent.getDoubleExtra("detailPrice", 0);
             String imageUrl = intent.getStringExtra("imageUrl");
-            productItemId = intent.getIntExtra("productItemId", 0);
+            productItemId = intent.getStringExtra("productItemId");
             binding.productName.setText(name);
             binding.productPrice.setText(Utils.formatPrice(price));
             binding.productQuantity.setText("1");
@@ -126,7 +118,6 @@ public class PayActivity extends AppCompatActivity {
                         Map<String, Object> dataItem = data.get(0);
                         binding.textCustomerName.setText(dataItem.get("fullName").toString());
                         binding.textCustomerAddress.setText(dataItem.get("address").toString());
-
                     } else {
                         Log.e("Error", "No cart item data found in response");
                     }
@@ -186,7 +177,7 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void getCartItems() {
-        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
                 if (response.isSuccessful()) {
@@ -195,7 +186,7 @@ public class PayActivity extends AppCompatActivity {
                         cartItemList = (ArrayList<Map<String, Object>>) responseData.getData();
                         totalPrice = 0.0;
                         for (Map<String, Object> cartItem : cartItemList) {
-                            Integer id = ((Number) cartItem.get("id")).intValue();
+                            String id = (String) cartItem.get("id");
                             String productItemName = (String) cartItem.get("productItemName");
                             Integer quantity = ((Number) Objects.requireNonNull(cartItem.get("quantity"))).intValue();
                             String imageUrl = (String) cartItem.get("imageUrl");
@@ -239,73 +230,99 @@ public class PayActivity extends AppCompatActivity {
     }
 
     private void createOrder() {
-        String apiUrl = Constant.baseUrl + "customer/order";
-        try {
-            JSONObject requestBody = new JSONObject();
-            requestBody.put("customerId", customerId);
-            requestBody.put("payId", 1);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String currentDate = dateFormat.format(new Date());
-            requestBody.put("orderDate", currentDate);
-            JSONArray orderItemListJson = new JSONArray();
-            if (price != 0.0) {
+        Intent intent = getIntent();
+        String apiUrl;
+        if (intent.getStringExtra("detailName") != null) {
+            apiUrl = Constant.baseUrl + "order/buyNow";
+            try {
+                JSONObject requestBody = new JSONObject();
+                requestBody.put("customerId", customerId);
+                requestBody.put("payId", "1");
+                requestBody.put("productItemId",productItemId);
                 requestBody.put("totalPrice", price);
-                JSONObject orderItemJson = new JSONObject();
-                orderItemJson.put("productItemId", productItemId);
-                orderItemJson.put("price", price);
-                orderItemJson.put("quantity", 1);
-                orderItemListJson.put(orderItemJson);
-                requestBody.put("orderItemList", orderItemListJson);
+                StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Intent intent = new Intent(PayActivity.this, SuccessPay.class);
+                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "Đơn hàng của bạn đã được thanh toán", Toast.LENGTH_SHORT).show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("Error response", String.valueOf(error));
+                                Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi thanh toán đơn hàng", Toast.LENGTH_SHORT).show();
+                            }
+                        }) {
+                    @Override
+                    public byte[] getBody() {
+                        return requestBody.toString().getBytes();
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        return headers;
+                    }
+                };
+                Volley.newRequestQueue(this).add(request);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            else {
+        }else{
+            apiUrl = Constant.baseUrl + "order";
+            try {
+                JSONObject requestBody = new JSONObject();
+                requestBody.put("customerId", customerId);
+                requestBody.put("payId", "1");
+                List<String> listCartId = new ArrayList<>();
                 for (Map<String, Object> cartItem : cartItemList) {
-                    JSONObject orderItemJson = new JSONObject();
-                    orderItemJson.put("productItemId", cartItem.get("productItemId"));
-                    orderItemJson.put("price", cartItem.get("price"));
-                    orderItemJson.put("quantity", cartItem.get("quantity"));
-                    orderItemListJson.put(orderItemJson);
+                    listCartId.add((String) cartItem.get("id"));
                 }
                 requestBody.put("totalPrice", totalPrice);
-                requestBody.put("orderItemList", orderItemListJson);
-                deleteAllCartItems();
+                requestBody.put("listCartId", listCartId);
+                Log.i("cartid",requestBody.toString());
+                StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Intent intent = new Intent(PayActivity.this, SuccessPay.class);
+                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "Đơn hàng của bạn đã được thanh toán", Toast.LENGTH_SHORT).show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("Error response", String.valueOf(error));
+                                Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi thanh toán đơn hàng", Toast.LENGTH_SHORT).show();
+                            }
+                        }) {
+                    @Override
+                    public byte[] getBody() {
+                        return requestBody.toString().getBytes();
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Content-Type", "application/json");
+                        return headers;
+                    }
+                };
+                Volley.newRequestQueue(this).add(request);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Intent intent = new Intent(PayActivity.this, SuccessPay.class);
-                            startActivity(intent);
-                            Toast.makeText(getApplicationContext(), "Đơn hàng của bạn đã được thanh toán", Toast.LENGTH_SHORT).show();
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("Error response", String.valueOf(error));
-                            Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi khi thanh toán đơn hàng", Toast.LENGTH_SHORT).show();
-                        }
-                    }) {
-                @Override
-                public byte[] getBody() {
-                    return requestBody.toString().getBytes();
-                }
-
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Content-Type", "application/json");
-                    return headers;
-                }
-            };
-            Volley.newRequestQueue(this).add(request);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+
     }
 
     private void deleteAllCartItems() {
-        ApiService.apiService.deleteAllCartItemsByCartId(7).enqueue(new Callback<Void>() {
+        ApiService.apiService.deleteAllCartItemsByCartId(customerId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
                 if (response.isSuccessful()) {

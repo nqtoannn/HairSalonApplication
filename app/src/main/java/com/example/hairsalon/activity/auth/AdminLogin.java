@@ -116,7 +116,7 @@ public class AdminLogin extends AppCompatActivity {
                     ResponseAuthData responseAuthData = response.body();
                     SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("userId", responseAuthData.getAccountId());
+                    editor.putString("userId", responseAuthData.getAccountId());
                     editor.apply();
                     if(responseAuthData.getRole().equals("ADMIN")) {
                         Toast.makeText( AdminLogin.this, "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();

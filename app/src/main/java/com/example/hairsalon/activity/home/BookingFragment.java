@@ -58,32 +58,16 @@ public class BookingFragment extends Fragment  {
     List<Map<String, Object>> hairServiceList;
     private int selectedStylistId = 1;
 
-    int[] serviceIds = null;
+    String[] serviceIds = {};
     String[] serviceNames = {};
 
-    int[] salonIds;
+    String[] salonIds;
     String[] salonNames;
 
-     int[] stylistIds;
+    String[] stylistIds;
      String[] stylistNames;
-     Integer customerId;
+    String customerId;
 
-
-    public static BookingFragment newInstance(Integer salonId) {
-        BookingFragment fragment = new BookingFragment();
-        Bundle args = new Bundle();
-        args.putInt("salonId",salonId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            selectedSalonId = ((Integer) getArguments().get("salonId"));
-        }
-    }
 
 
     @Nullable
@@ -91,7 +75,7 @@ public class BookingFragment extends Fragment  {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentBookingBinding.inflate(inflater, container, false);
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("userId", -1);
+        customerId = sharedPreferences.getString("userId", "");
         return binding.getRoot();
     }
 
@@ -164,18 +148,17 @@ public class BookingFragment extends Fragment  {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         List<Map<String, Object>> hairServiceList = responseData.getData();
-                        serviceIds = new int[hairServiceList.size()];
+                        serviceIds = new String[hairServiceList.size()];
                         serviceNames = new String[hairServiceList.size()];
                         int index = 0;
                         for (Map<String, Object> service : hairServiceList) {
-                            Integer id = ((Double) service.get("id")).intValue();
+                            String id = ((String) service.get("id"));
                             serviceIds[index] = id;
                             String serviceName = (String) service.get("serviceName");
                             serviceNames[index] = serviceName;
                             index++;
                         }
 
-                        // Tạo ArrayAdapter từ mảng serviceNames và gắn nó vào Spinner
                         ArrayAdapter<String> serviceAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, serviceNames);
                         binding.spinnerService.setAdapter(serviceAdapter);
                     } else {
@@ -196,7 +179,7 @@ public class BookingFragment extends Fragment  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Lưu ID của dịch vụ được chọn
-                selectedServiceId = serviceIds[position];
+                selectedServiceId = position;
             }
 
             @Override
@@ -205,9 +188,6 @@ public class BookingFragment extends Fragment  {
             }
         });
 
-
-        // Initialize Spinner for stylist with titles
-
         ApiService.apiService.getAllEmployees().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
@@ -215,13 +195,13 @@ public class BookingFragment extends Fragment  {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         List<Map<String, Object>> stylistList = responseData.getData();
-                        stylistIds = new int[stylistList.size()];
+                        stylistIds = new String[stylistList.size()];
                         stylistNames = new String[stylistList.size()];
                         int index = 0;
                         for (Map<String, Object> service : stylistList) {
-                            Integer id = ((Double) service.get("id")).intValue();
+                            String id = ((String) service.get("id"));
                             stylistIds[index] = id;
-                            String userName = (String) service.get("userName");
+                            String userName = (String) service.get("fullName");
                             stylistNames[index] = userName;
                             index++;
                         }
@@ -247,7 +227,7 @@ public class BookingFragment extends Fragment  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Lưu ID của dịch vụ được chọn
-                selectedStylistId = stylistIds[position];
+                selectedStylistId = position;
             }
 
             @Override
@@ -318,22 +298,22 @@ public class BookingFragment extends Fragment  {
     }
 
     private void makeAnAppointment() {
-        String apiUrl = Constant.baseUrl + "appointments/makeApm";
+        String apiUrl = Constant.baseUrl + "appointment/add";
         Context context = getActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("SalonId", Context.MODE_PRIVATE);
-        Integer selectedSalonIdmaps = sharedPreferences.getInt("SalonId", -1);
-        if(selectedSalonIdmaps == -1){
+        String selectedSalonIdmaps = sharedPreferences.getString("SalonId", "");
+        if(selectedSalonIdmaps.isEmpty()){
             Toast.makeText(requireContext(), "Vui lòng chọn chi nhánh salon!", Toast.LENGTH_SHORT).show();
         }
         else {
             try {
                 JSONObject requestBody = new JSONObject();
                 requestBody.put("customerId", customerId);
-                requestBody.put("serviceId", selectedServiceId);
+                requestBody.put("serviceId", serviceIds[selectedServiceId]);
                 requestBody.put("salonId", selectedSalonIdmaps);
                 requestBody.put("appointmentDate", binding.textViewDate.getText().toString());
                 requestBody.put("appointmentTime", binding.textViewTime.getText().toString() + ":00");
-                requestBody.put("userId", selectedStylistId);
+                requestBody.put("userId", stylistIds[selectedStylistId]);
 
                 final String requestBodyString = requestBody.toString();
 

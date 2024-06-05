@@ -70,10 +70,10 @@ public class ShopManageFragment extends Fragment {
 
                         productItemList = responseData.getData();
                         for (Map<String, Object> productItem : productItemList) {
-                            Integer id = ((Number) productItem.get("id")).intValue();
+                            String id = (String) productItem.get("id");
                             String productItemName = (String) productItem.get("productItemName");
                             double price = (double) productItem.get("price");
-                            Integer quantityInStock = ((Number) Objects.requireNonNull(productItem.get("quantityInStock"))).intValue();
+                            Integer quantityInStock = ((Number) Objects.requireNonNull(productItem.get("quantity"))).intValue();
                             String imageUrl = (String) productItem.get("imageUrl");
                             Integer warrantyTime = ((Number) Objects.requireNonNull(productItem.get("warrantyTime"))).intValue();
                             String status = (String) productItem.get("status");

@@ -182,7 +182,7 @@ public class SanPham extends AppCompatActivity {
                 // Thêm nội dung văn bản vào tài liệu PDF
 
                 SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-                Integer customerId = sharedPreferences.getInt("userId", -1);
+                String customerId = sharedPreferences.getString("userId", "");
 
                 ApiService.apiService.getCustomerById(customerId).enqueue(new Callback<ResponseData>() {
                     @Override

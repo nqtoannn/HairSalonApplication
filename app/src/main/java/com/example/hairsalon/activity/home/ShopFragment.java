@@ -47,7 +47,7 @@ public class ShopFragment extends Fragment {
     private List<Map<String, Object>> productItemList;
 
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
-    Integer cartId;
+    String customerId;
 
     public ShopFragment() {
         // Required empty public constructor
@@ -68,7 +68,7 @@ public class ShopFragment extends Fragment {
         recyclerViewCheapProduct.setLayoutManager(layoutManagerCheapProduct);
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("User", Context.MODE_PRIVATE);
-        cartId = sharedPreferences.getInt("cartId", -1);
+        customerId = sharedPreferences.getString("userId", "");
 
         getAllCartItemsAndUpdateCount();
 
@@ -129,7 +129,7 @@ public class ShopFragment extends Fragment {
     }
 
     private void getAllCartItemsAndUpdateCount() {
-        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {

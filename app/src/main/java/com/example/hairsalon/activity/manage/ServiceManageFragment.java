@@ -70,7 +70,7 @@ public class ServiceManageFragment extends Fragment {
                         dataArrayList.clear();
                         serviceHairList = responseData.getData();
                         for (Map<String, Object> serviceHair : serviceHairList) {
-                            Integer id = ((Number) serviceHair.get("id")).intValue();
+                            String id = (String) serviceHair.get("id");
                             String serviceName = (String) serviceHair.get("serviceName");
                             double price = (double) serviceHair.get("price");
                             String imageUrl = (String) serviceHair.get("url");

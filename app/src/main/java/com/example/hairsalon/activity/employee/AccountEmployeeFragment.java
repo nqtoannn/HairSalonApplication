@@ -42,7 +42,7 @@ public class AccountEmployeeFragment extends Fragment {
         binding.btnOrderHistory.setText("Lịch sử làm việc");
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        Integer customerId = sharedPreferences.getInt("userId", -1);
+        String customerId = sharedPreferences.getString("userId", "");
 
         ApiService.apiService.getCustomerById(customerId).enqueue(new Callback<ResponseData>() {
             @Override

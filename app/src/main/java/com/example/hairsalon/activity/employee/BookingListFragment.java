@@ -34,11 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BookingListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class BookingListFragment extends Fragment {
 
     private FragmentBookingListBinding binding;
@@ -48,7 +44,7 @@ public class BookingListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    Integer employeeId;
+    String employeeId;
 
 
     @Override
@@ -63,15 +59,13 @@ public class BookingListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Context context = getActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
-        employeeId = sharedPreferences.getInt("userId", 1);
+        employeeId = sharedPreferences.getString("userId", "");
         binding.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Appointment clickedAppointment = dataArrayList.get(i);
                 Log.i("clicked", clickedAppointment.getSalonName());
-                // Tạo intent để chuyển sang DetailAppointmentActivity và gửi dữ liệu cuộc hẹn
                 Intent intent = new Intent(getActivity(), DetailAppointmentActivity.class);
-                // Gửi dữ liệu cuộc hẹn qua intent
                 intent.putExtra("salonName", clickedAppointment.getSalonName());
                 intent.putExtra("serviceName", clickedAppointment.getServiceName());
                 intent.putExtra("time", clickedAppointment.getAppointmentTime());
@@ -87,7 +81,7 @@ public class BookingListFragment extends Fragment {
         getAllAppointment(employeeId);
     }
 
-    private void getAllAppointment(int employeeId){
+    private void getAllAppointment(String employeeId){
         ApiService.apiService.getAllAppointmentByEmployeeId(employeeId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -97,7 +91,7 @@ public class BookingListFragment extends Fragment {
                         appointmentList = responseData.getData();
                         dataArrayList.clear();
                         for (Map<String, Object> appointment : appointmentList) {
-                            Integer id = ((Number) appointment.get("id")).intValue();
+                            String id = (String) appointment.get("appointmentId");
                             String customerName = (String) appointment.get("customerName");
                             String userName = (String) appointment.get("userName");
                             String appointmentDate = (String) appointment.get("appointmentDate");

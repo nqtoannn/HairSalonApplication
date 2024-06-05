@@ -1,7 +1,7 @@
 package com.example.hairsalon.model;
 
 public class Product {
-    private int id;
+    private String id;
     private String productName;
     private String description;
     private String imageUrl;
@@ -30,7 +30,7 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public Product(int id, String productName, String description, String imageUrl) {
+    public Product(String id, String productName, String description, String imageUrl) {
         this.id = id;
         this.productName = productName;
         this.description = description;
@@ -38,11 +38,11 @@ public class Product {
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

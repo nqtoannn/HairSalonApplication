@@ -91,10 +91,9 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
                 Intent intent = new Intent(context, DetailServiceHairActivity.class);
 
                 // Truyền dữ liệu đi kèm trong Intent
-                    double idDouble = (Double) currentItem.get("id");
-                    int idInt = Double.valueOf(idDouble).intValue();
+                    String id = (String) currentItem.get("id");
                     double price = (Double) currentItem.get("price");
-                intent.putExtra("serviceHairId", idInt);
+                intent.putExtra("serviceHairId", id);
                 intent.putExtra("detailName", (String) currentItem.get("serviceName"));
                 intent.putExtra("detailPrice", price); // Chuyển giá thành String
                 intent.putExtra("detailDescription", (String) currentItem.get("description"));
@@ -117,16 +116,9 @@ public class HairServiceAdapter extends RecyclerView.Adapter<HairServiceAdapter.
             holder.btnBooking.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    BookingFragment bookingFragment = new BookingFragment();
-//                    fragmentManager.beginTransaction()
-//                            .replace(R.id.frameLayout, bookingFragment)
-//                            .addToBackStack(null) // Để có thể quay lại Fragment trước đó
-//                            .commit();
-                    double idDouble = (Double) currentItem.get("id");
-
-                    int idInt = Double.valueOf(idDouble).intValue();
+                    String id = (String) currentItem.get("id");
                     Intent intent2 = new Intent(holder.itemView.getContext(), AppointmentActivity.class);
-                    intent2.putExtra("serviceHairId", idInt);
+                    intent2.putExtra("serviceId", id);
                     intent2.putExtra("serviceName", currentItem.get("serviceName").toString());
                     holder.itemView.getContext().startActivity(intent2);
                 }

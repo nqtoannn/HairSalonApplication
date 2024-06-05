@@ -30,7 +30,7 @@ public class UserAdapter extends ArrayAdapter<User> {
         if (view == null){
             view = LayoutInflater.from(getContext()).inflate(R.layout.list_customer, parent, false);
         }
-        int userId = userData.getId();
+        String userId = userData.getId();
         ImageView listImage = view.findViewById(R.id.listImage);
         TextView listName = view.findViewById(R.id.listName);
         listName.setText(userData.getFullName());

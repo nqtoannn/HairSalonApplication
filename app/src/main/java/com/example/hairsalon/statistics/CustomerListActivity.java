@@ -44,7 +44,7 @@ public class CustomerListActivity extends AppCompatActivity {
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         userList = responseData.getData();// Lấy danh sách khách hàng từ ResponseData
                         for (Map<String, Object> user : userList) {
-                            Integer id = ((Number) user.get("id")).intValue();
+                            String id = ((String) user.get("id"));
                             String userName = (String) user.get("userName");
                             String email = (String) user.get("email");
                             String password = (String) user.get("password");

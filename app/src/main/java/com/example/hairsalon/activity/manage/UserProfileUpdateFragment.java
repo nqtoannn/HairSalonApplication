@@ -44,7 +44,7 @@ public class UserProfileUpdateFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        Integer customerId = sharedPreferences.getInt("userId", -1);
+        String customerId = sharedPreferences.getString("userId", "");
 
         ApiService.apiService.getCustomerById(customerId).enqueue(new Callback<ResponseData>() {
             @Override
@@ -99,13 +99,8 @@ public class UserProfileUpdateFragment extends Fragment {
     }
 
     private void loadAccountFragment() {
-        // Tạo một instance mới của AccountFragment
         AccountFragment fragment = new AccountFragment();
-
-        // Lấy ra FragmentManager từ Fragment hiện tại
         FragmentManager fragmentManager = getParentFragmentManager();
-
-        // Thay thế Fragment hiện tại bằng AccountFragment
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frameLayout, fragment);
         transaction.addToBackStack(null);

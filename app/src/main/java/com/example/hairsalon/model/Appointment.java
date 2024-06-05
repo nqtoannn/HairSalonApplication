@@ -1,7 +1,7 @@
 package com.example.hairsalon.model;
 
 public class Appointment {
-    private Integer id;
+    private String id;
     private String customerName;
     private String appointmentTime;
     private String appointmentDate;
@@ -11,7 +11,7 @@ public class Appointment {
     private String salonAddress;
     private String salonName;
 
-    public Appointment(Integer id, String customerName, String appointmentTime, String appointmentDate, String serviceName, String status, String userName, String salonAddress, String salonName) {
+    public Appointment(String id, String customerName, String appointmentTime, String appointmentDate, String serviceName, String status, String userName, String salonAddress, String salonName) {
         this.id = id;
         this.customerName = customerName;
         this.appointmentTime = appointmentTime;
@@ -23,11 +23,11 @@ public class Appointment {
         this.salonName = salonName;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

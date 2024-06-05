@@ -77,13 +77,9 @@ public class AddServiceHairActivity extends AppCompatActivity {
                                                     Toast.makeText(AddServiceHairActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
                                                     return;
                                                 }
-
-                                                // Create product item
                                                 JSONObject requestBody = createServiceHair();
-
                                                 String requestBodyString = requestBody.toString();
-                                                String apiUrl = Constant.baseUrl + "management/serviceHair/add";
-
+                                                String apiUrl = Constant.baseUrl + "hairservice";
                                                 StringRequest request = new StringRequest(Request.Method.POST, apiUrl, new com.android.volley.Response.Listener<String>() {
                                                     @Override
                                                     public void onResponse(String response) {
@@ -120,8 +116,6 @@ public class AddServiceHairActivity extends AppCompatActivity {
                                                 Volley.newRequestQueue(AddServiceHairActivity.this).add(request);
                                             }
                                         }
-
-
         );
     }
 

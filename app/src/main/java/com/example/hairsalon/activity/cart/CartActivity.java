@@ -36,7 +36,7 @@ public class CartActivity extends AppCompatActivity {
     CartItemAdapter cartItemAdapter;
     ArrayList<CartItem> dataArrayList = new ArrayList<>();
     private List<Map<String, Object>> cartItemList = new ArrayList<>();
-    Integer customerId, cartId;
+    String customerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +44,7 @@ public class CartActivity extends AppCompatActivity {
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("userId", -1);
-        cartId = sharedPreferences.getInt("cartId", -1);
-
+        customerId = sharedPreferences.getString("userId", "");
 
         getAllCartItem(); // Bắt đầu lấy dữ liệu
         binding.payButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +61,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void getAllCartItem() {
-        ApiService.apiService.getAllCartItemsByCartId(cartId).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllCartItemsByCartId(customerId).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
@@ -85,7 +83,7 @@ public class CartActivity extends AppCompatActivity {
         if (responseData != null && responseData.getStatus().equals("OK")) {
             cartItemList = responseData.getData();
             for (Map<String, Object> cartItem : cartItemList) {
-                Integer id = ((Number) cartItem.get("id")).intValue();
+                String id = (String) cartItem.get("id");
                 String productItemName = (String) cartItem.get("productItemName");
                 double price = (double) cartItem.get("price");
                 Integer quantity = ((Number) Objects.requireNonNull(cartItem.get("quantity"))).intValue();

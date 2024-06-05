@@ -9,14 +9,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
-    private Integer id;
+    private String id;
     private List<OrderItem> orderItems;
     private Double totalPrice;
     private String paymentMethod;
     private String orderStatus;
     private String orderDate;
 
-    public Order(Integer id, List<OrderItem> orderItems, Double totalPrice, String paymentMethod, String orderStatus, String orderDate) {
+    public Order(String id, List<OrderItem> orderItems, Double totalPrice, String paymentMethod, String orderStatus, String orderDate) {
         this.id = id;
         this.orderItems = orderItems;
         this.totalPrice = totalPrice;
@@ -28,11 +28,11 @@ public class Order {
     public Order() {
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

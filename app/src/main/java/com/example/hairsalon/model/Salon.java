@@ -1,11 +1,11 @@
 package com.example.hairsalon.model;
 
 public class Salon {
-    private Integer id;
+    private String id;
     private String salonName;
     private String address;
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -23,13 +23,13 @@ public class Salon {
 
     private String phoneNumber;
 
-    public Salon(Integer id, String saloneName, String address, String phoneNumber){
+    public Salon(String id, String saloneName, String address, String phoneNumber){
         this.id = id;
         this.salonName = saloneName;
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
-   public Integer getId(){return id;}
+   public String getId(){return id;}
     public String getSalonName() {
         return salonName;
     }

@@ -3,17 +3,17 @@ package com.example.hairsalon.model;
 import java.time.LocalDateTime;
 
 public class Review {
-    private Integer reviewId;
+    private String reviewId;
 
 
     public Review() {
 
     }
-    public Integer getReviewId() {
+    public String getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(Integer reviewId) {
+    public void setReviewId(String reviewId) {
         this.reviewId = reviewId;
     }
 
@@ -54,7 +54,7 @@ public class Review {
     private Integer rating;
     private String reviewDate;
 
-    public Review(Integer reviewId, String customerName, String comment, Integer rating, String reviewDate) {
+    public Review(String reviewId, String customerName, String comment, Integer rating, String reviewDate) {
         this.reviewId = reviewId;
         this.customerName = customerName;
         this.comment = comment;

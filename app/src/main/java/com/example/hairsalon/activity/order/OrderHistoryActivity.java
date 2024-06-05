@@ -32,14 +32,14 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
     ArrayList<Order> dataArrayList = new ArrayList<>();
 
-    Integer customerId;
+    String customerId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityOrderHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("userId", -1);
+        customerId = sharedPreferences.getString("userId", "");
         getAllOrderItemHistory();
     }
 
@@ -53,20 +53,19 @@ public class OrderHistoryActivity extends AppCompatActivity {
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         List<Map<String, Object>> orderList = responseData.getData();
                         for (Map<String, Object> order : orderList) {
-                            Integer id = ((Number) order.get("id")).intValue();
+                            String id = (String) order.get("id");
                             Double totalPrice = (Double) order.get("totalPrice");
-                            String paymentMethod = (String) order.get("paymentMethod");
-                            String orderStatus = (String) order.get("orderStatus");
+                            String paymentMethod = (String) order.get("payId");
+                            String orderStatus = (String) order.get("status");
                             String orderDate = (String) order.get("orderDate");
-
                             List<Map<String, Object>> orderItemsList = (List<Map<String, Object>>) order.get("orderItems");
                             List<OrderItem> orderItems = new ArrayList<>();
                             for (Map<String, Object> item : orderItemsList) {
-                                Integer orderItemId = ((Number) item.get("orderItemId")).intValue();
+                                String orderItemId = (String) item.get("orderItemId");
                                 Double price = (Double) item.get("price");
                                 Integer quantity = ((Number) item.get("quantity")).intValue();
                                 String productItemUrl = (String) item.get("productItemUrl");
-                                Integer productItemId = ((Number) item.get("productItemId")).intValue();
+                                String productItemId = ((String) item.get("productItemId"));
                                 String productItemName = (String) item.get("productItemName");
 
                                 OrderItem orderItem = new OrderItem(orderItemId, price, quantity, productItemId, productItemUrl, productItemName);

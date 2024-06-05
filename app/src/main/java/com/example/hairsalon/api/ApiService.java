@@ -35,87 +35,74 @@ public interface ApiService {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
-
     @GET("productItem/findAll")
-    Call<ResponseData> getProductItem();
-
-    @GET("services/findAll")
-    Call<ResponseData> getAllServiceHairs();
-    @GET("management/customer/findAll")
-    Call<ResponseData> getAllCustomner();
+    Call<ResponseData> getProductItem(); //done
+    @GET("hairservice/findAll")
+    Call<ResponseData> getAllServiceHairs(); //done
+    @GET("user/getAllCustomer")
+    Call<ResponseData> getAllCustomner(); //done
     @GET("management/revenueFromServiceByMonth/{year}/{month}")
-    Call<ResponseData> getRevenueFromServiceByMonth(@Path("year") int year, @Path("month") int month);
+    Call<ResponseData> getRevenueFromServiceByMonth(@Path("year") int year, @Path("month") int month); //chua appointment
     @GET("management/revenueFromProduct")
-    Call<ResponseData> getRevenueFromProduct();
+    Call<ResponseData> getRevenueFromProduct(); //chua product
     @GET("management/revenueFromService")
-    Call<ResponseData> getRevenueFromService();
-
+    Call<ResponseData> getRevenueFromService(); //chua service
     @GET("productItem/search/{productItemName}")
-    Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName);
-
-    @GET("customer/findAllCartItems/{cartId}")
-    Call<ResponseData> getAllCartItemsByCartId(@Path("cartId") Integer cartId);
-
-    @GET("customer/findById/{customerId}")
-    Call<ResponseData> getCustomerByID(@Path("customerId") Integer customerId);
-
+    Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName); //chua product
+    @GET("user/findById/{customerId}")
+    Call<ResponseData> getCustomerByID(@Path("customerId") String customerId); //done
     @DELETE("customer/deleteAllCartItemByCartId/{cartId}")
-    Call<Void> deleteAllCartItemsByCartId(@Path("cartId") Integer cartId);
-
-    @GET("orders/getAllOrdersByCustomerId/{customerId}")
-    Call<ResponseData> getAllOrderByCustomerId(@Path("customerId") Integer customerId);
+    Call<Void> deleteAllCartItemsByCartId(@Path("cartId") String cartId); //chua order
+    @GET("order/getAllOrdersByCustomerId/{customerId}")
+    Call<ResponseData> getAllOrderByCustomerId(@Path("customerId") String customerId); //done
     @Multipart
-    @POST("management/hairService/uploadImageServiceHair")
+    @POST("management/hairService/uploadImageServiceHair") //chua
     Call<Void> uploadServiceFile(@Part MultipartBody.Part file,
                           @Query("namePath") String namePath,
                           @Query("serviceHairId") String serviceHairId);
-
     @Multipart
-    @POST("management/productItem/uploadImageProductItem")
+    @POST("management/productItem/uploadImageProductItem") //chua
     Call<Void> uploadFile(@Part MultipartBody.Part file,
                           @Query("namePath") String namePath,
                           @Query("productItemId") String productItemId);
-
     @POST("auth/register")
-    Call<Void> registerUser(@Body User user);
-
+    Call<Void> registerUser(@Body User user); //done
     @POST("auth/authenticate")
-    Call<ResponseAuthData> authenticateUser(@Body AuthenticationRequest request);
-
-    @GET("services/search/{name}")
-    Call<ResponseServiceData> getHairService(@Path("name") String name);
-
-    @GET("salon/findAll")
-    Call<ResponseData> getAllSalons();
-    @GET("news/getAll")
-    Call<ResponseData> getAllNews();
-    @GET("management/employee/findAll")
-    Call<ResponseData> getAllEmployees();
-    @GET("management/employee/findById/{employeeId}")
-    Call<ResponseData> getEmployeeById(@Path("employeeId") Integer employeeId);
-
-    @GET("services/findAll")
-    Call<ResponseData> getAllHairService();
-
-    @GET("customer/findAllAppointmentByCustomerId/{customerId}")
-    Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") Integer customerId);
-
-    @POST("management/employee/updateStatusUser")
-    Call<ResponseData> updateUserStatus(@Body JsonObject json);
+    Call<ResponseAuthData> authenticateUser(@Body AuthenticationRequest request); //done
+    @GET("hairservice/search/{name}")
+    Call<ResponseServiceData> getHairService(@Path("name") String name);//done
+    @GET("appointment/salon/findAll")
+    Call<ResponseData> getAllSalons(); //done
+    @GET("hairservice/news/findAll")
+    Call<ResponseData> getAllNews(); //done
+    @GET("user/getAllEmployees")
+    Call<ResponseData> getAllEmployees(); //done
+//    @GET("management/employee/findById/{employeeId}")
+    @GET("user/findById/{customerId}")
+    Call<ResponseData> getEmployeeById(@Path("customerId") String customerId); //done // dung chung vs ctm o tren
+    @GET("hairservice/findAll")
+    Call<ResponseData> getAllHairService(); //done
+    @GET("appointment/findById/{customerId}")
+    Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") String customerId); //done
+    @POST("user/updateStatusUser")
+    Call<ResponseData> updateUserStatus(@Body JsonObject json); //done
     @PUT("users/updateUserProfile")
-    Call<ResponseData> updateUserProfile(@Body JsonObject json);
+    Call<ResponseData> updateUserProfile(@Body JsonObject json); //done
     @POST("auth/addEmployee")
-    Call<ResponseAuthData> addNewEmployee(@Body JsonObject json);
-    @GET("management/customer/findById/{customerId}")
-    Call<ResponseData> getCustomerById(@Path("customerId") Integer customerId);
-    @GET("management/employee/findAllAppointment/{employeeId}")
-    Call<ResponseData> getAllAppointmentByEmployeeId(@Path("employeeId") Integer employeeId);
-    @GET("management/employee/findAllAppointmentDone/{employeeId}")
-    Call<ResponseData> getAllAppointmentDoneByEmployeeId(@Path("employeeId") Integer employeeId);
-    @GET("customer/getCartByCustomerId/{customerId}")
-    Call<Integer> getCartIdByCustomerId(@Path("customerId") Integer customerId);
+    Call<ResponseAuthData> addNewEmployee(@Body JsonObject json); //done
+    //@GET("management/customer/findById/{customerId}")
+    @GET("user/findById/{customerId}")
+    Call<ResponseData> getCustomerById(@Path("customerId") String customerId); //chua user
+    @GET("appointment/findWaitingByEmployeeId/{employeeId}")
+    Call<ResponseData> getAllAppointmentByEmployeeId(@Path("employeeId") String employeeId); //done
+    @GET("appointment/findDoneByEmployeeId/{employeeId}")
+    Call<ResponseData> getAllAppointmentDoneByEmployeeId(@Path("employeeId") String employeeId); //done
 
-    @GET("customer/review/findAllReviewByServiceId/{serviceId}")
-    Call<ResponseData> findAllReviewByServiceId(@Path("serviceId") Integer serviceId);
+//    @GET("customer/getCartByCustomerId/{customerId}")
+//    Call<String> getCartIdByCustomerId(@Path("customerId") String customerId); //chua order
 
+//    @GET("customer/review/findAllReviewByServiceId/{serviceId}")
+//    Call<ResponseData> findAllReviewByServiceId(@Path("serviceId") String serviceId); //chua order
+    @GET("cart/{customerId}")
+    Call<ResponseData> getAllCartItemsByCartId(@Path("customerId") String customerId); //done nhung chua sua tu cart ve userid
 }

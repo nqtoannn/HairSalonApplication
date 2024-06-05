@@ -36,15 +36,15 @@ public class UserProfileFragment extends Fragment {
 
     private FragmentEmployeeInfoBinding binding;
     private List<Map<String, Object>> employeeList = new ArrayList<>();
-    private Integer employeeId;
+    private String employeeId;
     public UserProfileFragment() {
         // Required empty public constructor
     }
 
-    public static UserProfileFragment newInstance(Integer employeeId) {
+    public static UserProfileFragment newInstance(String employeeId) {
         UserProfileFragment fragment = new UserProfileFragment();
         Bundle args = new Bundle();
-        args.putInt("employeeId",employeeId);
+        args.putString("employeeId",employeeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,7 +53,7 @@ public class UserProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            employeeId = getArguments().getInt("employeeId");
+            employeeId = getArguments().getString("employeeId");
         }
     }
 

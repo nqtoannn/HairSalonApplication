@@ -29,7 +29,7 @@ public class AccountManageFragment extends Fragment {
         binding = FragmentAccountBinding.inflate(inflater, container, false);
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        Integer customerId = sharedPreferences.getInt("userId", -1);
+        String customerId = sharedPreferences.getString("userId", "");
         binding.username.setText("ADMIN");
         binding.userId.setText("Id:" + customerId);
         binding.btnCustomerProfile.setText("Thống kê doanh thu");
@@ -39,7 +39,6 @@ public class AccountManageFragment extends Fragment {
         binding.btnCustomerProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//add doanh
                 Intent intent = new Intent(requireContext(), DoanhThu.class);
                 startActivity(intent);
             }
@@ -48,7 +47,6 @@ public class AccountManageFragment extends Fragment {
         binding.btnSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//add doanh
                 Intent intent = new Intent(requireContext(), SanPham.class);
                 startActivity(intent);
             }

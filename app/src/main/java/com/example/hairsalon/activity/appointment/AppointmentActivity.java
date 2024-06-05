@@ -59,17 +59,16 @@ public class AppointmentActivity extends AppCompatActivity {
     List<Map<String, Object>> hairServiceList;
     private int selectedStylistId = 1;
 
-    int[] serviceIds = null;
-    String[] serviceNames = {};
-
-    int[] salonIds;
+    String[] salonIds;
     String[] salonNames;
+    String[] serviceIds;
+    String[] serviceNames;
 
-    int[] stylistIds;
+    String[] stylistIds;
     String[] stylistNames;
 
-    int serviceHairId = -1;
-    Integer customerId;
+    String serviceHairId = "";
+    String customerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +76,13 @@ public class AppointmentActivity extends AppCompatActivity {
         binding = ActivityAppointmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("userId", -1);
+        customerId = sharedPreferences.getString("userId", "");
 
         Intent intent = getIntent();
         if (intent != null) {
-            serviceHairId =  intent.getIntExtra("serviceHairId", 0);
+            serviceHairId =  intent.getStringExtra("serviceHairId");
             String serviceName = intent.getStringExtra("serviceName");
-            selectedServiceId = serviceHairId;
+//            selectedServiceId = serviceHairId;
             binding.tvServiceName.setVisibility(View.VISIBLE);
             binding.tvServiceName.setText(serviceName);
             binding.spinnerService.setVisibility(View.INVISIBLE);
@@ -96,18 +95,16 @@ public class AppointmentActivity extends AppCompatActivity {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         salonList = responseData.getData();
-                        salonIds = new int[salonList.size()];
+                        salonIds = new String[salonList.size()];
                         salonNames = new String[salonList.size()];
                         int index = 0;
                         for (Map<String, Object> salon : salonList) {
-                            Integer id = ((Double) salon.get("id")).intValue();
+                            String id = ((String) salon.get("id"));
                             salonIds[index] = id;
-                            String salonName = (String) salon.get("salonName");
+                            String salonName = (String) salon.get("name");
                             salonNames[index] = salonName;
                             index++;
                         }
-
-                        // Tạo ArrayAdapter từ mảng salonNames và gắn nó vào Spinner
                         ArrayAdapter<String> salonAdapter = new ArrayAdapter<>(AppointmentActivity.this, android.R.layout.simple_spinner_dropdown_item, salonNames);
                         binding.spinnerSalon.setAdapter(salonAdapter);
                     } else {
@@ -124,24 +121,6 @@ public class AppointmentActivity extends AppCompatActivity {
             }
         });
 
-// Xử lý sự kiện khi người dùng chọn salon từ Spinner
-        binding.spinnerSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Lưu ID của salon được chọn
-                int selectedSalonId = salonIds[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Xử lý khi không có mục nào được chọn
-            }
-        });
-
-
-
-        // Initialize Spinner for service with titles
-
         ApiService.apiService.getAllHairService().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
@@ -149,11 +128,11 @@ public class AppointmentActivity extends AppCompatActivity {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         List<Map<String, Object>> hairServiceList = responseData.getData();
-                        serviceIds = new int[hairServiceList.size()];
+                        serviceIds = new String[hairServiceList.size()];
                         serviceNames = new String[hairServiceList.size()];
                         int index = 0;
                         for (Map<String, Object> service : hairServiceList) {
-                            Integer id = ((Double) service.get("id")).intValue();
+                            String id = ((String) service.get("id"));
                             serviceIds[index] = id;
                             String serviceName = (String) service.get("serviceName");
                             serviceNames[index] = serviceName;
@@ -181,7 +160,7 @@ public class AppointmentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Lưu ID của dịch vụ được chọn
-               selectedServiceId = serviceIds[position];
+                selectedServiceId = position;
             }
 
             @Override
@@ -191,7 +170,21 @@ public class AppointmentActivity extends AppCompatActivity {
         });
 
 
-        // Initialize Spinner for stylist with titles
+
+// Xử lý sự kiện khi người dùng chọn salon từ Spinner
+        binding.spinnerSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Lưu ID của salon được chọn
+                int selectedSalonId = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Xử lý khi không có mục nào được chọn
+            }
+        });
+
 
         ApiService.apiService.getAllEmployees().enqueue(new Callback<ResponseData>() {
             @Override
@@ -200,13 +193,13 @@ public class AppointmentActivity extends AppCompatActivity {
                     ResponseData responseData = response.body();
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         List<Map<String, Object>> stylistList = responseData.getData();
-                        stylistIds = new int[stylistList.size()];
+                        stylistIds = new String[stylistList.size()];
                         stylistNames = new String[stylistList.size()];
                         int index = 0;
                         for (Map<String, Object> service : stylistList) {
-                            Integer id = ((Double) service.get("id")).intValue();
+                            String id = ((String) service.get("id"));
                             stylistIds[index] = id;
-                            String userName = (String) service.get("userName");
+                            String userName = (String) service.get("fullName");
                             stylistNames[index] = userName;
                             index++;
                         }
@@ -232,7 +225,7 @@ public class AppointmentActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Lưu ID của dịch vụ được chọn
-                selectedStylistId = stylistIds[position];
+                selectedStylistId = position;
             }
 
             @Override
@@ -304,15 +297,15 @@ public class AppointmentActivity extends AppCompatActivity {
 
     // Gửi yêu cầu đặt lịch
     private void makeAnAppointment() {
-        String apiUrl = Constant.baseUrl + "appointments/makeApm";
+        String apiUrl = Constant.baseUrl + "appointment/add";
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("customerId", customerId); // Thay đổi customerId tùy theo người dùng hiện tại
-            requestBody.put("serviceId", selectedServiceId); // Sử dụng ID của dịch vụ được chọn
-            requestBody.put("salonId", selectedSalonId); // Sử dụng ID của salon được chọn
+            requestBody.put("serviceId", serviceHairId); // Sử dụng ID của dịch vụ được chọn
+            requestBody.put("salonId", salonIds[selectedSalonId]); // Sử dụng ID của salon được chọn
             requestBody.put("appointmentDate", binding.textViewDate.getText().toString()); // Sử dụng ngày được chọn
             requestBody.put("appointmentTime", binding.textViewTime.getText().toString() + ":00"); // Sử dụng giờ được chọn
-            requestBody.put("userId", selectedStylistId); // Thay đổi userId tùy theo người dùng hiện tại
+            requestBody.put("userId", stylistIds[selectedStylistId]); // Thay đổi userId tùy theo người dùng hiện tại
 
             final String requestBodyString = requestBody.toString();
 

@@ -1,7 +1,7 @@
 package com.example.hairsalon.model;
 
 public class ProductItem {
-    private Integer id;
+    private String id;
     private String productItemName;
     private Double price;
     private Integer quantityInStock;
@@ -10,11 +10,11 @@ public class ProductItem {
     private String imageUrl;
     private String description;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -26,7 +26,7 @@ public class ProductItem {
         this.description = description;
     }
 
-    public ProductItem(Integer id, String productItemName, Double price, Integer quantityInStock, Integer warrantyTime, String status, String imageUrl, String description) {
+    public ProductItem(String id, String productItemName, Double price, Integer quantityInStock, Integer warrantyTime, String status, String imageUrl, String description) {
         this.id = id;
         this.productItemName = productItemName;
         this.price = price;

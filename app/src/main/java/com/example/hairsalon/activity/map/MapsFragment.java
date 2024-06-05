@@ -37,7 +37,7 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private GoogleMap googleMap;
     private HashMap<Marker, Integer> markerSalonIdMap = new HashMap<>();
     List<Map<String, Object>> salonList;
-    int[] salonIds;
+    String[] salonIds;
     String[] salonNames, salonAddresses;
     private Marker lastSelectedMarker;
 
@@ -52,14 +52,14 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                         ResponseData responseData = response.body();
                         if (responseData != null && responseData.getStatus().equals("OK")) {
                             salonList = responseData.getData();
-                            salonIds = new int[salonList.size()];
+                            salonIds = new String[salonList.size()];
                             salonNames = new String[salonList.size()];
                             salonAddresses = new String[salonList.size()];
                             int index = 0;
                             for (Map<String, Object> salon : salonList) {
-                                Integer id = ((Double) salon.get("id")).intValue();
+                                String id = ((String) salon.get("id"));
                                 salonIds[index] = id;
-                                String salonName = (String) salon.get("salonName");
+                                String salonName = (String) salon.get("name");
                                 salonNames[index] = salonName;
                                 String salonAddress = (String) salon.get("address");
                                 salonAddresses[index] = salonAddress;
@@ -71,9 +71,9 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                             Marker marker1 = googleMap.addMarker(new MarkerOptions().position(salon1).title(salonNames[0]).snippet(salonAddresses[0]));
                             Marker marker2 = googleMap.addMarker(new MarkerOptions().position(salon2).title(salonNames[1]).snippet(salonAddresses[1]));
                             Marker marker3 = googleMap.addMarker(new MarkerOptions().position(salon3).title(salonNames[2]).snippet(salonAddresses[2]));
-                            markerSalonIdMap.put(marker1, salonIds[0]);
-                            markerSalonIdMap.put(marker2, salonIds[1]);
-                            markerSalonIdMap.put(marker3, salonIds[2]);
+                            markerSalonIdMap.put(marker1, 0);
+                            markerSalonIdMap.put(marker2, 1);
+                            markerSalonIdMap.put(marker3, 2);
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(salon1, 12));
                             googleMap.setOnMarkerClickListener(MapsFragment.this);
                         } else {
@@ -112,7 +112,7 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-        Integer salonId = markerSalonIdMap.get(marker);
+        int salonId = markerSalonIdMap.get(marker);
         if (lastSelectedMarker != null) {
             // Thay đổi kích thước của Marker trước đó (nếu cần)
             lastSelectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker());
@@ -123,10 +123,10 @@ public class MapsFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
         // Thay đổi kích thước của Marker hiện tại
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-        if (salonId != null) {
+        if (salonId != 0) {
             SharedPreferences prefs = requireContext().getSharedPreferences("SalonId", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("SalonId", salonId);
+            editor.putString("SalonId", salonIds[salonId]);
             editor.apply();
             Toast.makeText(getContext(), "Bạn đang chọn chi nhánh số: " + salonId, Toast.LENGTH_SHORT).show();
         }

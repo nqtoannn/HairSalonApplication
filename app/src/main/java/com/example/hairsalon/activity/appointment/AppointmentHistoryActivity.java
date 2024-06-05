@@ -32,7 +32,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
     ArrayList<Appointment> dataArrayList = new ArrayList<>();
 
     AppointmentAdapter appointmentAdapter;
-    Integer customerId;
+    String customerId;
 
 
     private List<Map<String, Object>> appointmentList = new ArrayList<>();
@@ -43,7 +43,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
         binding = ActivityAppointmentHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         SharedPreferences sharedPreferences = getSharedPreferences("User", Context.MODE_PRIVATE);
-        customerId = sharedPreferences.getInt("userId", -1);
+        customerId = sharedPreferences.getString("userId", "");
         getAllAppointments();
         binding.listViewAppointments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,7 +83,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                         dataArrayList.clear();
                         appointmentList = responseData.getData();
                         for (Map<String, Object> appointment : appointmentList) {
-                            Integer id = ((Number) appointment.get("id")).intValue();
+                            String id = (String) appointment.get("id");
                             String customerName = (String) appointment.get("customerName");
                             String userName = (String) appointment.get("userName");
                             String appointmentDate = (String) appointment.get("appointmentDate");

@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class OrderItem {
-    private Integer orderItemId;
+    private String orderItemId;
     private Double price;
     private Integer quantity;
-    private Integer productItemId;
+    private String productItemId;
     private String productItemUrl;
     private String productItemName;
 
-    public OrderItem(Integer orderItemId, Double price, Integer quantity, Integer productItemId, String productItemUrl, String productItemName) {
+    public OrderItem(String orderItemId, Double price, Integer quantity, String productItemId, String productItemUrl, String productItemName) {
         this.orderItemId = orderItemId;
         this.price = price;
         this.quantity = quantity;
@@ -25,11 +25,11 @@ public class OrderItem {
     public OrderItem() {
     }
 
-    public Integer getOrderItemId() {
+    public String getOrderItemId() {
         return orderItemId;
     }
 
-    public void setOrderItemId(Integer orderItemId) {
+    public void setOrderItemId(String orderItemId) {
         this.orderItemId = orderItemId;
     }
 
@@ -49,11 +49,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Integer getProductItemId() {
+    public String getProductItemId() {
         return productItemId;
     }
 
-    public void setProductItemId(Integer productItemId) {
+    public void setProductItemId(String productItemId) {
         this.productItemId = productItemId;
     }
 

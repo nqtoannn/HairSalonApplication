@@ -56,7 +56,7 @@ public class UpdateServiceHairActivity extends AppCompatActivity {
 
     String path;
 
-    Integer serviceHairId;
+    String serviceHairId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class UpdateServiceHairActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent intent = getIntent();
         if (intent != null) {
-            serviceHairId = intent.getIntExtra("serviceHairId", 0);
+            serviceHairId = intent.getStringExtra("serviceHairId");
             String name = intent.getStringExtra("serviceName");
             double price = intent.getDoubleExtra("detailPrice", 0.0);
             String description = intent.getStringExtra("description");
@@ -181,7 +181,7 @@ public class UpdateServiceHairActivity extends AppCompatActivity {
         });
     }
 
-    private JSONObject updateServiceHair(Integer id) {
+    private JSONObject updateServiceHair(String id) {
         JSONObject requestBody = new JSONObject();
         try {
             requestBody.put("id", id);
@@ -223,7 +223,7 @@ public class UpdateServiceHairActivity extends AppCompatActivity {
         });
     }
 
-    private void updateServiceHairStatus(Integer serviceHairId) {
+    private void updateServiceHairStatus(String serviceHairId) {
         String apiUrl = Constant.baseUrl + "management/serviceHair/updateStatus";
         try {
             JSONObject requestBody = new JSONObject();
@@ -274,7 +274,7 @@ public class UpdateServiceHairActivity extends AppCompatActivity {
         }
     }
 
-    private void showConfirmationDialog(Integer productItemId) {
+    private void showConfirmationDialog(String productItemId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Xác nhận hành động");
         builder.setMessage("Bạn có chắc chắn muốn ngừng kinh doanh dịch vụ này không?");

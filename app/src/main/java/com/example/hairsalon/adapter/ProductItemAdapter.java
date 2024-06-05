@@ -75,10 +75,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                 Context context = holder.itemView.getContext();
                 Intent intent = new Intent(context, DetailProductActivity.class);
 
-                double productId = (Double) currentItem.get("id");
+                String productItemId = (String) currentItem.get("productItemId");
                 double price = (Double) currentItem.get("price");
-                int productIdInteger = (int) productId;
-                intent.putExtra("productItemId", productIdInteger);
+                intent.putExtra("productItemId", productItemId);
                 intent.putExtra("detailName", (String) currentItem.get("productItemName"));
                 intent.putExtra("detailPrice", price);
                 intent.putExtra("detailDescription", (String) currentItem.get("description"));
@@ -104,10 +103,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
                 // Truyền dữ liệu đi kèm trong Intent
 
-                double productId = (Double) currentItem.get("id");
+                String productItemId = (String) currentItem.get("productItemId");
                 double price = (Double) currentItem.get("price");
-                int productIdInteger = (int) productId;
-                intent.putExtra("productItemId", productIdInteger);
+                intent.putExtra("productItemId", productItemId);
                 intent.putExtra("detailName", (String) currentItem.get("productItemName"));
                 intent.putExtra("detailPrice", price);
                 intent.putExtra("detailDescription", (String) currentItem.get("description"));

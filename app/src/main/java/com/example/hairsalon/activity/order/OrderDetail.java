@@ -49,7 +49,7 @@ public class OrderDetail extends AppCompatActivity {
             int quantity = intent.getIntExtra("quantity", 0);
             String address = intent.getStringExtra("address");
             String imageUrl = intent.getStringExtra("imageUrl");
-            int orderId = intent.getIntExtra("orderId", 0);
+            String orderId = intent.getStringExtra("orderId");
             binding.nameProduct.setText("Tên sản phẩm: " + nameProduct);
             binding.price.setText("Giá: "+ price);
             binding.quantity.setText("Số lượng: " + 1);
@@ -95,7 +95,7 @@ public class OrderDetail extends AppCompatActivity {
         }
     }
 
-    private void updateStatusOrder(Integer orderId) {
+    private void updateStatusOrder(String orderId) {
         String apiUrl = Constant.baseUrl + "customer/updateOrderStatus";
         try {
             JSONObject requestBody = new JSONObject();
@@ -147,7 +147,7 @@ public class OrderDetail extends AppCompatActivity {
         }
     }
 
-    private void showConfirmationDialog(Integer orderId) {
+    private void showConfirmationDialog(String orderId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Xác nhận đặt hàng");
         builder.setMessage("Xác nhận đặt đơn hàng này?");

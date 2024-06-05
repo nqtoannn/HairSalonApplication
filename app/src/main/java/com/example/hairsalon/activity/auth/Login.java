@@ -154,26 +154,12 @@ public class Login extends AppCompatActivity {
                                     ResponseAuthData responseAuthData = response.body();
                                     SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putInt("userId", responseAuthData.getAccountId());
+                                    editor.putString("userId", responseAuthData.getAccountId());
                                     editor.apply();
                                     if(responseAuthData.getRole().equals("ADMIN")) {
                                         Toast.makeText(getApplicationContext(), "Thông tin đăng nhập không chính xác!",Toast.LENGTH_SHORT).show();
                                     } else if (responseAuthData.getRole().equals("CUSTOMER")){
                                         Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
-                                        ApiService.apiService.getCartIdByCustomerId(responseAuthData.getAccountId()).enqueue(new Callback<Integer>() {
-                                            @Override
-                                            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                                SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = prefs.edit();
-                                                editor.putInt("cartId", response.body());
-                                                editor.apply();
-                                                Log.e("ID", response.body().toString());
-                                            }
-                                            @Override
-                                            public void onFailure(Call<Integer> call, Throwable t) {
-                                                Log.e("Error", "API call failed: " + t.getMessage());
-                                            }
-                                        });
                                         Intent intent = new Intent(Login.this, HomeCustomer.class);
                                         startActivity(intent);
                                     }
