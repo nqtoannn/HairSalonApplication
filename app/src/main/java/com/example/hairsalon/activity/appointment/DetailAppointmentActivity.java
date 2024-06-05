@@ -162,13 +162,13 @@ public class DetailAppointmentActivity extends AppCompatActivity {
     }
 
     private void cancelAnAppointment() {
-        String apiUrl = Constant.baseUrl + "appointments/update-status";
+        String apiUrl = Constant.baseUrl + "appointment/updateStatus";
         Intent intent = getIntent();
-        Integer id = intent.getIntExtra("id", 0);
+        String id = intent.getStringExtra("id");
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("appointmentId", id); // Thay đổi customerId tùy theo người dùng hiện tại
-            requestBody.put("statusCode", 3); // Sử dụng ID của dịch vụ được chọn
+            requestBody.put("status", "REJECTED"); // Sử dụng ID của dịch vụ được chọn
             StringRequest request = new StringRequest(Request.Method.PUT, apiUrl,
                     new Response.Listener<String>() {
                         @Override

@@ -67,7 +67,6 @@ public class ShopManageFragment extends Fragment {
                     if (responseData != null && responseData.getStatus().equals("OK")) {
                         // Clear previous data
                         dataArrayList.clear();
-
                         productItemList = responseData.getData();
                         for (Map<String, Object> productItem : productItemList) {
                             String id = (String) productItem.get("id");

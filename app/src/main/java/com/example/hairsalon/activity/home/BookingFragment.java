@@ -31,7 +31,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.appointment.AppointmentHistoryActivity;
-import com.example.hairsalon.activity.map.MapsFragment;
 import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.constants.Constant;
 import com.example.hairsalon.databinding.FragmentBookingBinding;
@@ -50,7 +49,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class BookingFragment extends Fragment  {
+public class BookingFragment extends Fragment {
     private FragmentBookingBinding binding;
     private int selectedSalonId = 1;
     int selectedServiceId = 1;
@@ -65,9 +64,8 @@ public class BookingFragment extends Fragment  {
     String[] salonNames;
 
     String[] stylistIds;
-     String[] stylistNames;
+    String[] stylistNames;
     String customerId;
-
 
 
     @Nullable
@@ -82,61 +80,60 @@ public class BookingFragment extends Fragment  {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MapsFragment mapsFragment = new MapsFragment();
+//        MapsFragment mapsFragment = new MapsFragment();
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentMap, mapsFragment);
+//        fragmentTransaction.add(R.id.fragmentMap, mapsFragment);
         fragmentTransaction.commit();
 
 
-//        ApiService.apiService.getAllSalons().enqueue(new Callback<ResponseData>() {
-//            @Override
-//            public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
-//                if (response.isSuccessful()) {
-//                    ResponseData responseData = response.body();
-//                    if (responseData != null && responseData.getStatus().equals("OK")) {
-//                        salonList = responseData.getData();
-//                        salonIds = new int[salonList.size()];
-//                        salonNames = new String[salonList.size()];
-//                        int index = 0;
-//                        for (Map<String, Object> salon : salonList) {
-//                            Integer id = ((Double) salon.get("id")).intValue();
-//                            salonIds[index] = id;
-//                            String salonName = (String) salon.get("salonName");
-//                            salonNames[index] = salonName;
-//                            index++;
-//                        }
-//
-//                        // Tạo ArrayAdapter từ mảng salonNames và gắn nó vào Spinner
-//                        ArrayAdapter<String> salonAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, salonNames);
-//                        binding.spinnerSalon.setAdapter(salonAdapter);
-//                    } else {
-//                        Log.e("Error", "No salon data found in response");
-//                    }
-//                } else {
-//                    Log.e("Error", "API call failed with error code: " + response.code());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseData> call, Throwable t) {
-//                Log.e("Error", "API call failed: " + t.getMessage());
-//            }
-//        });
+        ApiService.apiService.getAllSalons().enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    ResponseData responseData = response.body();
+                    if (responseData != null && responseData.getStatus().equals("OK")) {
+                        salonList = responseData.getData();
+                        salonIds = new String[salonList.size()];
+                        salonNames = new String[salonList.size()];
+                        int index = 0;
+                        for (Map<String, Object> salon : salonList) {
+                            String id = (String) salon.get("id");
+                            salonIds[index] = id;
+                            String salonName = (String) salon.get("name");
+                            salonNames[index] = salonName;
+                            index++;
+                        }
 
-//        binding.spinnerSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                // Lưu ID của salon được chọn
-//                int selectedSalonId = salonIds[position];
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // Xử lý khi không có mục nào được chọn
-//            }
-//        });
+                        // Tạo ArrayAdapter từ mảng salonNames và gắn nó vào Spinner
+                        ArrayAdapter<String> salonAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, salonNames);
+                        binding.spinnerSalon.setAdapter(salonAdapter);
+                    } else {
+                        Log.e("Error", "No salon data found in response");
+                    }
+                } else {
+                    Log.e("Error", "API call failed with error code: " + response.code());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.e("Error", "API call failed: " + t.getMessage());
+            }
+        });
+
+        binding.spinnerSalon.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Lưu ID của salon được chọn
+                String selectedSalonId = salonIds[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Xử lý khi không có mục nào được chọn
+            }
+        });
 
 
         // Initialize Spinner for service with titles
@@ -300,57 +297,50 @@ public class BookingFragment extends Fragment  {
     private void makeAnAppointment() {
         String apiUrl = Constant.baseUrl + "appointment/add";
         Context context = getActivity();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("SalonId", Context.MODE_PRIVATE);
-        String selectedSalonIdmaps = sharedPreferences.getString("SalonId", "");
-        if(selectedSalonIdmaps.isEmpty()){
-            Toast.makeText(requireContext(), "Vui lòng chọn chi nhánh salon!", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            try {
-                JSONObject requestBody = new JSONObject();
-                requestBody.put("customerId", customerId);
-                requestBody.put("serviceId", serviceIds[selectedServiceId]);
-                requestBody.put("salonId", selectedSalonIdmaps);
-                requestBody.put("appointmentDate", binding.textViewDate.getText().toString());
-                requestBody.put("appointmentTime", binding.textViewTime.getText().toString() + ":00");
-                requestBody.put("userId", stylistIds[selectedStylistId]);
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("customerId", customerId);
+            requestBody.put("serviceId", serviceIds[selectedServiceId]);
+            requestBody.put("salonId", salonIds[selectedSalonId]);
+            requestBody.put("appointmentDate", binding.textViewDate.getText().toString());
+            requestBody.put("appointmentTime", binding.textViewTime.getText().toString() + ":00");
+            requestBody.put("userId", stylistIds[selectedStylistId]);
 
-                final String requestBodyString = requestBody.toString();
+            final String requestBodyString = requestBody.toString();
 
-                Log.i("request body", requestBodyString);
+            Log.i("request body", requestBodyString);
 
-                StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(requireContext(), "Đặt lịch thành công", Toast.LENGTH_SHORT).show();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("appointment", error.getMessage());
-                                Toast.makeText(requireContext(), "Đã xảy ra lỗi khi đặt lịch", Toast.LENGTH_SHORT).show();
-                            }
-                        }) {
-                    @Override
-                    public byte[] getBody() {
-                        return requestBodyString.getBytes();
-                    }
+            StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(requireContext(), "Đặt lịch thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("appointment", error.getMessage());
+                            Toast.makeText(requireContext(), "Đã xảy ra lỗi khi đặt lịch", Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Override
+                public byte[] getBody() {
+                    return requestBodyString.getBytes();
+                }
 
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        Map<String, String> headers = new HashMap<>();
-                        headers.put("Content-Type", "application/json");
-                        return headers;
-                    }
-                };
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+            };
 
-                Volley.newRequestQueue(requireContext()).add(request);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(requireContext(), "Đã xảy ra lỗi khi tạo yêu cầu", Toast.LENGTH_SHORT).show();
-            }
+            Volley.newRequestQueue(requireContext()).add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(requireContext(), "Đã xảy ra lỗi khi tạo yêu cầu", Toast.LENGTH_SHORT).show();
         }
 
     }

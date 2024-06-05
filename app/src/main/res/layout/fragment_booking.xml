@@ -63,26 +63,20 @@
             </LinearLayout>
 
 
-<!--            <Spinner-->
-<!--                android:id="@+id/spinner_salon"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@id/pickSalon"-->
-<!--                android:layout_marginTop="16dp" />-->
+            <Spinner
+                android:id="@+id/spinner_salon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pickSalon"
+                android:layout_marginTop="16dp" />
 
             <!-- Spinner chọn dịch vụ -->
-            <FrameLayout
-                android:layout_below="@id/pickSalon"
-                android:id="@+id/fragmentMap"
-                android:layout_width="match_parent"
-                android:layout_height="250dp">
-            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/pickService"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fragmentMap"
+                android:layout_below="@id/spinner_salon"
                 android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">

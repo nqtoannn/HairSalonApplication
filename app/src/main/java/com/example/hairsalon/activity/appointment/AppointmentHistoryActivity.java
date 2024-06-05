@@ -83,7 +83,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity {
                         dataArrayList.clear();
                         appointmentList = responseData.getData();
                         for (Map<String, Object> appointment : appointmentList) {
-                            String id = (String) appointment.get("id");
+                            String id = (String) appointment.get("appointmentId");
                             String customerName = (String) appointment.get("customerName");
                             String userName = (String) appointment.get("userName");
                             String appointmentDate = (String) appointment.get("appointmentDate");
