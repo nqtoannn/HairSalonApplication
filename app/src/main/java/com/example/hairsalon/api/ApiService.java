@@ -41,27 +41,31 @@ public interface ApiService {
     Call<ResponseData> getAllServiceHairs(); //done
     @GET("user/getAllCustomer")
     Call<ResponseData> getAllCustomner(); //done
-    @GET("management/revenueFromServiceByMonth/{year}/{month}")
-    Call<ResponseData> getRevenueFromServiceByMonth(@Path("year") int year, @Path("month") int month); //chua appointment
-    @GET("management/revenueFromProduct")
-    Call<ResponseData> getRevenueFromProduct(); //chua product
-    @GET("management/revenueFromService")
-    Call<ResponseData> getRevenueFromService(); //chua service
+    @GET("order/revenue/getAllRevenueOrderBetween/{startMonth}/{endMonth}/{year}")
+    Call<ResponseData> getRevenueFromServiceByMonth( @Path("startMonth") int startMonth,  @Path("endMonth") int endMonth, @Path("year") int year); //done
+    @GET("order/revenue/getAllRevenueOrderByYear/{year}")
+    Call<ResponseData> getRevenueFromProduct(@Path("year") int year); //chua product
+    @GET("appointment/revenue/getAllRevenueServiceByYear/{year}")
+    Call<ResponseData> getRevenueFromService(@Path("year") int year); //chua service
     @GET("productItem/search/{productItemName}")
     Call<ResponseData> searchProductItemByName(@Path("productItemName") String productItemName); //chua product
     @GET("user/findById/{customerId}")
     Call<ResponseData> getCustomerByID(@Path("customerId") String customerId); //done
-    @DELETE("customer/deleteAllCartItemByCartId/{cartId}")
-    Call<Void> deleteAllCartItemsByCartId(@Path("cartId") String cartId); //chua order
+    @DELETE("cart/deleteAllCartByCustomerId/{customerId}")
+    Call<ResponseData> deleteAllCartItemsByCartId(@Path("customerId") String customerId); //done
+    @DELETE("cart/{cartId}")
+    Call<ResponseData> deleteCartById(@Path("cartId") String cartId);
     @GET("order/getAllOrdersByCustomerId/{customerId}")
     Call<ResponseData> getAllOrderByCustomerId(@Path("customerId") String customerId); //done
+    @GET("order/getAllOrders")
+    Call<ResponseData> getAllOrder(); //done
     @Multipart
-    @POST("management/hairService/uploadImageServiceHair") //chua
+    @POST("hairservice/uploadImageServiceHair") //done
     Call<Void> uploadServiceFile(@Part MultipartBody.Part file,
                           @Query("namePath") String namePath,
                           @Query("serviceHairId") String serviceHairId);
     @Multipart
-    @POST("management/productItem/uploadImageProductItem") //chua
+    @POST("productItem/uploadImageProductItem") //chua
     Call<Void> uploadFile(@Part MultipartBody.Part file,
                           @Query("namePath") String namePath,
                           @Query("productItemId") String productItemId);
@@ -82,11 +86,11 @@ public interface ApiService {
     Call<ResponseData> getEmployeeById(@Path("customerId") String customerId); //done // dung chung vs ctm o tren
     @GET("hairservice/findAll")
     Call<ResponseData> getAllHairService(); //done
-    @GET("appointment/findById/{customerId}")
+    @GET("appointment/findByCustomerId/{customerId}")
     Call<ResponseData> getAllAppointmentByCustomerId(@Path("customerId") String customerId); //done
-    @POST("user/updateStatusUser")
+    @PUT("auth/updateStatusUser")
     Call<ResponseData> updateUserStatus(@Body JsonObject json); //done
-    @PUT("users/updateUserProfile")
+    @PUT("auth/updateUserProfile")
     Call<ResponseData> updateUserProfile(@Body JsonObject json); //done
     @POST("auth/addEmployee")
     Call<ResponseAuthData> addNewEmployee(@Body JsonObject json); //done

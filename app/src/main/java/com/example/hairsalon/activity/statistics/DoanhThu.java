@@ -63,21 +63,13 @@ public class DoanhThu extends AppCompatActivity {
         binding.btnStatistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy ngày bắt đầu và ngày kết thúc từ TextViews
                 String startDate = binding.textViewDateStart.getText().toString();
                 String endDate = binding.textViewDateEnd.getText().toString();
-                // Kiểm tra xem đã chọn đủ ngày bắt đầu và ngày kết thúc chưa
                 if (!startDate.equals("Nhấn để chọn ngày bắt đầu") && !endDate.equals("Nhấn để chọn ngày kết thúc")) {
-                    // Đã chọn đủ ngày bắt đầu và ngày kết thúc, thực hiện thống kê dữ liệu ở đây
-                    //Log.e("abc",""+startDate+"..a.."+endDate);
-
                     performStatistics(startDate, endDate);
                 } else {
-                    // Nếu chưa chọn đủ ngày bắt đầu và ngày kết thúc, hiển thị thông báo cho người dùng
                     Toast.makeText(DoanhThu.this, "Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc!", Toast.LENGTH_SHORT).show();
                 }
-                // Hiển thị biểu đồ cột
-                //performStatistics(startDate, endDate);
             }
         });
 
@@ -166,72 +158,92 @@ public class DoanhThu extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    // Lấy năm từ chuỗi ngày tháng (yyyy-MM)
     private int getYearFromDateString(String dateString) {
         return Integer.parseInt(dateString.substring(0, 4));
     }
 
-    // Lấy tháng từ chuỗi ngày tháng (yyyy-MM)
     private int getMonthFromDateString(String dateString) {
         return Integer.parseInt(dateString.substring(5));
     }
 
-    // Phương thức thực hiện thống kê dữ liệu
+//    private void performStatistics(String startDate, String endDate) {
+//        ArrayList<BarEntry> entries = new ArrayList<>();
+//        int startYear = getYearFromDateString(startDate);
+//        int startMonth = getMonthFromDateString(startDate);
+//        int endYear = getYearFromDateString(endDate);
+//        int endMonth = getMonthFromDateString(endDate);
+//        for (Integer month = startMonth; month < endMonth; month++){
+//            entries.add(new BarEntry((float) month, (float) 20.0));
+//        }
+//        ApiService.apiService.getRevenueFromServiceByMonth(startMonth, endMonth,endYear).enqueue(new Callback<ResponseData>() {
+//            @Override
+//            public void onResponse(retrofit2.Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    ResponseData responseData = response.body();
+//                    List<Map<String, Object>> data = responseData.getData();
+//                    Log.i("dâta",data.toString());
+//                    for (Map<String, Object> item : data) {
+//                        Float month = Float.valueOf((Integer) item.get("month"));
+//                        double value = (Double) item.get("totalRevenue");
+//                        entries.add(new BarEntry((float) month, (float) value));
+//                        Log.i("value", month.toString() + value);
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailure(retrofit2.Call<ResponseData> call, Throwable t) {
+//                // Xử lý lỗi khi gọi API không thành công
+//                Log.e("API Error", "Failed to fetch revenue: " + t.getMessage());
+//                t.printStackTrace();
+//            }
+//        });
+//        showBarChart(entries);
+//    }
+
     private void performStatistics(String startDate, String endDate) {
-        // Tạo danh sách dữ liệu để lưu trữ các mục của biểu đồ cột
         ArrayList<BarEntry> entries = new ArrayList<>();
-        Log.e("success","ád");
-        // Lấy năm và tháng từ các ngày bắt đầu và kết thúc
         int startYear = getYearFromDateString(startDate);
         int startMonth = getMonthFromDateString(startDate);
         int endYear = getYearFromDateString(endDate);
         int endMonth = getMonthFromDateString(endDate);
-        //Log.e("abcdef", ".."+startYear+".."+startMonth+".."+endYear+".."+endMonth);
 
-        // Gọi API để lấy dữ liệu doanh thu của từng tháng trong khoảng thời gian
-        for (int year = startYear; year <= endYear; year++) {
-            int monthStart = (year == startYear) ? startMonth : 1;
-            int monthEnd = (year == endYear) ? endMonth : 12;
-            Log.e("abcdef",".."+monthStart+".."+monthEnd);
-
-            for (int month = monthStart; month <= monthEnd; month++) {
-                int finalMonth = month;
-                Log.e("abcdef",".."+month);
-                ApiService.apiService.getRevenueFromServiceByMonth(year, month).enqueue(new Callback<ResponseData>() {
-                    @Override
-                    public void onResponse(retrofit2.Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            ResponseData responseData = response.body();
-                            Log.e("success","abc");
-                            if (responseData.getData() != null && !responseData.getData().isEmpty()) {
-                                // Lấy tổng doanh thu của tháng từ dữ liệu trả về
-                                double revenueOfMonth = calculateTotalRevenue(responseData.getData());
-                                entries.add(new BarEntry((float) finalMonth, (float) revenueOfMonth));
-                                Log.e("success","11"+entries);
-                                // Hiển thị biểu đồ cột sau khi đã có đủ dữ liệu từ các tháng
-                                if (entries.size() == (endMonth - startMonth + 1)) {
-                                    showBarChart(entries);
-                                    Log.e("success",""+entries);
-
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(retrofit2.Call<ResponseData> call, Throwable t) {
-                        // Xử lý lỗi khi gọi API không thành công
-                        Log.e("API Error", "Failed to fetch revenue: " + t.getMessage());
-                        t.printStackTrace();
-                    }
-
-
-                });
-            }
+        // Ensure that the months are within the correct range and order
+        if (startYear > endYear || (startYear == endYear && startMonth > endMonth)) {
+            Log.e("Date Error", "Start date must be before end date.");
+            return;
         }
+
+//        for (int month = startMonth; month <= endMonth; month++) {
+//            entries.add(new BarEntry((float) month, 20.0f));
+//        }
+
+        ApiService.apiService.getRevenueFromServiceByMonth(startMonth, endMonth, endYear).enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(retrofit2.Call<ResponseData> call, retrofit2.Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    ResponseData responseData = response.body();
+                    List<Map<String, Object>> data = responseData.getData();
+                    Log.i("data", data.toString());
+                    for (Map<String, Object> item : data) {
+                        int month = ((Number) item.get("month")).intValue();
+                        double value = ((Number) item.get("totalRevenue")).doubleValue();
+                        entries.add(new BarEntry((float) month, (float) value));
+                        Log.i("value", "Month: " + month + ", Revenue: " + value);
+                    }
+                    showBarChart(entries);
+                } else {
+                    Log.e("API Error", "Failed to get a successful response.");
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<ResponseData> call, Throwable t) {
+                Log.e("API Error", "Failed to fetch revenue: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
     }
 
-    // Hiển thị biểu đồ cột với dữ liệu từ danh sách entries
     private void showBarChart(ArrayList<BarEntry> entries) {
         BarDataSet barDataSet = new BarDataSet(entries, "Doanh thu theo tháng");
         barDataSet.setColor(Color.BLUE);
@@ -325,11 +337,8 @@ public class DoanhThu extends AppCompatActivity {
 
                     }
                 });
-//                Log.i("PDF", "PDF exported successfully");
-//                Toast.makeText(this, "PDF exported successfully", Toast.LENGTH_SHORT).show();
-//
-//                // Log đường dẫn đến tệp PDF đã lưu
-//                Log.d("File Path PDF", pdfFile.getAbsolutePath());
+                Log.i("PDF", "PDF exported successfully");
+                Toast.makeText(this, "PDF exported successfully", Toast.LENGTH_SHORT).show();
 
             } catch (Exception e) {
                 e.printStackTrace();

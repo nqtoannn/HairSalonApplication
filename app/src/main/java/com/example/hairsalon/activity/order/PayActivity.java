@@ -244,6 +244,15 @@ public class PayActivity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = new JSONObject(response);
+                                    String cartId = jsonObject.getString("data");
+                                    Log.i("id", cartId.toString());
+                                    //deleteCartItem(cartId);
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 Intent intent = new Intent(PayActivity.this, SuccessPay.class);
                                 startActivity(intent);
                                 Toast.makeText(getApplicationContext(), "Đơn hàng của bạn đã được thanh toán", Toast.LENGTH_SHORT).show();
@@ -279,16 +288,16 @@ public class PayActivity extends AppCompatActivity {
                 requestBody.put("customerId", customerId);
                 requestBody.put("payId", "1");
                 List<String> listCartId = new ArrayList<>();
-                for (Map<String, Object> cartItem : cartItemList) {
-                    listCartId.add((String) cartItem.get("id"));
-                }
+                String[] arrayCartId = listCartId.toArray(new String[0]);
+                JSONArray jsonArray = new JSONArray(arrayCartId);
                 requestBody.put("totalPrice", totalPrice);
-                requestBody.put("listCartId", listCartId);
+                requestBody.put("listCartId", jsonArray);
                 Log.i("cartid",requestBody.toString());
                 StringRequest request = new StringRequest(Request.Method.POST, apiUrl,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                //deleteAllCartItems();
                                 Intent intent = new Intent(PayActivity.this, SuccessPay.class);
                                 startActivity(intent);
                                 Toast.makeText(getApplicationContext(), "Đơn hàng của bạn đã được thanh toán", Toast.LENGTH_SHORT).show();
@@ -319,23 +328,6 @@ public class PayActivity extends AppCompatActivity {
             }
         }
 
-    }
-
-    private void deleteAllCartItems() {
-        ApiService.apiService.deleteAllCartItemsByCartId(customerId).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                if (response.isSuccessful()) {
-
-                } else {
-                    Log.e("Error", "API call failed with error code: " + response.code());
-                }
-            }
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("Error", "API call failed: " + t.getMessage());
-            }
-        });
     }
 
     private void showConfirmationDialog() {

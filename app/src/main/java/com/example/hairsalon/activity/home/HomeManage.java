@@ -39,8 +39,6 @@ public class HomeManage extends AppCompatActivity {
                     loadFragment(new ServiceManageFragment(), false);
                 } else if (itemID == R.id.navStaffMn) {
                     loadFragment(new EmployeeManageFragment(), false);
-//                } else if (itemID == R.id.navRevenueMn) {
-//                    loadFragment(new RevenueFragment(), false);
                 } else if (itemID == R.id.navCustomerMn) {
                     loadFragment(new CustomerManageFragment(), false);
                 } else {

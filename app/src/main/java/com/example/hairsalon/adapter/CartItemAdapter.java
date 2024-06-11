@@ -54,14 +54,9 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
-        // Lấy sản phẩm tại vị trí position
         CartItem cartItem = mCartItems.get(position);
-
-        // Kiểm tra nếu convertView không được sử dụng lại, inflate layout mới
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.list_cart_item, parent, false);
-
-            // Tạo ViewHolder mới
             holder = new ViewHolder();
             holder.productImageView = convertView.findViewById(R.id.product_image);
             holder.productNameTextView = convertView.findViewById(R.id.product_name);
@@ -69,24 +64,18 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
             holder.productQuantityTextView = convertView.findViewById(R.id.product_quantity);
             holder.deleteIcon = convertView.findViewById(R.id.delete_icon);
             holder.xSeparatorTextView = convertView.findViewById(R.id.x_separator);
-
-            // Lưu ViewHolder vào convertView
             convertView.setTag(holder);
         } else {
-            // ViewHolder đã được lưu trong convertView
             holder = (ViewHolder) convertView.getTag();
         }
 
-        // Gắn sự kiện lắng nghe cho deleteIcon
         holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Xử lý sự kiện xóa item ở vị trí position
                 showDeleteConfirmationDialog(position);
             }
         });
 
-        // Binding dữ liệu từ đối tượng CartItem vào các thành phần UI
         if (cartItem.getProductItemName() != null && mContext instanceof CartActivity) {
             holder.xSeparatorTextView.setVisibility(View.VISIBLE);
             holder.deleteIcon.setVisibility(View.VISIBLE);
@@ -104,10 +93,8 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
         }
         holder.productNameTextView.setText(cartItem.getProductItemName());
         holder.productPriceTextView.setText(Utils.formatPrice(cartItem.getPrice()));
-
         holder.productQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
 
-        // Tạo ImageRequest để tải hình ảnh từ URL và hiển thị lên ImageView
         ImageRequest imageRequest = new ImageRequest(
                 cartItem.getImageUrl(),
                 new Response.Listener<Bitmap>() {
@@ -175,8 +162,6 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
 
     private void removeCartItem(String cartItemId) {
         String apiUrl = Constant.baseUrl + "cart/" + String.valueOf(cartItemId);
-
-        // Tạo yêu cầu xóa mục khỏi giỏ hàng
         StringRequest request = new StringRequest(Request.Method.DELETE, apiUrl,
                 new Response.Listener<String>() {
                     @Override
@@ -188,7 +173,6 @@ public class CartItemAdapter extends ArrayAdapter<CartItem> {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Xử lý lỗi khi gửi yêu cầu
                         Log.e("RemoveCartItemError", apiUrl, error);
                     }
                 });

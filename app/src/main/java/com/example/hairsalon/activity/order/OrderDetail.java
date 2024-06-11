@@ -96,11 +96,11 @@ public class OrderDetail extends AppCompatActivity {
     }
 
     private void updateStatusOrder(String orderId) {
-        String apiUrl = Constant.baseUrl + "customer/updateOrderStatus";
+        String apiUrl = Constant.baseUrl + "order";
         try {
             JSONObject requestBody = new JSONObject();
-            requestBody.put("orderId", orderId);
-            requestBody.put("statusCode", 3);
+            requestBody.put("id", orderId);
+            requestBody.put("orderStatus", "REJECTED");
 
             final String requestBodyString = requestBody.toString();
 
@@ -110,7 +110,6 @@ public class OrderDetail extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            // Xử lý phản hồi thành công từ máy chủ
                             Toast.makeText(getApplicationContext(), "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
                             finish();
                         }

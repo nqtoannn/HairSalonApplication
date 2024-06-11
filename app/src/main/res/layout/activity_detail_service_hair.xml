@@ -117,35 +117,6 @@
                         android:textSize="14sp"
                         android:textStyle="italic"/>
 
-                    <!-- Label và button thêm đánh giá -->
-                    <TextView
-                        android:id="@+id/text_comment_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/text_product_description"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Bình luận"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btn_add_review"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/text_comment_label"
-                        android:text="Thêm đánh giá" />
-
-                    <!-- ListView hiển thị bình luận -->
-                    <ListView
-                        android:id="@+id/listview_comments"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:paddingLeft="8dp"
-                        android:layout_below="@id/btn_add_review"
-                        android:layout_marginTop="20dp"/>
-
                 </RelativeLayout>
             </ScrollView>
 

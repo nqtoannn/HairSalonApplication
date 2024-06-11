@@ -169,6 +169,7 @@ public class DetailAppointmentActivity extends AppCompatActivity {
             JSONObject requestBody = new JSONObject();
             requestBody.put("appointmentId", id); // Thay đổi customerId tùy theo người dùng hiện tại
             requestBody.put("status", "REJECTED"); // Sử dụng ID của dịch vụ được chọn
+
             StringRequest request = new StringRequest(Request.Method.PUT, apiUrl,
                     new Response.Listener<String>() {
                         @Override

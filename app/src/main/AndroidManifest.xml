@@ -183,6 +183,9 @@
             android:name=".activity.order.OrderHistoryActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.order.OrderManageActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.order.SuccessPay"
             android:exported="false" />
         <activity

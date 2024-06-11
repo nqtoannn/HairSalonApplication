@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.hairsalon.R;
 import com.example.hairsalon.activity.auth.Login;
 import com.example.hairsalon.activity.manage.UserProfileFragment;
+import com.example.hairsalon.activity.order.OrderManageActivity;
 import com.example.hairsalon.activity.statistics.DoanhThu;
 import com.example.hairsalon.activity.statistics.SanPham;
 import com.example.hairsalon.databinding.FragmentAccountBinding;
@@ -52,6 +53,13 @@ public class AccountManageFragment extends Fragment {
             }
         });
 
+        binding.btnOrderHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireContext(), OrderManageActivity.class);
+                startActivity(intent);
+            }
+        });
         binding.btnLogOutAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -21,6 +21,7 @@ import com.example.hairsalon.api.ApiService;
 import com.example.hairsalon.model.ResponseData;
 import com.example.hairsalon.model.User;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -34,7 +35,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -77,22 +80,23 @@ public class SanPham extends AppCompatActivity {
     }
 
     private void getRevenueFromService() {
-        ApiService.apiService.getRevenueFromService().enqueue(new Callback<ResponseData>() {
+        Calendar calendar = Calendar.getInstance();
+        ApiService.apiService.getRevenueFromService(calendar.get(Calendar.YEAR)).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
-                    if (responseData != null && responseData.getStatus().equals("OK")) {
-                        double totalService = calculateTotalRevenue(responseData.getData());
-                        entries.add(new PieEntry((float) totalService, "Service"));
-                        Log.i("revenue", "success");
-                    } else {
-                        Log.e("revenue", "No service revenue data found in response");
+                    List<Map<String, Object>> data = responseData.getData();
+                    double total = 0.0;
+                    Log.i("data", data.toString());
+                    for (Map<String, Object> item : data) {
+                        double value = ((Number) item.get("totalRevenue")).doubleValue();
+                        total += value;
                     }
+                    entries.add(new PieEntry((float) total, "Service"));
                 } else {
-                    Log.e("revenue", "API call for service revenue failed with error code: " + response.code());
+                    Log.e("revenue", "API call for product revenue failed with error code: " + response.code());
                 }
-                // Sau khi đã xử lý xong dữ liệu từ API, cập nhật biểu đồ
                 updatePieChart();
             }
             @Override
@@ -102,21 +106,23 @@ public class SanPham extends AppCompatActivity {
         });
     }
     private void getRevenueFromProduct() {
-        ApiService.apiService.getRevenueFromProduct().enqueue(new Callback<ResponseData>() {
+        Calendar calendar = Calendar.getInstance();
+        ApiService.apiService.getRevenueFromProduct(calendar.get(Calendar.YEAR)).enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     ResponseData responseData = response.body();
-                    if (responseData != null && responseData.getStatus().equals("OK")) {
-                        double totalProduct = calculateTotalRevenue(responseData.getData());
-                        entries.add(new PieEntry((float) totalProduct, "Product"));
-                    } else {
-                        Log.e("revenue", "No product revenue data found in response");
+                    List<Map<String, Object>> data = responseData.getData();
+                    double total = 0.0;
+                    Log.i("data", data.toString());
+                    for (Map<String, Object> item : data) {
+                        double value = ((Number) item.get("totalRevenue")).doubleValue();
+                        total += value;
                     }
+                    entries.add(new PieEntry((float) total, "Product"));
                 } else {
                     Log.e("revenue", "API call for product revenue failed with error code: " + response.code());
                 }
-                // Sau khi đã xử lý xong dữ liệu từ API, cập nhật biểu đồ
                 updatePieChart();
             }
             @Override

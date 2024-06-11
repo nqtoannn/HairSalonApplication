@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderHistoryActivity extends AppCompatActivity {
+public class OrderManageActivity extends AppCompatActivity {
 
     ActivityOrderHistoryBinding binding;
 
@@ -44,7 +44,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     }
 
     private void getAllOrderItemHistory() {
-        ApiService.apiService.getAllOrderByCustomerId(customerId).enqueue(new Callback<ResponseData>() {
+        ApiService.apiService.getAllOrder().enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
@@ -75,7 +75,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                             dataArrayList.add(orderData);
                         }
                         Collections.reverse(dataArrayList);
-                        orderHistoryAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, dataArrayList);
+                        orderHistoryAdapter = new OrderHistoryAdapter(OrderManageActivity.this, dataArrayList);
                         binding.listViewOrderHistory.setAdapter(orderHistoryAdapter);
                     } else {
                         Log.e("Error", "No order data found in response");

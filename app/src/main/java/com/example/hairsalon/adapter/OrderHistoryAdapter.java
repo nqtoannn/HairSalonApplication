@@ -70,7 +70,7 @@ public class OrderHistoryAdapter extends ArrayAdapter<Order> {
             holder.textQuantity.setText("Số lượng: " + orderItem.getQuantity());
             holder.textOrderDate.setText("Đặt ngày: " + order.getOrderDate());
             switch (order.getOrderStatus()) {
-                case "PROCESSING":
+                case "WAITING":
                     holder.textStatus.setText("Đơn hàng đang chờ xác nhận");
                     break;
                 case "ACCEPTED":
