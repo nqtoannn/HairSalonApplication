@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -10,12 +15,202 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HairSalon"
         tools:targetApi="31">
+
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA_BS9EnpU7xK5qZdQwgYk9c0TU8cyK7wo" />
+
         <activity
-            android:name=".activity.product.ListProductActivity"
+            android:name=".activity.employee.HomeEmployee"
+            android:exported="false" />
+        <activity
+            android:name=".activity.order.OrderDetail"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".activity.servicehair.DetailServiceHairActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".activity.servicehair.UpdateServiceHairActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.statistics.CustomerDetailActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".statistics.CustomerListActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".activity.statistics.SanPham"
+            android:exported="false" />
+        <activity
+            android:name=".activity.statistics.DoanhThu"
+            android:exported="false" />
+        <!--
+<activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />
+        -->
+        <activity
+            android:name=".activity.home.HomeManage"
+            android:exported="false" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+<!--        <activity-->
+<!--            android:name=".activity.statistics.CustomerDetailActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerListActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activity.statistics.SanPham"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activity.statistics.DoanhThu"-->
+<!--            android:exported="false" />-->
+        <!--<activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".activity.statistics.DoanhThu"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+        <!-- <activity -->
+        <!-- android:name=".statistics.CustomerListActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activity.statistics.SanPham" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activity.statistics.DoanhThu" -->
+        <!-- android:exported="false" /> -->
+        <!--
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />
+        -->
+
+        <activity
+            android:name=".activity.auth.Login"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- <activity -->
+        <!-- android:name=".activity.servicehair.UpdateServiceHairActivity" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".statistics.CustomerDetailActivity" -->
+        <!-- android:exported="false" /> -->
+<!--        <activity-->
+<!--            android:name=".statistics.CustomerListActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity> &lt;!&ndash; <activity &ndash;&gt;-->
+        <!-- android:name=".statistics.SanPham" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".statistics.DoanhThu" -->
+        <!-- android:exported="false" /> -->
+        <!--
+<activity
+            android:name=".statistics.StatisticsActivity"
+            android:exported="false" />
+        -->
+        <!-- <activity -->
+        <!-- android:name=".activity.home.HomeManage" -->
+        <!-- android:exported="false"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <activity
+            android:name=".activity.servicehair.AddServiceHairActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".activity.servicehair.ListServiceHairActivity" -->
+        <!-- android:exported="false"/> -->
+
+        <activity android:name=".activity.product.DetailProductActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.product.AddProductItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.appointment.AppointmentHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.appointment.AppointmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.appointment.DetailAppointmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.product.UpdateProductItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.shop.HomeShopActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.product.ListProductSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.order.OrderHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.order.SuccessPay"
+            android:exported="false" />
+        <activity
+            android:name=".activity.home.HomeCustomer"
+            android:exported="false">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".activity.auth.AdminLogin"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.order.PayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.cart.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.servicehair.DetailServiceHairActivity"
             android:exported="false" />
         <activity
             android:name=".activity.auth.LoginWithOtp"
@@ -29,15 +224,6 @@
         <activity android:name=".activity.home.Home" />
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.auth.ForgetPassword" />
-        <activity
-            android:name=".activity.auth.Login"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

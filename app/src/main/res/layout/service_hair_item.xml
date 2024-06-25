@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- ImageView cho hình ảnh nhỏ của sản phẩm -->
+        <ImageView
+            android:id="@+id/service_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"/>
+
+        <!-- TextView cho tên sản phẩm -->
+        <TextView
+            android:id="@+id/service_name"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+
+        <!-- TextView cho số lượng của sản phẩm -->
+        <!-- TextView cho số lượng của sản phẩm -->
+        <TextView
+            android:id="@+id/product_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="7dp"
+            android:textColor="@color/black"
+            android:visibility="gone"/>
+
+        <!-- Dấu "x" -->
+        <TextView
+            android:id="@+id/x_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:textColor="@color/black"
+            android:layout_marginEnd="7dp"
+            android:visibility="gone"/>
+
+        <!-- TextView cho giá của sản phẩm -->
+        <TextView
+            android:id="@+id/servicePrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"/>
+
+
+        <!-- Icon xóa -->
+        <ImageView
+            android:id="@+id/edit_service_hair"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/editing"
+            android:layout_marginEnd="16dp" />
+    </LinearLayout>
+
+    <!-- TextView hiển thị tổng tiền -->
+</RelativeLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navShopMn"
+        android:icon="@drawable/retailer"
+        android:title="Shop" />
+    <item
+        android:id="@+id/navServiceMn"
+        android:icon="@drawable/hair_cutting"
+        android:title="Service" />
+    <item
+        android:id="@+id/navStaffMn"
+        android:icon="@drawable/teamwork"
+        android:title="Staff" />
+<!--    <item-->
+<!--        android:id="@+id/navRevenueMn"-->
+<!--        android:icon="@drawable/revenue_manage"-->
+<!--        android:title="Revenue" />-->
+    <item
+        android:id="@+id/navCustomerMn"
+        android:icon="@drawable/customer_manage"
+        android:title="Customer" />
+    <item
+        android:id="@+id/navAccountMn"
+        android:icon="@drawable/userlogo"
+        android:title="Account" />
+
+</menu>

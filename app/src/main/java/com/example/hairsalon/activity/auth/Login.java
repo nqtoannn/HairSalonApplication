@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -17,17 +20,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hairsalon.R;
-import com.example.hairsalon.activity.home.Home;
+import com.example.hairsalon.activity.home.HomeManage;
+import com.example.hairsalon.api.ApiService;
+import com.example.hairsalon.model.AuthenticationRequest;
+import com.example.hairsalon.activity.home.HomeCustomer;
+import com.example.hairsalon.model.ResponseAuthData;
+import com.example.hairsalon.model.ResponseData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Login extends AppCompatActivity {
 
     EditText edtEmail, edtPassword;
     AppCompatButton btnLogin;
-    TextView txtForgetPassword,txtRegister;
+    TextView txtForgetPassword,txtRegister, txtAdminLogin;
     ImageView passwordIcon;
     RelativeLayout signInWithOTP;
     private FirebaseAuth mAuth;
@@ -46,9 +60,11 @@ public class Login extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         txtForgetPassword = findViewById(R.id.txtForgetPassword);
+        txtAdminLogin = findViewById(R.id.txtAdminLogin);
         txtRegister = findViewById(R.id.txtRegister);
         signInWithOTP = findViewById(R.id.signInOTP);
         passwordIcon = findViewById(R.id.passwordIcon);
+
     }
 
     private  void setEvent(){
@@ -70,6 +86,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
+            }
+        });
+        txtAdminLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, AdminLogin.class);
                 startActivity(intent);
             }
         });
@@ -122,13 +145,53 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     if(mAuth.getCurrentUser().isEmailVerified()){
-                        Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Login.this, Home.class);
-                        startActivity(intent);
+
+                        AuthenticationRequest authenticationRequest = new AuthenticationRequest(mAuth.getCurrentUser().getEmail().toString(),mAuth.getCurrentUser().getUid().toString());
+                        ApiService.apiService.authenticateUser(authenticationRequest).enqueue(new Callback<ResponseAuthData>() {
+                            @Override
+                            public void onResponse(Call<ResponseAuthData> call, Response<ResponseAuthData> response) {
+                                if (response.isSuccessful()) {
+                                    ResponseAuthData responseAuthData = response.body();
+                                    SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("userId", responseAuthData.getAccountId());
+                                    editor.apply();
+                                    if(responseAuthData.getRole().equals("ADMIN")) {
+                                        Toast.makeText(getApplicationContext(), "Thông tin đăng nhập không chính xác!",Toast.LENGTH_SHORT).show();
+                                    } else if (responseAuthData.getRole().equals("CUSTOMER")){
+                                        Toast.makeText(getApplicationContext(), "Đăng nhập thành công!",Toast.LENGTH_SHORT).show();
+                                        ApiService.apiService.getCartIdByCustomerId(responseAuthData.getAccountId()).enqueue(new Callback<Integer>() {
+                                            @Override
+                                            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                                SharedPreferences prefs = getSharedPreferences("User", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = prefs.edit();
+                                                editor.putInt("cartId", response.body());
+                                                editor.apply();
+                                                Log.e("ID", response.body().toString());
+                                            }
+                                            @Override
+                                            public void onFailure(Call<Integer> call, Throwable t) {
+                                                Log.e("Error", "API call failed: " + t.getMessage());
+                                            }
+                                        });
+                                        Intent intent = new Intent(Login.this, HomeCustomer.class);
+                                        startActivity(intent);
+                                    }
+                                    Log.e("Error", "login complete");
+
+                                } else {
+                                    // Log thông báo "login failed"
+                                    Log.e("Error", "login failed: ");
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ResponseAuthData> call, Throwable t) {
+                                Log.e("Error", "API call failed: " + t.getMessage());
+                            }
+                        });
                     } else {
                         Toast.makeText(getApplicationContext(), "Vui lòng xác thực email!",Toast.LENGTH_LONG).show();
                     }
-
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Thông tin đăng nhập không chính xác!",Toast.LENGTH_SHORT).show();
