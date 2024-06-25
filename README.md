@@ -6,5 +6,13 @@ App login with
 * Android Studio
 * Java
 * Gradle
-
-[Salon.java](app%2Fsrc%2Fmain%2Fjava%2Fcom%2Fexample%2Fhairsalon%2Fmodel%2FSalon.java)
+## Features
+### User
+* Booking appointment
+* Order product
+* Comment
+* User profile
+### Manage
+* CRUD product/service
+* Manage employee
+* Statistic
